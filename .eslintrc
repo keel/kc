@@ -1,0 +1,18 @@
+{
+  "rules": {
+    "indent": [1, 2],
+    "quotes": [2, "single"],
+    "linebreak-style": [2, "unix"],
+    "semi": [2, "always"],
+    "no-unused-vars": [1],
+    "no-console": [0]
+  },
+  "env": {
+    "node": true,
+    "browser": true,
+    "mocha": true,
+    "jquery": true
+  },
+
+  "extends": "eslint:recommended"
+}

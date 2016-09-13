@@ -1,0 +1,106 @@
+{{#def.header}}
+<!-- content -->
+<div id="content" class="app-content" role="main">
+  <div class="app-content-body ">
+    <div class="bg-light lter b-b wrapper-md">
+      <h1 class="m-n font-thin h3">首页-用户管理</h1>
+      <p>欢迎{{=it.kc_userId}} <a href="/logout">退出登录</a></p>
+
+    </div>
+    <div class="wrapper-md">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          用户查询:
+        </div>
+        <div class="panel-body">
+          <p>
+            <input type="text" class="form-control" name="userName" id="userNameInput" />
+            <button type="button" class="btn btn-primary btn-block" id="findUserBt">查询用户</button>
+          </p>
+          <p id="f_userRe"></p>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          新用户添加
+        </div>
+        <div class="panel-body">
+          <form id="a_userForm" name="form" class="form-validation">
+            <p>
+              <div>
+                <input type="text" class="form-control" name="a_userName" id="a_userNameInput" />
+                <label for="a_userNameInput">用户名</label>
+              </div>
+              <div>
+                <input type="text" class="form-control" name="a_loginName" id="a_loginNameInput" />
+                <label for="a_loginNameInput">登录名</label>
+              </div>
+              <div>
+                <input type="text" class="form-control" name="a_loginPwd" id="a_loginPwdInput" />
+                <label for="a_loginPwdInput">密码</label>
+              </div>
+              <div>
+                <input type="text" class="form-control" name="a_level" id="a_levelInput" value="0" />
+                <label for="a_levelInput">等级</label>
+              </div>
+              <div>
+                <input type="text" class="form-control" name="a_state" id="a_stateInput" value="0" />
+                <label for="a_stateInput">状态</label>
+              </div>
+            </p>
+            <p>
+              <button type="submit" class="btn btn-primary btn-block" id="a_userBt">新增用户</button>
+            </p>
+          </form>
+          <p id="a_userRe"></p>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          用户信息修改
+        </div>
+        <div class="panel-body">
+          <p>
+            <input type="text" class="form-control" name="uf_userName" id="uf_userNameInput" />
+            <button type="button" class="btn btn-primary btn-block" id="uf_userBt">搜索用户名</button>
+          </p>
+          <form id="u_userForm" name="form" class="form-validation">
+            <p>
+              <div>
+                ID:<span id="u_idShow"></span>
+                <input type="hidden" class="form-control" name="u_id" id="u_idInput" />
+              </div>
+              <div>
+                <input type="text" class="form-control" name="u_userName" id="u_userNameInput" />
+                <label for="u_userNameInput">用户名</label>
+              </div>
+              <div>
+                <input type="text" class="form-control" name="u_loginName" id="u_loginNameInput" />
+                <label for="u_loginNameInput">登录名</label>
+              </div>
+              <div>
+                <input type="text" class="form-control" name="u_loginPwd" id="u_loginPwdInput" />
+                <label for="u_loginPwdInput">密码</label>
+              </div>
+              <div>
+                <input type="text" class="form-control" name="u_level" id="u_levelInput" />
+                <label for="u_levelInput">等级</label>
+              </div>
+              <div>
+                <input type="text" class="form-control" name="u_state" id="u_stateInput" />
+                <label for="u_stateInput">状态</label>
+              </div>
+            </p>
+            <p>
+              <button type="submit" class="btn btn-primary btn-block" id="u_userBt">修改用户</button>
+            </p>
+          </form>
+          <p id="u_userRe"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- / content -->
+<script src="/js/lyUser.src.js"></script>
+{{#def.footer}}

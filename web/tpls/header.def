@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>apis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <link rel="stylesheet" href="/css/app.css" type="text/css" />
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/lyapp.src.js"></script>
+</head>
+<body>
+  <div class="app app-header-fixed  ">

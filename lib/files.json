@@ -1,0 +1,17 @@
+{
+  "node_moudules": "all",
+  "test": "dir",
+  "web/api": "dir",
+  "web/public/css": "dir",
+  "web/public/js": "dir",
+  "web/public/img": "dir",
+  "web/tpls": "dir",
+  "web/render": "dir",
+  "web/render/index.js": "file",
+  "config.json": "file",
+  "package.json": "file",
+  "README.md": "file",
+  ".gitignore": "file",
+  ".eslintrc": "file",
+  ".jsbeautifyrc": "file"
+}

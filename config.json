@@ -1,0 +1,18 @@
+{
+  "ver": 1,
+  "project": "kc",
+  "dev": {
+    "redisIP": "127.0.0.1",
+    "redisPort": 6379,
+    "sessionExpire": 1800,
+    "dbName": "apis",
+    "mongoUrl": "mongodb://apis:apis0107@127.0.0.1:27017/apis"
+  },
+  "test": {
+    "redisIP": "192.168.0.19",
+    "redisPort": 6379,
+    "sessionExpire": 1800,
+    "dbName": "apis",
+    "mongoUrl": "mongodb://apis:apis0107@192.168.0.19:27017/apis"
+  }
+}
