@@ -1,6 +1,6 @@
 {
   "ver": 1,
-  "project": "kc",
+  "project": "kc2",
   "dev": {
     "redisIP": "127.0.0.1",
     "redisPort": 6379,

@@ -6,7 +6,7 @@ var cck = require('cck');
 // var render = require('../lib/renderTool');
 var kc = require('../../lib/kc');
 var iApi = kc.iApi;
-var db = kc.db;
+var db = kc.mongo;
 // var error = require('./error');
 var vlog = require('vlog').instance(__filename);
 
