@@ -1,0 +1,28 @@
+{
+  "ver": 1,
+  "project": "[#projectName]",
+  "dev": {
+    "redisIP": "127.0.0.1",
+    "redisPort": 6379,
+    "sessionKey": "sessionauthbythistimegood12349876",
+    "sessionExpire": 1800,
+    "mongoDbName": "[#projectName]",
+    "mongoUrl": "mongodb://[#projectName]:[#projectName]password@127.0.0.1:27017/[#projectName]"
+  },
+  "test": {
+    "redisIP": "192.168.0.19",
+    "redisPort": 6379,
+    "sessionKey": "sessionauthbythistimegood12349876",
+    "sessionExpire": 1800,
+    "mongoDbName": "[#projectName]",
+    "mongoUrl": "mongodb://[#projectName]:[#projectName]password@192.168.0.19:27017/[#projectName]"
+  },
+  "product": {
+    "redisIP": "10.1.1.120",
+    "redisPort": 6379,
+    "sessionKey": "sessionauthbythistimegood12349876",
+    "sessionExpire": 1800,
+    "mongoDbName": "[#projectName]",
+    "mongoUrl": "mongodb://[#projectName]:[#projectName]password@10.1.1.112:27017/[#projectName]"
+  }
+}

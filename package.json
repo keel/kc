@@ -2,10 +2,14 @@
   "name": "kc",
   "version": "1.0.7",
   "description": "kc",
-  "main": "lib/kc.js",
+  "main": "kc-.js",
+  "preferGlobal": "true",
+  "bin": {
+    "kc": "bin/kc.js"
+  },
   "scripts": {
     "test": "mocha",
-    "start": "node kc-.js"
+    "start": "pm2 startOrRestart process.json"
   },
   "repository": {
     "type": "git",
@@ -17,16 +21,17 @@
   "author": "keel",
   "license": "MIT",
   "dependencies": {
+    "aes-cross": "^1.0.8",
     "body-parser": "^1.13.2",
     "bson": "^0.4.20",
+    "cck": "^1.0.9",
     "dot": "^1.0.3",
     "express": "^4.13.4",
-    "cck": "^1.0.9",
-    "vlog": "^0.2.5",
-    "aes-cross": "^1.0.8",
     "ktool": "^0.2.32",
+    "mkdirp": "^0.5.1",
     "mongodb": "~2.1.x",
     "redis": "~2.6.0-0",
+    "vlog": "^0.2.5",
     "xml2js": "^0.4.9"
   },
   "devDependencies": {

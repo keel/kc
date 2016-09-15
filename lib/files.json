@@ -1,20 +1,19 @@
 {
-  "node_moudules": "all",
   "test": "dir",
   "web/api": "dir",
   "web/public/css": "dir",
   "web/public/js": "dir",
-  "web/public/img": "dir",
   "web/tpls": "dir",
   "web/render": "dir",
+  "web/api": "dir",
   "web/render/index.js": "file",
-  "config.json": "file",
-  "package.json": "file",
+  "web/api/testapi.js": "file",
   "README.md": "file",
-  "kc-.js": "file",
-  "kc-1.js": "file",
-  "process.json": "file",
   ".gitignore": "file",
   ".eslintrc": "file",
-  ".jsbeautifyrc": "file"
+  ".jsbeautifyrc": "file",
+  "tpl_config.json": "tpl",
+  "tpl_package.json": "tpl",
+  "tpl_process.json": "tpl",
+  "tpl_kc.js": "tpl"
 }
