@@ -9,7 +9,7 @@
   "web/render/index.js": "file",
   "web/api/testapi.js": "file",
   "README.md": "file",
-  ".gitignore": "file",
+  "tpl_.gitignore": "tpl",
   ".eslintrc": "file",
   ".jsbeautifyrc": "file",
   "tpl_config.json": "tpl",
