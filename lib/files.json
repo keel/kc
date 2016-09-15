@@ -11,6 +11,9 @@
   "config.json": "file",
   "package.json": "file",
   "README.md": "file",
+  "kc-.js": "file",
+  "kc-1.js": "file",
+  "process.json": "file",
   ".gitignore": "file",
   ".eslintrc": "file",
   ".jsbeautifyrc": "file"

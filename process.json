@@ -1,0 +1,11 @@
+{
+  "apps": [{
+    "name": "kc-",
+    "script": "./kc-.js",
+    "log_date_format":"YYYY-MM-DD HH:mm:ss"
+  }, {
+    "name": "kc-1",
+    "script": "./kc-1.js",
+    "log_date_format":"YYYY-MM-DD HH:mm:ss"
+  }]
+}
