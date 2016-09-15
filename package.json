@@ -1,6 +1,6 @@
 {
   "name": "kc",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "kc",
   "main": "lib/kc.js",
   "preferGlobal": "true",
@@ -8,6 +8,9 @@
     "kc": "bin/kc.js"
   },
   "scripts": {
+    "deploy-clear":"rm -rf deploy && mkdir deploy",
+    "deploy-tar":"tar -zcf deploy/deploy.tar.gz --exclude={deploy,test,'.git'} ./",
+    "deploy":"npm run deploy-clear && npm run deploy-tar",
     "test": "mocha",
     "start": "pm2 startOrRestart process.json"
   },

@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "port":"[#port]",
   "scripts": {
+    "deploy-clear":"rm -rf deploy && mkdir deploy",
+    "deploy-tar":"tar -zcf deploy/deploy.tar.gz --exclude={deploy,test,'.git'} ./",
+    "deploy":"npm run deploy-clear && npm run deploy-tar",
     "test": "mocha",
     "start": "pm2 startOrRestart process.json"
   },
