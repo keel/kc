@@ -1,8 +1,8 @@
 {
   "name": "kc",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "kc",
-  "main": "kc-.js",
+  "main": "lib/kc.js",
   "preferGlobal": "true",
   "bin": {
     "kc": "bin/kc.js"
