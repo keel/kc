@@ -33,8 +33,8 @@ var fakeGet1 = function(req, resp) {
 //模拟jsonp的get请求,注意必须return
 var fakeGetJsonP = function(req, resp) {
   var respObj = {
-    re: 'ok',
-    info: 'this is get2'
+    're': 0,
+    'data': 'this is get2'
   };
 
   return jsonP(JSON.stringify(respObj), req);
@@ -47,7 +47,7 @@ var fakePost1 = function(req, resp, callback) {
   var re = { 'hello': '你好啊' };
 
 
-  callback(null, { 're': 'ok', 'test': re });
+  callback(null, { 're': 0, 'data': re });
 };
 
 
@@ -55,7 +55,7 @@ var fakePost2 = function(req, resp, callback) {
   var re = { 'hello': '你好啊' };
 
 
-  callback(null, { 're': 'ok', 'test': jsonP(re, req) });
+  callback(null, { 're': 0, 'data': jsonP(re, req) });
 };
 
 
