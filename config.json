@@ -6,6 +6,7 @@
     "redisPort": 6379,
     "sessionKey": "sessionauthbythistimegood12349876",
     "sessionExpire": 1800,
+    "failLoginRedirect":"login",
     "mongoDbName": "apis",
     "mongoUrl": "mongodb://apis:apis0107@127.0.0.1:27017/apis"
   },
@@ -14,6 +15,7 @@
     "redisPort": 6379,
     "sessionKey": "sessionauthbythistimegood12349876",
     "sessionExpire": 1800,
+    "failLoginRedirect":"login",
     "mongoDbName": "apis",
     "mongoUrl": "mongodb://apis:apis0107@192.168.0.19:27017/apis"
   }

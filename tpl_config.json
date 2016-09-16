@@ -6,6 +6,7 @@
     "redisPort": 6379,
     "sessionKey": "sessionauthbythistimegood12349876",
     "sessionExpire": 1800,
+    "failLoginRedirect":"login",
     "mongoDbName": "[#projectName]",
     "mongoUrl": "mongodb://[#projectName]:[#projectName]password@127.0.0.1:27017/[#projectName]"
   },
@@ -14,6 +15,7 @@
     "redisPort": 6379,
     "sessionKey": "sessionauthbythistimegood12349876",
     "sessionExpire": 1800,
+    "failLoginRedirect":"login",
     "mongoDbName": "[#projectName]",
     "mongoUrl": "mongodb://[#projectName]:[#projectName]password@192.168.0.19:27017/[#projectName]"
   },
@@ -22,6 +24,7 @@
     "redisPort": 6379,
     "sessionKey": "sessionauthbythistimegood12349876",
     "sessionExpire": 1800,
+    "failLoginRedirect":"login",
     "mongoDbName": "[#projectName]",
     "mongoUrl": "mongodb://[#projectName]:[#projectName]password@10.1.1.112:27017/[#projectName]"
   }
