@@ -12,11 +12,9 @@
     {{=para.scripts || ''}}
   </head>
   <body>
-    <div class="app app-header-fixed  ">
 #}}
 
 {{##def.footer:para:
-  </div>
   {{=para.scripts || ''}}
   </body>
   </html>

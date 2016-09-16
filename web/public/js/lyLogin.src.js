@@ -26,7 +26,7 @@ $(function() {
     }
     var reqData = makeApiReq('login', data, 'test_client_key', 'test_client_secret');
     // console.log('reqData:', reqData);
-    jsonReq('/login', reqData, function(err, re) {
+    jsonReq('login', reqData, function(err, re) {
       if (err || !re.re) {
         alert('登录失败!');
         return false;
