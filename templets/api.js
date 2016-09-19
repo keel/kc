@@ -1,10 +1,11 @@
 /*
-用户的api
+api接口:位于web/api目录,文件名即为接口路由
  */
 'use strict';
-var kc = require('../../lib/kc');
+var kc = require('kc');
 var iApi = kc.iApi;
-var error = require('./../error');
+// var render = kc.render();
+var error = require('./error');
 var vlog = require('vlog').instance(__filename);
 
 //标准API协议所用到的key,可根据情况从配置文件,数据库或其他位置获取,这里仅作为示例
@@ -102,4 +103,3 @@ exports.router = function() {
   });
   return router;
 };
-

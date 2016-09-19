@@ -14,22 +14,27 @@
 3. 生成项目结构
 
   ```
-  kc init projectName
+  kc init projectName port
+  npm install
+  git init
+  git add .
+  git add -f web/render/index.js
+  git commit -m 'init'
   ```
 
 4. config.json配置说明
 4. package.json配置说明
 4. process.json配置说明
 
-4. 启动项目,使用便于deploy的方式
+4. 启动项目,如使用deploy的方式启动,需要pm2新版本
 
   ```
   pm2 startOrRestart process.json
   ```
 
-5. 增加接口
+5. 增加接口 && api目录说明
 
-6. 增加页面
+6. 增加页面 && tpls目录说明
 
 ## API接口规范
 * 协议:http post/get,一般情况下建议使用post,内部接口统一全部使用post
