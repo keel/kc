@@ -1,6 +1,6 @@
 {
   "name": "kc",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "kc",
   "main": "lib/kc.js",
   "preferGlobal": "true",
@@ -8,9 +8,9 @@
     "kc": "bin/kc.js"
   },
   "scripts": {
-    "deploy-clear":"rm -rf deploy && mkdir deploy",
-    "deploy-tar":"tar -zcf deploy/deploy.tar.gz --exclude={deploy,test,'.git'} ./",
-    "deploy":"npm run deploy-clear && npm run deploy-tar",
+    "deploy-clear": "rm -rf deploy && mkdir deploy",
+    "deploy-tar": "tar -zcf deploy/deploy.tar.gz --exclude={deploy,test,'.git'} ./",
+    "deploy": "npm run deploy-clear && npm run deploy-tar",
     "test": "mocha",
     "start": "pm2 startOrRestart process.json"
   },
@@ -33,6 +33,7 @@
     "ktool": "^0.2.32",
     "mkdirp": "^0.5.1",
     "mongodb": "~2.1.x",
+    "mysql": "^2.11.1",
     "redis": "~2.6.0-0",
     "vlog": "^0.2.5",
     "xml2js": "^0.4.9"

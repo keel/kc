@@ -2,23 +2,54 @@
   "ver": 1,
   "project": "kc",
   "dev": {
-    "redisIP": "127.0.0.1",
-    "redisPort": 6379,
     "sessionKey": "sessionauthbythistimegood12349876",
     "sessionExpire": 1800,
-    "failLoginRedirect":"login",
-    "mongoDbName": "apis",
-    "mongoUrl": "mongodb://apis:apis0107@127.0.0.1:27017/apis",
-    "startPort":15001
+    "failLoginRedirect": "login",
+    "redis": {
+      "init": true,
+      "redisIP": "127.0.0.1",
+      "redisPort": 6379
+    },
+    "mongo": {
+      "init": true,
+      "mongoDbName": "apis",
+      "mongoUrl": "mongodb://apis:apis0107@127.0.0.1:27017/apis"
+    },
+    "mysql": {
+      "init": true,
+      "config": {
+        "connectionLimit": 60,
+        "host": "127.0.0.1",
+        "user": "root",
+        "password": "crystalthing",
+        "database": "temptest"
+      }
+    },
+    "mysqlCluster": {
+      "init": true,
+      "config": {
+        "master1": {
+          "connectionLimit": 60,
+          "host": "127.0.0.1",
+          "user": "root",
+          "password": "crystalthing",
+          "database": "temptest"
+        },
+        "slave1": {
+          "connectionLimit": 60,
+          "host": "127.0.0.1",
+          "user": "root",
+          "password": "crystalthing",
+          "database": "temptest"
+        }
+      }
+    },
+    "startPort": 15001
   },
   "test": {
-    "redisIP": "192.168.0.19",
-    "redisPort": 6379,
     "sessionKey": "sessionauthbythistimegood12349876",
     "sessionExpire": 1800,
-    "failLoginRedirect":"login",
-    "mongoDbName": "apis",
-    "mongoUrl": "mongodb://apis:apis0107@192.168.0.19:27017/apis",
-    "startPort":15001
+    "failLoginRedirect": "login",
+    "startPort": 15001
   }
 }

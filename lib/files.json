@@ -13,5 +13,5 @@
   "tpl_config.json": "tpl",
   "tpl_package.json": "tpl",
   "tpl_process.json": "tpl",
-  "tpl_kc.js": "tpl"
+  "kc-.js": "tpl"
 }
