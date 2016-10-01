@@ -1,7 +1,14 @@
 # KC 标准API系统
 
+## UPDATE:
+v1.0.18: 增加api指令
+v1.0.22: 完成mysql驱动,支持集群,调整了配置文件格式
+v1.0.23: 增加testapi错误码说明,修正mysqlCluster启动错误,增加validatorFailStateCode配置
+
 ## TODO:
-* 增加mysql驱动
+* 完善文档
+* 增加后台模板
+* 增加使用mysql的存储过程样例
 
 ## 使用方法
 1. 安装nodejs6.4或以上版本
@@ -34,6 +41,11 @@
 
 5. 增加接口 && api目录说明
 
+  ```
+  kc api apiName
+  ```
+
+  可自动生成新api的框架代码在web/api/apiName.js中
 6. 增加页面 && tpls目录说明
 
 ## API接口规范
@@ -152,6 +164,8 @@ data  |响应的数据内容 |Object/Array  |是 |响应的具体数据内容，
 
 6. 签名结果(需要转成大写)：
   **A03C6E80E909950CAF7FAF88EBD8A322**
+
+
 -----
 
 

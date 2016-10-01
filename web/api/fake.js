@@ -44,7 +44,7 @@ var fakeGetJsonP = function(req, resp) {
 
 //模拟post请求,注意使用callback回调
 var fakePost1 = function(req, resp, callback) {
-  var re = { 'hello': '你好啊' };
+  var re = { 'hello': '你好啊1' };
 
 
   callback(null, { 're': 0, 'data': re });
@@ -52,7 +52,7 @@ var fakePost1 = function(req, resp, callback) {
 
 
 var fakePost2 = function(req, resp, callback) {
-  var re = { 'hello': '你好啊' };
+  var re = { 'hello': '你好啊2' };
 
 
   callback(null, { 're': 0, 'data': jsonP(re, req) });
@@ -105,7 +105,7 @@ exports.router = function() {
 
   var iiConfig = makeIIConfig(postApis);
 
-  // vlog.log('iiConfig:%j', iiConfig);
+  // vlog.log('fake iiConfig:%j', iiConfig);
 
   var router = iApi.getRouter(iiConfig);
 
