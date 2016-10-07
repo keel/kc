@@ -1,10 +1,12 @@
 # KC 标准API系统
 
 ## UPDATE:
-* v1.0.18: 增加api指令
-* v1.0.22: 完成mysql驱动,支持集群,调整了配置文件格式
-* v1.0.23: 增加testapi错误码说明,修正mysqlCluster启动错误,增加validatorFailStateCode配置
+* v1.0.26: 增加mongo.del
+* v1.0.25: 调整api模板及iApi小bug
 * v1.0.24: sessionAuth的fail适配content-type全小写;
+* v1.0.23: 增加testapi错误码说明,修正mysqlCluster启动错误,增加validatorFailStateCode配置
+* v1.0.22: 完成mysql驱动,支持集群,调整了配置文件格式
+* v1.0.18: 增加api指令
 
 ## TODO:
 * 完善文档
