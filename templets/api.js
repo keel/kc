@@ -1,11 +1,10 @@
 /*
-api接口:位于web/api目录,文件名即为接口路由
+用户的api
  */
 'use strict';
 var kc = require('kc');
 var iApi = kc.iApi;
-// var render = kc.render();
-var error = require('./error');
+var error = require('./../error');
 var vlog = require('vlog').instance(__filename);
 
 //标准API协议所用到的key,可根据情况从配置文件,数据库或其他位置获取,这里仅作为示例
@@ -39,7 +38,8 @@ var testApi = function(req, resp, callback) {
    */
   var reqData = iApi.parseApiReq(req.body, apiKey);
   if (!reqData) {
-    return callback(vlog.ee(new Error('iApi req'), 'kc iApi req error', reqData));
+    //如果报错时,可定义状态码和返回错误码,如下403表示http返回403状态码,iiReq会返回错误error.json['iiReq']的内容
+    return callback(vlog.ee(new Error('iApi req'), 'kc iApi req error', reqData),null,403,'iiReqSign');
   }
   /*
    * iApi.makeApiResp:创建resp的内容
@@ -56,11 +56,12 @@ var testApi = function(req, resp, callback) {
 
 
 var iiConfig = {
-  // 'auth': false, //[auth]:是否需要登录验证,可选,默认false
+  'auth': false, //[auth]:是否需要登录验证,默认需要auth,除非配置强制设置为false
+  // 'validatorFailStateCode':403, //[validatorFailStateCode]:当validator验证失败时返回的http状态码,默认为200,此处可以进行全局修改
   // 'type': 'application/json', //[type]:http请求头的type,可选,默认'application/json'
   'act': {
     //接口1,地址如:http://localhost:16000/[#apiName]/testAct
-    'testAct': {
+    'test': {
       /*
       'showLevel': 0, //[showLevel]:如果需要验证,此处为用户最可访问的最低level,可选,默认0
       'validator': { //[validator]:参数校验器,可选
@@ -80,6 +81,9 @@ var iiConfig = {
     },
     //另一个接口,地址如:http://localhost:16000/[#apiName]/testApi
     'testApi': {
+      'validator':{
+        phone:'mobileCN'
+      },
       'resp': testApi
     }
   }
@@ -103,3 +107,4 @@ exports.router = function() {
   });
   return router;
 };
+

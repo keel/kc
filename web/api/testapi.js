@@ -77,13 +77,13 @@ var iiConfig = {
         }
       },
       */
-      'validator':{
-        phone:'mobileCN'
-      },
       'resp': test //接口实现方法,必须有
     },
     //另一个接口,地址如:http://localhost:16000/[#apiName]/testApi
     'testApi': {
+      'validator':{
+        phone:'mobileCN'
+      },
       'resp': testApi
     }
   }
