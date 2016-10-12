@@ -1,6 +1,7 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v1.0.31: redis增加hmset和hgetall
 * v1.0.30: 初始化时增加redisInitOK,mongoInitOK,mysqlInitOK三个事件
 * v1.0.27-29: 修复小bug,mongo增加addMany方法
 * v1.0.26: 增加mongo.del
