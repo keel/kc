@@ -1,6 +1,8 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v1.0.30: 初始化时增加redisInitOK,mongoInitOK,mysqlInitOK三个事件
+* v1.0.27-29: 修复小bug,mongo增加addMany方法
 * v1.0.26: 增加mongo.del
 * v1.0.25: 调整api模板及iApi小bug
 * v1.0.24: sessionAuth的fail适配content-type全小写;

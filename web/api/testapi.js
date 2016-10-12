@@ -60,7 +60,7 @@ var iiConfig = {
   // 'validatorFailStateCode':403, //[validatorFailStateCode]:当validator验证失败时返回的http状态码,默认为200,此处可以进行全局修改
   // 'type': 'application/json', //[type]:http请求头的type,可选,默认'application/json'
   'act': {
-    //接口1,地址如:http://localhost:16000/[#apiName]/testAct
+    //接口1,地址如:http://localhost:16000/[#apiName]/test
     'test': {
       /*
       'showLevel': 0, //[showLevel]:如果需要验证,此处为用户最可访问的最低level,可选,默认0
@@ -88,7 +88,6 @@ var iiConfig = {
     }
   }
 };
-
 
 
 exports.router = function() {
