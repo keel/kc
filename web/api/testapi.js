@@ -36,10 +36,10 @@ var testApi = function(req, resp, callback) {
    * @param  {string} key  签名校验的key
    * @return {json}      返回请求中的req部分,失败则返回null
    */
-  var reqData = iApi.parseApiReq(req.body, apiKey);
-  if (!reqData) {
+  var reqDataArr = iApi.parseApiReq(req.body, apiKey);
+  if (reqDataArr[0] !== 0) {
     //如果报错时,可定义状态码和返回错误码,如下403表示http返回403状态码,iiReq会返回错误error.json['iiReq']的内容
-    return callback(vlog.ee(new Error('iApi req'), 'kc iApi req error', reqData),null,403,'iiReqSign');
+    return callback(vlog.ee(new Error('iApi req'), 'kc iApi req error', reqDataArr), null, 403, reqDataArr[0]);
   }
   /*
    * iApi.makeApiResp:创建resp的内容
@@ -81,8 +81,8 @@ var iiConfig = {
     },
     //另一个接口,地址如:http://localhost:16000/[#apiName]/testApi
     'testApi': {
-      'validator':{
-        phone:'mobileCN'
+      'validator': {
+        phone: 'mobileCN'
       },
       'resp': testApi
     }
@@ -106,4 +106,3 @@ exports.router = function() {
   });
   return router;
 };
-

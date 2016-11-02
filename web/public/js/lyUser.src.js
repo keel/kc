@@ -9,7 +9,7 @@ $(function() {
       return false;
     }
     var data = '{ "userName":"' + searchUserName + '"}';
-    jsonReq('/user/find', data, function(err, re) {
+    jsonReq('user/find', data, function(err, re) {
       if (err) {
         alert('查询失败!');
         return false;
@@ -37,7 +37,7 @@ $(function() {
       return false;
     }
     var data = formToJson('#a_userForm',false);
-    jsonReq('/user/add', data, function(err, re) {
+    jsonReq('user/add', JSON.stringify(data), function(err, re) {
       if (err) {
         alert('添加失败,请检查参数!');
         return false;
@@ -59,7 +59,7 @@ $(function() {
       return false;
     }
     var data = '{ "userName":"' + uf_userName + '"}';
-    jsonReq('/user/find', data, function(err, re) {
+    jsonReq('user/find', data, function(err, re) {
       if (err) {
         alert('查询失败!');
         return false;
@@ -84,7 +84,7 @@ $(function() {
   });
   $('#u_userForm').submit(function() {
     var data = formToJson('#u_userForm',true);
-    jsonReq('/user/update', data, function(err, re) {
+    jsonReq('user/update', JSON.stringify(data), function(err, re) {
       if (err) {
         alert('添加失败,请检查参数!');
         return false;

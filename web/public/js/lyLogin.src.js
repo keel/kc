@@ -24,7 +24,7 @@ $(function() {
       alert('用户名输入错误');
       return false;
     }
-    var reqData = makeApiReq('login', data, 'test_client_key', 'test_client_secret');
+    var reqData = makeApiReq('login', data, 'test_client_key');
     // console.log('reqData:', reqData);
     jsonReq('login', reqData, function(err, re) {
       if (err || !re.re) {

@@ -14,8 +14,12 @@ var vlog = require('vlog').instance(__filename);
 var showLevel = 0;
 
 var login = function(req, resp, callback) {
-  var reqData = iApi.parseApiReq(req.body,'test_client_key','test_client_secret');
-// vlog.log('reqData:%j',reqData);
+  var reqDataArr = iApi.parseApiReq(req.body, 'test_client_key', 'test_client_secret');
+  // vlog.log('reqData:%j',reqData);
+  if (reqDataArr[0] !== 0) {
+    return callback(null, { 're': reqDataArr[0] });
+  }
+  var reqData = reqDataArr[1];
   var query = {
     'loginName': reqData.loginName,
     'loginPwd': reqData.loginPwd,
@@ -69,7 +73,7 @@ var iiConfig = {
 
 
 
-exports.router = function () {
+exports.router = function() {
 
   var router = iApi.getRouter(iiConfig);
 
