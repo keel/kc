@@ -41,6 +41,7 @@ var testApi = function(req, resp, callback) {
     //如果报错时,可定义状态码和返回错误码,如下403表示http返回403状态码,iiReq会返回错误error.json['iiReq']的内容
     return callback(vlog.ee(new Error('iApi req'), 'kc iApi req error', reqDataArr), null, 403, reqDataArr[0]);
   }
+  var reqData = reqDataArr[1];
   /*
    * iApi.makeApiResp:创建resp的内容
    * @param  {int} errorCode      0为成功,其他为错误码
@@ -48,7 +49,7 @@ var testApi = function(req, resp, callback) {
    * @param  {string} apiKey 用于校验请求合法性的key
    * @return {json} 需要返回的json
    */
-  var respObj = iApi.makeApiResp(0, 'ok', apiKey);
+  var respObj = iApi.makeApiResp(0, reqData, apiKey);
   //返回
   callback(null, respObj);
 };
