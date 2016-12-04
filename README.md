@@ -1,6 +1,7 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v1.0.39: 修正createProcDo
 * v1.0.38: 在mysql中增加createProcDo方法创建基于存储过程的标准API响应
 * v1.0.37: 修正mongo.js中的checkColl
 * v1.0.36: mkSign错误时会提示原文,parseApiReq会提示不同错误码,调整前端js代码
