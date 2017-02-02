@@ -1,5 +1,5 @@
 /*
-用户的api
+[#apiName] api
  */
 'use strict';
 var kc = require('../../lib/kc');
