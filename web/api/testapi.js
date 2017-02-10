@@ -1,5 +1,5 @@
 /*
-[#apiName] api
+test api
  */
 'use strict';
 var kc = require('../../lib/kc');
@@ -103,7 +103,7 @@ exports.router = function() {
   });
   */
   router.get('*', function(req, resp, next) {
-    resp.status(404).send(error.json('404', '[#apiName]'));
+    resp.status(404).send(error.json('404', 'testApi'));
   });
   return router;
 };

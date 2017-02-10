@@ -12,9 +12,10 @@ var sessionAuth = kc.sessionAuth;
 var vlog = require('vlog').instance(__filename);
 
 var showLevel = 0;
+var ueserTable = 'userapi';
 
 var login = function(req, resp, callback) {
-  var reqDataArr = iApi.parseApiReq(req.body, 'test_client_key', 'test_client_secret');
+  var reqDataArr = iApi.parseApiReq(req.body, 'test_client_key');
   // vlog.log('reqData:%j',reqData);
   if (reqDataArr[0] !== 0) {
     return callback(null, { 're': reqDataArr[0] });
@@ -34,7 +35,7 @@ var login = function(req, resp, callback) {
     }
   };
   // vlog.log('body:%j,options:%j', reqData, options);
-  db.queryOneFromDb('user', query, options, function(err, re) {
+  db.queryOneFromDb(ueserTable, query, options, function(err, re) {
     if (err) {
       return callback(vlog.ee(err, 'login:queryOneFromDb', reqData));
     }

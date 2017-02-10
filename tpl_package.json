@@ -9,12 +9,12 @@
     "start": "pm2 startOrRestart process.json"
   },
   "dependencies": {
-    "kc": "^1.0.40",
+    "kc": "^1.0.42",
     "body-parser": "^1.13.2",
     "bson": "^0.4.20",
     "dot": "^1.0.3",
     "express": "^4.13.4",
-    "cck": "^1.0.9",
+    "cck": "^1.0.12",
     "vlog": "^0.2.5",
     "aes-cross": "^1.0.8",
     "ktool": "^0.2.38",

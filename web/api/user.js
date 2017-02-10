@@ -11,6 +11,7 @@ var db = kc.mongo;
 var vlog = require('vlog').instance(__filename);
 
 var showLevel = 1;
+var userTable = 'userapi';
 
 var find = function(req, resp, callback) {
   var query = {
@@ -28,7 +29,7 @@ var find = function(req, resp, callback) {
     }
   };
   // vlog.log('find query:%j,options:%j, name:%j', query, options, req.body.userName);
-  db.queryFromDb('user', query, options, function(err, re) {
+  db.queryFromDb(userTable, query, options, function(err, re) {
     if (err) {
       return callback(vlog.ee(err, 'find:queryOneFromDb', req.body));
     }
@@ -50,7 +51,7 @@ var add = function(req, resp, callback) {
     'userName': req.body.a_userName
   };
   // vlog.log('add newUser:%j', newUser);
-  db.addToDb('user', newUser, function(err, re) {
+  db.addToDb(userTable, newUser, function(err, re) {
     if (err) {
       return callback(vlog.ee(err, 'add:queryOneFromDb', req.body));
     }
@@ -103,7 +104,7 @@ var update = function(req, resp, callback) {
   };
 
   // vlog.log('update query:%j,set:%j ', query, set);
-  db.updateOne('user', query, set, null, function(err, re) {
+  db.updateOne(userTable, query, set, null, function(err, re) {
     if (err) {
       return callback(vlog.ee(err, 'update', req.body));
     }
