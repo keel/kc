@@ -1,5 +1,5 @@
 /*
-testapi的api
+[#apiName]的api
  */
 'use strict';
 var kc = require('kc');
