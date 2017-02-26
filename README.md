@@ -1,6 +1,7 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v1.0.43: redis增加密码验证
 * v1.0.41: 升级cck,ktool库,kc api模板调整,.jsbeautifyrc模板调整
 * v1.0.39: 修正createProcDo
 * v1.0.38: 在mysql中增加createProcDo方法创建基于存储过程的标准API响应

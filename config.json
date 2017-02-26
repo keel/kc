@@ -8,12 +8,13 @@
     "redis": {
       "init": true,
       "redisIP": "127.0.0.1",
-      "redisPort": 6379
+      "redisPort": 6379,
+      "pwd": "testpassword"
     },
     "mongo": {
       "init": true,
       "mongoDbName": "apis",
-      "mongoUrl": "mongodb://apis:apis0107@127.0.0.1:27017/apis"
+      "mongoUrl": "mongodb://apis:apispass@127.0.0.1:27017/apis"
     },
     "mysql": {
       "init": true,
@@ -21,7 +22,7 @@
         "connectionLimit": 60,
         "host": "127.0.0.1",
         "user": "root",
-        "password": "crystalthing",
+        "password": "testpassword",
         "database": "temptest"
       }
     },
@@ -32,14 +33,14 @@
           "connectionLimit": 60,
           "host": "127.0.0.1",
           "user": "root",
-          "password": "crystalthing",
+          "password": "testpassword",
           "database": "temptest"
         },
         "slave1": {
           "connectionLimit": 60,
           "host": "127.0.0.1",
           "user": "root",
-          "password": "crystalthing",
+          "password": "testpassword",
           "database": "temptest"
         }
       }
