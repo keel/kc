@@ -1,6 +1,7 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v1.0.46: mongo增加logToDb
 * v1.0.45: mysql的createProcApi增加beforeProc
 * v1.0.44: redis增加密码验证
 * v1.0.41: 升级cck,ktool库,kc api模板调整,.jsbeautifyrc模板调整
