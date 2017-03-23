@@ -6,7 +6,7 @@
   "web/tpls": "dir",
   "web/error.js": "file",
   "web/render/index.js": "file",
-  "README.md": "file",
+  "tpl_README.md": "tpl",
   "tpl_.gitignore": "tpl",
   ".eslintrc": "file",
   ".jsbeautifyrc": "file",
