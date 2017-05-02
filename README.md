@@ -1,6 +1,7 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v1.0.49: fix redis.hmset
 * v1.0.48: mongo连接增加重试次数为最大int值的参数
 * v1.0.47: userLevel转为数字,readme改为模板
 * v1.0.46: mongo增加logToDb

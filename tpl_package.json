@@ -9,7 +9,7 @@
     "start": "pm2 startOrRestart process.json"
   },
   "dependencies": {
-    "kc": "^1.0.48",
+    "kc": "^1.0.49",
     "body-parser": "^1.13.2",
     "bson": "^0.4.20",
     "dot": "^1.0.3",
