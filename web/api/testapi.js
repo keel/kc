@@ -39,7 +39,8 @@ var testApi = function(req, resp, callback) {
   var reqDataArr = iApi.parseApiReq(req.body, apiKey);
   if (reqDataArr[0] !== 0) {
     //如果报错时,可定义状态码和返回错误码,如下403表示http返回403状态码,iiReq会返回错误error.json['iiReq']的内容
-    return callback(vlog.ee(new Error('iApi req'), 'kc iApi req error', reqDataArr), null, 403, reqDataArr[0]);
+    //callback(err,body,httpStatus,errTag)
+    return callback(vlog.ee(new Error('iApi req'), 'kc iApi req error', reqDataArr), 'errorData', 403, reqDataArr[0]);
   }
   var reqData = reqDataArr[1];
   /*
