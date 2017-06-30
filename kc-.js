@@ -10,13 +10,13 @@ kconfig.init(path.join(__dirname, 'config.json'));
 // var app = kc.createApp(__dirname, { 'configFile': path.join(__dirname, 'config.json') });
 var app = kc.createApp(__dirname);
 
-//附加有redisInitOK,mongoInitOK,mysqlInitOK三个事件
-// app.on('mongoInitOK',function(err) {
+//附加有dbsInitOK事件会在redis,mongo.mysql初始化完成后触发
+// app.on('dbsInitOK',function(err) {
 //   if (err) {
 //     console.error(err);
 //     return;
 //   }
-//   console.log('mongoInitOK!!');
+//   console.log('init Ok!!');
 // });
 
 //增加非api和tpl的路由,如logout,此处为express的标准用法

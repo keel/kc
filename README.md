@@ -1,6 +1,7 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v1.0.54: fix dbsInitOK,注意与之前版本的mongoInitOK事件会有不兼容
 * v1.0.53: mysql 增加query
 * v1.0.52: iApi callback参数在err时可定义返回内容
 * v1.0.50: fix iApi showLevel无效
