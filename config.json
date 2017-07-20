@@ -8,8 +8,7 @@
     "redis": {
       "init": true,
       "redisIP": "127.0.0.1",
-      "redisPort": 6379,
-      "pwd": "testpassword"
+      "redisPort": 6379
     },
     "mongo": {
       "init": true,

@@ -1,5 +1,6 @@
 {
   "rules": {
+    "no-var": [2],
     "indent": [1, 2],
     "quotes": [2, "single"],
     "linebreak-style": [2, "unix"],
@@ -11,7 +12,8 @@
     "node": true,
     "browser": true,
     "mocha": true,
-    "jquery": true
+    "jquery": true,
+    "es6": true
   },
 
   "extends": "eslint:recommended"
