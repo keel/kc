@@ -12,8 +12,8 @@
     },
     "mongo": {
       "init": true,
-      "mongoDbName": "apis",
-      "mongoUrl": "mongodb://apis:apispass@127.0.0.1:27017/apis"
+      "mongoDbName": "lysms",
+      "mongoUrl": "mongodb://keel:jsLy_0107@127.0.0.1:27017/lysms"
     },
     "mysql": {
       "init": true,
