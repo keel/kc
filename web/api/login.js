@@ -2,33 +2,33 @@
 登录的api
  */
 'use strict';
-var cck = require('cck');
-var kc = require('../../lib/kc');
-var iApi = kc.iApi;
-var render = kc.render();
-var db = kc.mongo;
-var error = require('../error');
-var sessionAuth = kc.sessionAuth;
-var vlog = require('vlog').instance(__filename);
+const cck = require('cck');
+const kc = require('../../lib/kc');
+const iApi = kc.iApi;
+const render = kc.render();
+const db = kc.mongo;
+const error = require('../error');
+const sessionAuth = kc.sessionAuth;
+const vlog = require('vlog').instance(__filename);
 
-var showLevel = 0;
-var ueserTable = 'userapi';
+const showLevel = 0;
+const ueserTable = 'userapi';
 
-var login = function(req, resp, callback) {
-  var reqDataArr = iApi.parseApiReq(req.body, 'test_client_key');
+const login = function(req, resp, callback) {
+  const reqDataArr = iApi.parseApiReq(req.body, 'test_client_key');
   // vlog.log('reqData:%j',reqData);
   if (reqDataArr[0] !== 0) {
     return callback(null, { 're': reqDataArr[0] });
   }
-  var reqData = reqDataArr[1];
-  var query = {
+  const reqData = reqDataArr[1];
+  const query = {
     'loginName': reqData.loginName,
     'loginPwd': reqData.loginPwd,
     'state': {
       '$gte': 0
     }
   };
-  var options = {
+  const options = {
     'fields': {
       'userName': 1,
       'level': 1
@@ -51,13 +51,13 @@ var login = function(req, resp, callback) {
   });
 };
 
-var inputCheck = function(input) {
-  var re = cck.check(input, 'strLen', [3, 18]);
+const inputCheck = function(input) {
+  const re = cck.check(input, 'strLen', [3, 18]);
   return re;
 };
 
 
-var iiConfig = {
+const iiConfig = {
   'auth': false,
   'act': {
     //空字符串表示仅有一个顶级动作,无二级动作
@@ -76,7 +76,7 @@ var iiConfig = {
 
 exports.router = function() {
 
-  var router = iApi.getRouter(iiConfig);
+  const router = iApi.getRouter(iiConfig);
 
   router.get('*', function(req, resp, next) {
     resp.send(render.login());

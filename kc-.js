@@ -1,14 +1,14 @@
 'use strict';
 
-var kc = require('./lib/kc');
-var path = require('path');
-var kconfig = require('ktool').kconfig;
+const kc = require('./lib/kc');
+const path = require('path');
+const kconfig = require('ktool').kconfig;
 //初始化配置
 kconfig.init(path.join(__dirname, 'config.json'));
 
 //生成项目express主进程
-// var app = kc.createApp(__dirname, { 'configFile': path.join(__dirname, 'config.json') });
-var app = kc.createApp(__dirname);
+// const app = kc.createApp(__dirname, { 'configFile': path.join(__dirname, 'config.json') });
+const app = kc.createApp(__dirname);
 
 //附加有dbsInitOK事件会在redis,mongo.mysql初始化完成后触发
 // app.on('dbsInitOK',function(err) {

@@ -2,13 +2,13 @@
 [#apiName]的api
  */
 'use strict';
-var kc = require('kc');
-var iApi = kc.iApi;
-var error = require('./../error');
-var vlog = require('vlog').instance(__filename);
+const kc = require('kc');
+const iApi = kc.iApi;
+const error = require('./../error');
+const vlog = require('vlog').instance(__filename);
 
 //标准API协议所用到的key,可根据情况从配置文件,数据库或其他位置获取,这里仅作为示例
-var apiKey = 'testKey';
+const apiKey = 'testKey';
 
 /**
  * 子接口方法,callback第二个参数即为resp返回的body
@@ -17,8 +17,8 @@ var apiKey = 'testKey';
  * @param  {Function} callback 接口响应回调
  * @return {void}
  */
-var test = function(req, resp, callback) {
-  var re = { 'hello': '你好' };
+const test = function(req, resp, callback) {
+  const re = { 'hello': '你好' };
   callback(null, { 're': 0, 'data': re });
 };
 
@@ -29,19 +29,19 @@ var test = function(req, resp, callback) {
  * @param  {Function} callback
  * @return {}
  */
-var testApi = function(req, resp, callback) {
+const testApi = function(req, resp, callback) {
   /*
    * 解析标准API请求并校验签名
    * @param  {json} data 请求的json数据
    * @param  {string} key  签名校验的key
    * @return {json}      返回请求中的req部分,失败则返回null
    */
-  var reqDataArr = iApi.parseApiReq(req.body, apiKey);
+  const reqDataArr = iApi.parseApiReq(req.body, apiKey);
   if (reqDataArr[0] !== 0) {
     //如果报错时,可定义状态码和返回错误码,如下403表示http返回403状态码,iiReq会返回错误error.json['iiReq']的内容
     return callback(vlog.ee(new Error('iApi req'), 'kc iApi req error', reqDataArr), null, 403, reqDataArr[0]);
   }
-  var reqData = reqDataArr[1];
+  const reqData = reqDataArr[1];
   /*
    * iApi.makeApiResp:创建resp的内容
    * @param  {int} errorCode      0为成功,其他为错误码
@@ -49,14 +49,14 @@ var testApi = function(req, resp, callback) {
    * @param  {string} apiKey 用于校验请求合法性的key
    * @return {json} 需要返回的json
    */
-  var respObj = iApi.makeApiResp(0, 'ok', apiKey);
+  const respObj = iApi.makeApiResp(0, 'ok', apiKey);
   //返回
   callback(null, respObj);
 };
 
 
 
-var iiConfig = {
+const iiConfig = {
   'auth': false, //[auth]:是否需要登录验证,默认需要auth,除非配置强制设置为false
   // 'validatorFailStateCode':403, //[validatorFailStateCode]:当validator验证失败时返回的http状态码,默认为200,此处可以进行全局修改
   // 'type': 'application/json', //[type]:http请求头的type,可选,默认'application/json'
@@ -95,7 +95,7 @@ var iiConfig = {
 exports.router = function() {
 
   //由以上配置生成router
-  var router = iApi.getRouter(iiConfig);
+  const router = iApi.getRouter(iiConfig);
 
   //声明get方式的响应,可以在此使用tpls中的模板
   /*

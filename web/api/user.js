@@ -2,25 +2,25 @@
 用户的api
  */
 'use strict';
-var cck = require('cck');
-// var render = require('../lib/renderTool');
-var kc = require('../../lib/kc');
-var iApi = kc.iApi;
-var db = kc.mongo;
-// var error = require('./error');
-var vlog = require('vlog').instance(__filename);
+const cck = require('cck');
+// const render = require('../lib/renderTool');
+const kc = require('../../lib/kc');
+const iApi = kc.iApi;
+const db = kc.mongo;
+// const error = require('./error');
+const vlog = require('vlog').instance(__filename);
 
-var showLevel = 1;
-var userTable = 'userapi';
+const showLevel = 1;
+const userTable = 'userapi';
 
-var find = function(req, resp, callback) {
-  var query = {
+const find = function(req, resp, callback) {
+  const query = {
     'userName': new RegExp(req.body.userName.trim()),
     'state': {
       '$gte': 0
     }
   };
-  var options = {
+  const options = {
     'fields': {
       'userName': 1,
       'level': 1,
@@ -29,7 +29,7 @@ var find = function(req, resp, callback) {
     }
   };
   // vlog.log('find query:%j,options:%j, name:%j', query, options, req.body.userName);
-  db.queryFromDb(userTable, query, options, function(err, re) {
+  db.c(userTable).find(query, options, function(err, re) {
     if (err) {
       return callback(vlog.ee(err, 'find:queryOneFromDb', req.body));
     }
@@ -42,8 +42,8 @@ var find = function(req, resp, callback) {
 
 
 
-var add = function(req, resp, callback) {
-  var newUser = {
+const add = function(req, resp, callback) {
+  const newUser = {
     'loginName': req.body.a_loginName,
     'loginPwd': req.body.a_loginPwd,
     'level': parseInt(req.body.a_level),
@@ -65,18 +65,18 @@ var add = function(req, resp, callback) {
  * @param {array} setArr   对应数据表的字段名数组
  * @param {string} [setPre]   请求表单中字段名前缀,可选
  */
-var setUpdateObj = function(bodyData, setArr, setPre) {
+const setUpdateObj = function(bodyData, setArr, setPre) {
   if (!cck.checkBatch([
       [bodyData, 'notNull'],
       [setArr, 'array']
     ])) {
     return null;
   }
-  var pre = setPre || '';
-  var out = {};
-  for (var i = 0; i < setArr.length; i++) {
-    var setKey = setArr[i];
-    var setVal = bodyData[pre + setKey];
+  const pre = setPre || '';
+  const out = {};
+  for (const i = 0; i < setArr.length; i++) {
+    const setKey = setArr[i];
+    const setVal = bodyData[pre + setKey];
     if (setVal === null || setVal === undefined) {
       continue;
     }
@@ -85,8 +85,8 @@ var setUpdateObj = function(bodyData, setArr, setPre) {
   return out;
 };
 
-var update = function(req, resp, callback) {
-  var query = {
+const update = function(req, resp, callback) {
+  const query = {
     '_id': db.idObj(req.body.u_id)
   };
   if (req.body.u_level) {
@@ -95,12 +95,12 @@ var update = function(req, resp, callback) {
   if (req.body.u_state) {
     req.body.u_state = parseInt(req.body.u_state);
   }
-  var setObj = setUpdateObj(req.body, ['loginName', 'loginPwd', 'userName', 'state', 'level'], 'u_');
+  const setObj = setUpdateObj(req.body, ['loginName', 'loginPwd', 'userName', 'state', 'level'], 'u_');
   if (!setObj) {
     return callback(vlog.ee(null, 'update:setObj fail', req.body));
   }
-  var set = {
-    '$set':setObj
+  const set = {
+    '$set': setObj
   };
 
   // vlog.log('update query:%j,set:%j ', query, set);
@@ -114,15 +114,15 @@ var update = function(req, resp, callback) {
 };
 
 
-var inputCheck = function(input) {
-  var re = cck.check(input, 'strLen', [3, 18]);
+const inputCheck = function(input) {
+  const re = cck.check(input, 'strLen', [3, 18]);
   return re;
 };
 
 
-var iiConfig = {
-  'auth':true,
-  'act':{
+const iiConfig = {
+  'auth': true,
+  'act': {
     'find': {
       'showLevel': showLevel,
       'validator': {
@@ -159,9 +159,9 @@ var iiConfig = {
 
 
 
-exports.router = function () {
+exports.router = function() {
 
-  var router = iApi.getRouter(iiConfig);
+  const router = iApi.getRouter(iiConfig);
 
   router.get('*', function(req, resp, next) {
     resp.status(404).send('404');

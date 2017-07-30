@@ -17,30 +17,28 @@
     },
     "mysql": {
       "init": true,
-      "config": {
+      "isCluster":false,
+      "server": {
         "connectionLimit": 60,
         "host": "127.0.0.1",
         "user": "root",
-        "password": "testpassword",
-        "database": "temptest"
-      }
-    },
-    "mysqlCluster": {
-      "init": true,
-      "config": {
+        "password": "crystalthing",
+        "database": "aaa"
+      },
+      "servers": {
         "master1": {
           "connectionLimit": 60,
           "host": "127.0.0.1",
           "user": "root",
-          "password": "testpassword",
-          "database": "temptest"
+          "password": "crystalthing",
+          "database": "aaa"
         },
         "slave1": {
           "connectionLimit": 60,
           "host": "127.0.0.1",
           "user": "root",
-          "password": "testpassword",
-          "database": "temptest"
+          "password": "crystalthing",
+          "database": "aaa"
         }
       }
     },

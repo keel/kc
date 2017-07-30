@@ -2,18 +2,18 @@
 模拟api
  */
 'use strict';
-// var cck = require('cck');
-// var render = require('../lib/renderTool');
-var iApi = require('../../lib/kc').iApi;
-// var db = require('../lib/db');
-// var error = require('./error');
-var vlog = require('vlog').instance(__filename);
-var urllib = require('url');
-// var showLevel = 0;
+// const cck = require('cck');
+// const render = require('../lib/renderTool');
+const iApi = require('../../lib/kc').iApi;
+// const db = require('../lib/db');
+// const error = require('./error');
+const vlog = require('vlog').instance(__filename);
+const urllib = require('url');
+// const showLevel = 0;
 
 
-var jsonP = function(content, req) {
-  var params = urllib.parse(req.url, true);
+const jsonP = function(content, req) {
+  const params = urllib.parse(req.url, true);
   if (params.query.callback) {
     return params.query.callback + '(' + content + ')';
   }
@@ -25,14 +25,14 @@ var jsonP = function(content, req) {
 
 
 //模拟get请求,注意必须return
-var fakeGet1 = function(req, resp) {
-  var data = { 'hello': 'yes' };
+const fakeGet1 = function(req, resp) {
+  const data = { 'hello': 'yes' };
   return iApi.makeApiResp(0, data);
 };
 
 //模拟jsonp的get请求,注意必须return
-var fakeGetJsonP = function(req, resp) {
-  var respObj = {
+const fakeGetJsonP = function(req, resp) {
+  const respObj = {
     're': 0,
     'data': 'this is get2'
   };
@@ -43,28 +43,28 @@ var fakeGetJsonP = function(req, resp) {
 
 
 //模拟post请求,注意使用callback回调
-var fakePost1 = function(req, resp, callback) {
-  var re = { 'hello': '你好啊1' };
+const fakePost1 = function(req, resp, callback) {
+  const re = { 'hello': '你好啊1' };
 
 
   callback(null, { 're': 0, 'data': re });
 };
 
 
-var fakePost2 = function(req, resp, callback) {
-  var re = { 'hello': '你好啊2' };
+const fakePost2 = function(req, resp, callback) {
+  const re = { 'hello': '你好啊2' };
 
 
   callback(null, { 're': 0, 'data': jsonP(re, req) });
 };
 
 
-var getApis = {
+const getApis = {
   'get1': fakeGet1,
   'get2': fakeGetJsonP
 };
 
-var postApis = {
+const postApis = {
   'post1': fakePost1,
   'post2': fakePost2
 };
@@ -81,12 +81,12 @@ var postApis = {
 
 
 
-var makeIIConfig = function(postApis) {
-  var iiConfig = {
+const makeIIConfig = function(postApis) {
+  const iiConfig = {
     'auth': false,
     'act': {}
   };
-  for (var path in postApis) {
+  for (const path in postApis) {
     iiConfig.act[path] = {
       'resp': postApis[path]
     };
@@ -94,7 +94,7 @@ var makeIIConfig = function(postApis) {
   return iiConfig;
 };
 
-var makeGet = function(router, path, getApis) {
+const makeGet = function(router, path, getApis) {
   router.get('/' + path, function(req, resp, next) {
     resp.status(200).send(getApis[path](req, resp));
   });
@@ -103,15 +103,15 @@ var makeGet = function(router, path, getApis) {
 exports.router = function() {
 
 
-  var iiConfig = makeIIConfig(postApis);
+  const iiConfig = makeIIConfig(postApis);
 
   // vlog.log('fake iiConfig:%j', iiConfig);
 
-  var router = iApi.getRouter(iiConfig);
+  const router = iApi.getRouter(iiConfig);
 
 
   //get方式
-  for (var path in getApis) {
+  for (const path in getApis) {
     makeGet(router, path, getApis);
   }
 
