@@ -6,7 +6,7 @@ const cck = require('cck');
 // const render = require('../lib/renderTool');
 const kc = require('../../lib/kc');
 const iApi = kc.iApi;
-const db = kc.mongo;
+const db = kc.mongo.init(__dirname + '/../config.json');
 // const error = require('./error');
 const vlog = require('vlog').instance(__filename);
 
@@ -29,9 +29,9 @@ const find = function(req, resp, callback) {
     }
   };
   // vlog.log('find query:%j,options:%j, name:%j', query, options, req.body.userName);
-  db.c(userTable).find(query, options, function(err, re) {
+  db.c(userTable).query(query, options, function(err, re) {
     if (err) {
-      return callback(vlog.ee(err, 'find:queryOneFromDb', req.body));
+      return callback(vlog.ee(err, 'find', req.body));
     }
 
     callback(null, { 're': '0', 'users': re });
@@ -51,7 +51,7 @@ const add = function(req, resp, callback) {
     'userName': req.body.a_userName
   };
   // vlog.log('add newUser:%j', newUser);
-  db.addToDb(userTable, newUser, function(err, re) {
+  db.c(userTable).insert(newUser, function(err, re) {
     if (err) {
       return callback(vlog.ee(err, 'add:queryOneFromDb', req.body));
     }
@@ -66,15 +66,16 @@ const add = function(req, resp, callback) {
  * @param {string} [setPre]   请求表单中字段名前缀,可选
  */
 const setUpdateObj = function(bodyData, setArr, setPre) {
-  if (!cck.checkBatch([
-      [bodyData, 'notNull'],
-      [setArr, 'array']
-    ])) {
+  const paraCheckRe = cck.checkBatch([
+    [bodyData, 'notNull'],
+    [setArr, 'array']
+  ]);
+  if (paraCheckRe.length > 0) {
     return null;
   }
   const pre = setPre || '';
   const out = {};
-  for (const i = 0; i < setArr.length; i++) {
+  for (let i = 0; i < setArr.length; i++) {
     const setKey = setArr[i];
     const setVal = bodyData[pre + setKey];
     if (setVal === null || setVal === undefined) {
@@ -104,7 +105,7 @@ const update = function(req, resp, callback) {
   };
 
   // vlog.log('update query:%j,set:%j ', query, set);
-  db.updateOne(userTable, query, set, null, function(err, re) {
+  db.c(userTable).update(query, set, null, function(err, re) {
     if (err) {
       return callback(vlog.ee(err, 'update', req.body));
     }

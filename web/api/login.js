@@ -6,7 +6,7 @@ const cck = require('cck');
 const kc = require('../../lib/kc');
 const iApi = kc.iApi;
 const render = kc.render();
-const db = kc.mongo;
+const db = kc.mongo.init(__dirname + '/../config.json');
 const error = require('../error');
 const sessionAuth = kc.sessionAuth;
 const vlog = require('vlog').instance(__filename);
@@ -32,17 +32,18 @@ const login = function(req, resp, callback) {
     'fields': {
       'userName': 1,
       'level': 1
-    }
+    },
+    'limit': 1
   };
   // vlog.log('body:%j,options:%j', reqData, options);
-  db.queryOneFromDb(ueserTable, query, options, function(err, re) {
+  db.c(ueserTable).query(query, options, function(err, re) {
     if (err) {
-      return callback(vlog.ee(err, 'login:queryOneFromDb', reqData));
+      return callback(vlog.ee(err, 'login:find', reqData));
     }
-    if (!re) {
+    if (!re || re.length <= 0) {
       return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 403);
     }
-    sessionAuth.setAuthed(req, resp, re._id, re.level, function(err, re) {
+    sessionAuth.setAuthed(req, resp, re[0]._id, re[0].level, function(err, re) {
       if (err) {
         return callback(vlog.ee(err, 'login:setAuthed', reqData), re, 500, 'cache');
       }
@@ -75,9 +76,7 @@ const iiConfig = {
 
 
 exports.router = function() {
-
   const router = iApi.getRouter(iiConfig);
-
   router.get('*', function(req, resp, next) {
     resp.send(render.login());
     // if (req.userLevel < showLevel) {
@@ -92,3 +91,4 @@ exports.router = function() {
 
   return router;
 };
+

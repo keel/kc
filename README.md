@@ -1,6 +1,7 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v2.0.1: 升级至ES6,mongo redis myql全面重写
 * v1.0.58: mongo redis myql的init修正,kc初始化dbsInitOK修正
 * v1.0.57: mongo redis增加close,已经init后不再重复
 * v1.0.54: fix dbsInitOK,注意与之前版本的mongoInitOK事件会有不兼容
