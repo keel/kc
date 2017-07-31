@@ -4,6 +4,7 @@
   "dev": {
     "sessionKey": "sessionauthbythistimegood12349876",
     "sessionExpire": 1800,
+    "sessionType": "mem",
     "failLoginRedirect": "login",
     "redis": {
       "init": true,
