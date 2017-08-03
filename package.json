@@ -25,22 +25,22 @@
   "license": "MIT",
   "dependencies": {
     "aes-cross": "^1.0.8",
-    "body-parser": "^1.13.2",
+    "body-parser": "^1.17.2",
     "bson": "^0.4.20",
     "cck": "^1.0.12",
-    "dot": "^1.0.3",
-    "express": "^4.13.4",
-    "ktool": "^0.2.42",
+    "dot": "^1.1.2",
+    "express": "^4.15.3",
+    "ktool": "^1.0.2",
     "mkdirp": "^0.5.1",
     "mongodb": "~2.1.x",
-    "mysql": "^2.11.1",
-    "redis": "~2.6.0-0",
+    "mysql": "^2.14.0",
+    "redis": "^2.7.1",
     "vlog": "^0.2.5",
     "xml2js": "^0.4.9"
   },
   "devDependencies": {
-    "chai": "*",
-    "mocha": "*"
+    "chai": "^4.1.0",
+    "mocha": "^3.5.0"
   },
   "bugs": {
     "url": "https://github.com/keel/kc/issues"

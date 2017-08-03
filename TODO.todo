@@ -1,0 +1,21 @@
+
+2.0版
+ ✔ mongo,redis,mysql升级 @done (17-07-31 17:31)
+ ✔ session支持mem,redis可选 @done (17-07-31 17:31)
+ ✔ session增加ip和时间校验，需要配置nginx透传真实IP @done (17-08-02 10:34)
+ ✔ cache.js @done (17-08-02 10:14)
+ ✔ cache等需要mongo进行init，此时无法传入configFile位置 @done (17-08-03 19:15)
+ ☐ 配置安全化,保密字段输出日志问题，服务端配置存取
+   ✔ 默认读取config/default.json文件; @done (17-08-03 16:24)
+   ✔ 优先读取default.json，再从环境变量KC_CONFIG=/var/conf下找到project.json，进行属性值覆盖 ; @done (17-08-03 16:24)
+   ✔ config目录加入gitignore,但排除default.json文件，以便于调试。 @done (17-08-03 16:25)
+   ☐ 通过jenkins发布到服务器指定目前并生成环境变量(jenkins需要可以su修改环境变量);
+   ☐ jenkins可通过配置sudo实现配置文件写入和更新，通过.sh实现环境变量的添加
+   ✔ 读取环境变量指定的配置文件时需要解密; @done (17-08-03 16:26)
+   ✔ 配置输出到日志或显示时，加密字段统一用***表示，加密字段的前缀为s!_，如:"s!_passwd":"aaa1234" @done (17-08-03 16:25)
+   ✔ kconfig自动初始化，所有用到kconfig的模块无需手动初始化kconfig, 使用f获取运行时路径，逐层向上查找config目录(currentPath.lastIndexOf('config')) @done (17-08-03 16:25)
+   ✔ require kc时就自动初始化kc? @done (17-08-03 16:32)
+ ☐ vlog与pm2 日志输出到elasticsearch打通
+ ☐ test mocha
+ ✔ 增加showFilter? @done (17-08-03 19:37)
+ ☐ sqlite支持,以实现无数据库方式，从而使jup项目单机使用
