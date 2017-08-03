@@ -10,7 +10,7 @@
   "tpl_.gitignore": "tpl",
   ".eslintrc": "file",
   ".jsbeautifyrc": "file",
-  "tpl_config.json": "tpl",
+  "config/tpl_default.json": "tpl",
   "tpl_package.json": "tpl",
   "tpl_process.json": "tpl",
   "kc-.js": "tpl"

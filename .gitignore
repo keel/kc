@@ -2,6 +2,7 @@ web/render/*
 !web/render/index.js
 config/*
 !config/default.js
+!config/tpl_default.js
 
 
 ### Node ###

@@ -3,8 +3,7 @@
 const kc = require('./lib/kc');
 const path = require('path');
 const kconfig = require('ktool').kconfig;
-//初始化配置
-kconfig.init(path.join(__dirname, 'config.json'));
+
 
 //生成项目express主进程
 // const app = kc.createApp(__dirname, { 'configFile': path.join(__dirname, 'config.json') });
@@ -23,4 +22,4 @@ const app = kc.createApp(__dirname);
 app.get('/logout', kc.sessionAuth.logout);
 
 //启动进程
-app.start(kconfig.getConfig().startPort);
+app.start(kconfig.get('startPort'));

@@ -1,7 +1,15 @@
 # KC 标准API系统
 
 ## UPDATE:
-* v2.0.1: 升级至ES6,mongo redis myql全面重写
+* v2.0.1:
+  ES6:代码用ES6重构,mongo redis myql全面重写,初始化及使用方式重大改变;
+  ktool: 升级到1.0.3;
+  session: 增加mem和redis可选，支持set和get变量，安全性增强;
+  配置升级:配置文件调整。去除初始化时传入的配置文件路径，安全性增强,增加config指令;
+  增加iCache和showFilter;
+  大量优化及模板修改;
+  增加测试用例文件;
+
 * v1.0.58: mongo redis myql的init修正,kc初始化dbsInitOK修正
 * v1.0.57: mongo redis增加close,已经init后不再重复
 * v1.0.54: fix dbsInitOK,注意与之前版本的mongoInitOK事件会有不兼容
