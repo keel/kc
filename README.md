@@ -1,6 +1,7 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v2.0.6: 增加kc.iCache接口
 * v2.0.5: 增加kc.showFilter接口
 * v2.0.4: config指令增加结果说明
 * v2.0.1:
