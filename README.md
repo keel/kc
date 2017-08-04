@@ -1,6 +1,8 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v2.0.5: 增加kc.showFilter接口
+* v2.0.4: config指令增加结果说明
 * v2.0.1:
   ES6:代码用ES6重构,mongo redis myql全面重写,初始化及使用方式重大改变;
   ktool: 升级到1.0.3;
@@ -62,7 +64,7 @@
   git commit -m 'init'
   ```
 
-4. config.json配置说明
+4. config/default.json配置说明
 4. package.json配置说明
 4. process.json配置说明
 
