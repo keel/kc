@@ -9,7 +9,7 @@
     "start": "pm2 startOrRestart process.json"
   },
   "dependencies": {
-    "kc": "^2.0.6",
+    "kc": "^2.0.7",
     "body-parser": "^1.13.2",
     "bson": "^0.4.20",
     "dot": "^1.0.3",
@@ -17,7 +17,7 @@
     "cck": "^1.0.12",
     "vlog": "^0.2.5",
     "aes-cross": "^1.0.8",
-    "ktool": "^1.0.3",
+    "ktool": "^1.0.6",
     "mongodb": "~2.1.x",
     "redis": "~2.6.0-0",
     "mysql": "^2.11.1",

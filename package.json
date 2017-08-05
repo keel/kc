@@ -1,6 +1,6 @@
 {
   "name": "kc",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "kc",
   "main": "lib/kc.js",
   "preferGlobal": "true",
@@ -30,10 +30,10 @@
     "cck": "^1.0.12",
     "dot": "^1.1.2",
     "express": "^4.15.3",
-    "ktool": "^1.0.3",
+    "ktool": "^1.0.6",
     "mkdirp": "^0.5.1",
-    "mongodb": "~2.1.x",
-    "mysql": "^2.14.0",
+    "mongodb": "^2.2.30",
+    "mysql": "^2.14.1",
     "redis": "^2.7.1",
     "vlog": "^0.2.5",
     "xml2js": "^0.4.9"
