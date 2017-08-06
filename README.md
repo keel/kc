@@ -1,6 +1,7 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v2.0.10: fix iCache
 * v2.0.9: fix iCache 初始化
 * v2.0.8: 去除 iCache 和 showFilter对kc的引用
 * v2.0.7: db类可同时加载多个配置,如mongo可使用两个配置在同一项目中连接两个库，使用时指定用哪个配置
