@@ -1,6 +1,7 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v2.0.15: config目录发布的问题
 * v2.0.11: 调整模板
 * v2.0.10: fix iCache
 * v2.0.9: fix iCache 初始化
