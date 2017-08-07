@@ -1,0 +1,49 @@
+{
+  "ver": 1,
+  "project": "kc",
+  "h$_key":"envconfigbuildkey",
+  "ts": 0,
+  "s$_sessionKey": "sessionauthbythiskey",
+  "sessionExpire": 1800,
+  "sessionType": "mem",
+  "failLoginRedirect": "login",
+  "redis": {
+    "init": false,
+    "s$_redisIP": "127.0.0.1",
+    "s$_redisPort": 6379,
+    "s$_pwd": false
+  },
+  "mongo": {
+    "init": false,
+    "s$_mongoDbName": "testdb",
+    "s$_mongoUrl": "mongodb://user:pwd@127.0.0.1:27017/testdb"
+  },
+  "mysql": {
+    "init": false,
+    "s$_isCluster":false,
+    "server": {
+      "connectionLimit": 60,
+      "s$_host": "127.0.0.1",
+      "s$_user": "user",
+      "s$_password": "pwd",
+      "s$_database": "aaa"
+    },
+    "servers": {
+      "master1": {
+        "connectionLimit": 60,
+        "s$_host": "127.0.0.1",
+        "s$_user": "user",
+        "s$_password": "pwd",
+        "s$_database": "aaa"
+      },
+      "slave1": {
+        "connectionLimit": 60,
+        "s$_host": "127.0.0.1",
+        "s$_user": "user",
+        "s$_password": "pwd",
+        "s$_database": "aaa"
+      }
+    }
+  },
+  "startPort": 15001
+}
