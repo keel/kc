@@ -1,6 +1,10 @@
 web/render/*
 !web/render/index.js
-config/other.json
+config/*
+!config/default.json
+
+
+
 
 ### Node ###
 
