@@ -1,7 +1,7 @@
 {
   "ver": 1,
   "project": "[#projectName]",
-  "h$_key":"envconfigbuildkey",
+  "h$_key":"envconfigbuildbythiskey",
   "ts": 0,
   "s$_sessionKey": "sessionauthbythiskey",
   "sessionExpire": 1800,

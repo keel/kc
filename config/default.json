@@ -15,8 +15,8 @@
   },
   "mongo": {
     "init": false,
-    "s$_mongoDbName": "testdb",
-    "s$_mongoUrl": "mongodb://user:pwd@127.0.0.1:27017/testdb"
+    "s$_mongoDbName": "testdbname",
+    "s$_mongoUrl": "mongodb://user:pwd@127.0.0.1:27017/testdbname"
   },
   "mysql": {
     "init": false,
