@@ -9,14 +9,14 @@
     "start": "pm2 startOrRestart process.json"
   },
   "dependencies": {
-    "kc": "^2.0.16",
+    "kc": "^2.0.17",
     "aes-cross": "^1.0.8",
     "body-parser": "^1.17.2",
     "bson": "^0.4.20",
     "cck": "^1.0.12",
     "dot": "^1.1.2",
     "express": "^4.15.3",
-    "ktool": "^1.0.9",
+    "ktool": "^1.0.15",
     "mkdirp": "^0.5.1",
     "mongodb": "^2.2.30",
     "mysql": "^2.14.1",
