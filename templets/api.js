@@ -3,12 +3,13 @@
  */
 'use strict';
 const kc = require('kc');
+const ktool = require('ktool');
 const iApi = kc.iApi;
 const error = require('./../error');
 const vlog = require('vlog').instance(__filename);
 
 //标准API协议所用到的key,可根据情况从配置文件,数据库或其他位置获取,这里仅作为示例
-const apiKey = 'testKey';
+const apiKey = ktool.kconfig.get('s$_apiKey');
 
 /**
  * 子接口方法,callback第二个参数即为resp返回的body

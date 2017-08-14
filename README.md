@@ -1,6 +1,7 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v2.0.19: 暴露getCookieMap方法,增加lint指令
 * v2.0.15: config目录发布的问题
 * v2.0.11: 调整模板
 * v2.0.10: fix iCache

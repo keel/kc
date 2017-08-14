@@ -1,6 +1,6 @@
 {
   "name": "kc",
-  "version": "2.0.18",
+  "version": "2.0.19",
   "description": "kc",
   "main": "lib/kc.js",
   "preferGlobal": "true",
@@ -12,7 +12,8 @@
     "deploy-tar": "tar -zcf deploy/deploy.tar.gz --exclude={deploy,test,'.git'} ./",
     "deploy": "npm run deploy-clear && npm run deploy-tar",
     "test": "mocha",
-    "start": "pm2 startOrRestart process.json"
+    "start": "pm2 startOrRestart process.json",
+    "lint": "eslint lib/*.js web/api/*.js"
   },
   "repository": {
     "type": "git",

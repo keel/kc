@@ -6,10 +6,11 @@
     "deploy-tar":"tar -zcf deploy/deploy.tar.gz --exclude={deploy,test,'.git'} ./",
     "deploy":"npm run deploy-clear && npm run deploy-tar",
     "test": "mocha",
-    "start": "pm2 startOrRestart process.json"
+    "start": "pm2 startOrRestart process.json",
+    "lint": "eslint lib/*.js web/api/*.js"
   },
   "dependencies": {
-    "kc": "^2.0.18",
+    "kc": "^2.0.19",
     "aes-cross": "^1.0.8",
     "body-parser": "^1.17.2",
     "bson": "^0.4.20",
