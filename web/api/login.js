@@ -43,6 +43,9 @@ const login = function(req, resp, callback) {
     if (!re || re.length <= 0) {
       return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 403);
     }
+    //sessionSet示例,存入userName
+    sessionAuth.sessionSet(req, resp, 'userName', re.userName);
+
     sessionAuth.setAuthed(req, resp, re[0]._id, re[0].level, function(err, re) {
       if (err) {
         return callback(vlog.ee(err, 'login:setAuthed', reqData), re, 500, 'cache');
@@ -77,7 +80,7 @@ const iiConfig = {
 
 exports.router = function() {
   const router = iApi.getRouter(iiConfig);
-  router.get('*', function(req, resp, next) {
+  router.get('*', function(req, resp, next) { // eslint-disable-line
     resp.send(render.login());
     // if (req.userLevel < showLevel) {
     //   resp.status(404).send('40401');
@@ -91,4 +94,3 @@ exports.router = function() {
 
   return router;
 };
-

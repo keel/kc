@@ -51,7 +51,7 @@ const add = function(req, resp, callback) {
     'userName': req.body.a_userName
   };
   // vlog.log('add newUser:%j', newUser);
-  db.c(userTable).insert(newUser, function(err, re) {
+  db.c(userTable).insert(newUser, function(err) {
     if (err) {
       return callback(vlog.ee(err, 'add:queryOneFromDb', req.body));
     }
@@ -105,7 +105,7 @@ const update = function(req, resp, callback) {
   };
 
   // vlog.log('update query:%j,set:%j ', query, set);
-  db.c(userTable).update(query, set, null, function(err, re) {
+  db.c(userTable).update(query, set, null, function(err) {
     if (err) {
       return callback(vlog.ee(err, 'update', req.body));
     }
@@ -164,7 +164,7 @@ exports.router = function() {
 
   const router = iApi.getRouter(iiConfig);
 
-  router.get('*', function(req, resp, next) {
+  router.get('*', function(req, resp, next) { // eslint-disable-line
     resp.status(404).send('404');
     // resp.send(render.login());
     // if (req.userLevel < showLevel) {

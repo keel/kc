@@ -100,10 +100,15 @@ exports.router = function() {
   //声明get方式的响应,可以在此使用tpls中的模板
   /*
   router.get('/get1', function(req, resp, next) {
-    resp.send(render.login({title:'登录'}));
+    sessionAuth.sessionGet(req, resp, 'userName', (err, userName) => {
+      if (err) {
+        return vlog.eo(err, 'sessionGet:userName');
+      }
+      resp.send(render.tplPage({ 'userName': userName }));
+    });
   });
   */
-  router.get('*', function(req, resp, next) {
+  router.get('*', function(req, resp, next) {  // eslint-disable-line
     resp.status(404).send(error.json('404', 'testApi'));
   });
   return router;

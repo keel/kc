@@ -7,7 +7,7 @@
 const iApi = require('../../lib/kc').iApi;
 // const db = require('../lib/db');
 // const error = require('./error');
-const vlog = require('vlog').instance(__filename);
+const vlog = require('vlog').instance(__filename);  // eslint-disable-line
 const urllib = require('url');
 // const showLevel = 0;
 
@@ -25,13 +25,13 @@ const jsonP = function(content, req) {
 
 
 //模拟get请求,注意必须return
-const fakeGet1 = function(req, resp) {
+const fakeGet1 = function(req, resp) {  // eslint-disable-line
   const data = { 'hello': 'yes' };
   return iApi.makeApiResp(0, data);
 };
 
 //模拟jsonp的get请求,注意必须return
-const fakeGetJsonP = function(req, resp) {
+const fakeGetJsonP = function(req, resp) {  // eslint-disable-line
   const respObj = {
     're': 0,
     'data': 'this is get2'
@@ -95,7 +95,7 @@ const makeIIConfig = function(postApis) {
 };
 
 const makeGet = function(router, path, getApis) {
-  router.get('/' + path, function(req, resp, next) {
+  router.get('/' + path, function(req, resp, next) {  // eslint-disable-line
     resp.status(200).send(getApis[path](req, resp));
   });
 };
