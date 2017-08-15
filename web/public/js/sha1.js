@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand,prefer-const,no-var */
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-1, as defined
  * in FIPS PUB 180-1

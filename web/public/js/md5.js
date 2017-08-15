@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand,prefer-const,no-var */
 var hexcase = 0;
 
 function hex_md5(a) {

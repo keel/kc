@@ -10,12 +10,12 @@ const db = kc.mongo.init();
 const error = require('../error');
 const sessionAuth = kc.sessionAuth;
 const vlog = require('vlog').instance(__filename);
-
+const apiKey = kc.kconfig.get('s$_apiKey');
 const showLevel = 0;
 const ueserTable = 'userapi';
 
 const login = function(req, resp, callback) {
-  const reqDataArr = iApi.parseApiReq(req.body, 'test_client_key');
+  const reqDataArr = iApi.parseApiReq(req.body, apiKey);
   // vlog.log('reqData:%j',reqData);
   if (reqDataArr[0] !== 0) {
     return callback(null, { 're': reqDataArr[0] });

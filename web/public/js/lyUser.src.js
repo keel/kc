@@ -1,5 +1,5 @@
+/* eslint-disable object-shorthand,prefer-const,no-var */
 'use strict';
-
 $(function() {
 
   $('#findUserBt').click(function() {

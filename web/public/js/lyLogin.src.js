@@ -1,7 +1,6 @@
+/* eslint-disable object-shorthand,prefer-const,no-var */
 'use strict';
-
 $(function() {
-
   var checkStrLen = function(strIn, min, max) {
     if (!strIn) {
       return false;

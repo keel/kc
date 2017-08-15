@@ -1,13 +1,13 @@
 {
   "ver": 1,
   "project": "[#projectName]",
-  "h$_key":"envconfigbuildbythiskey",
+  "h$_key":"[#random]",
   "ts": 0,
-  "s$_sessionKey": "sessionauthbythiskey",
+  "s$_sessionKey": "[#random]",
   "sessionExpire": 1800,
   "sessionType": "mem",
   "failLoginRedirect": "login",
-  "s$_apiKey": "apisignbythiskey",
+  "s$_apiKey": "[#apiKey]",
   "redis": {
     "init": false,
     "s$_redisIP": "127.0.0.1",
