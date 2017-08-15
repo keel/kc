@@ -1,6 +1,6 @@
 {
   "name": "kc",
-  "version": "2.0.23",
+  "version": "2.0.24",
   "description": "kc",
   "main": "lib/kc.js",
   "preferGlobal": "true",
