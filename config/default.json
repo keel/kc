@@ -7,7 +7,9 @@
   "sessionExpire": 1800,
   "sessionType": "mem",
   "failLoginRedirect": "login",
-  "s$_apiKey": "apisignbythiskey",
+  "s$_apiKey": "[#apiKey]",
+  "fail2ban": 3600,
+  "fail2banTimes": 5,
   "redis": {
     "init": false,
     "s$_redisIP": "127.0.0.1",
@@ -16,8 +18,8 @@
   },
   "mongo": {
     "init": false,
-    "s$_mongoDbName": "testdbname",
-    "s$_mongoUrl": "mongodb://user:pwd@127.0.0.1:27017/testdbname"
+    "s$_mongoDbName": "dbName",
+    "s$_mongoUrl": "mongodb://user:pwd@127.0.0.1:27017/dbName"
   },
   "mysql": {
     "init": false,

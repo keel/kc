@@ -34,7 +34,7 @@ $(function() {
         window.location = 'main';
         return false;
       } else {
-        alert('登录失败!');
+        alert('登录失败!' + (re.data || ''));
         return false;
       }
     });

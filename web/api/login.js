@@ -4,6 +4,7 @@
 'use strict';
 const cck = require('cck');
 const kc = require('../../lib/kc');
+const fail2ban = kc.fail2ban;
 const iApi = kc.iApi;
 const render = kc.render();
 const db = kc.mongo.init();
@@ -12,9 +13,9 @@ const sessionAuth = kc.sessionAuth;
 const vlog = require('vlog').instance(__filename);
 const apiKey = kc.kconfig.get('s$_apiKey');
 const showLevel = 0;
-const ueserTable = 'userapi';
+const ueserTable = 'cp';
 
-const login = function(req, resp, callback) {
+const loginAct = function(req, resp, callback) {
   const reqDataArr = iApi.parseApiReq(req.body, apiKey);
   // vlog.log('reqData:%j',reqData);
   if (reqDataArr[0] !== 0) {
@@ -41,7 +42,8 @@ const login = function(req, resp, callback) {
       return callback(vlog.ee(err, 'login:find', reqData));
     }
     if (!re || re.length <= 0) {
-      return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 403);
+      fail2ban.failOne(req);
+      return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 200);
     }
     //sessionSet示例,存入userName
     sessionAuth.sessionSet(req, resp, 'userName', re.userName);
@@ -52,6 +54,15 @@ const login = function(req, resp, callback) {
       }
       callback(null, { 're': '0' });
     });
+  });
+};
+
+const login = function(req, resp, callback) {
+  fail2ban.checkBan(req, (err, waitHours) => {
+    if (err) {
+      return callback(null, error.json('fail2ban', '登录失败次数过多，请等待 ' + waitHours + ' 小时后重试.'), 200);
+    }
+    loginAct(req, resp, callback);
   });
 };
 

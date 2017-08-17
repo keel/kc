@@ -2,7 +2,7 @@
 
 const kc = require('./lib/kc');
 const path = require('path');
-const kconfig = require('ktool').kconfig;
+const kconfig = kc.kconfig;
 const vlog = require('vlog').instance(__filename);
 
 
