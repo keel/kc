@@ -11,11 +11,11 @@ const db = kc.mongo.init();
 const vlog = require('vlog').instance(__filename);
 
 const showLevel = 1;
-const userTable = 'userapi';
+const userTable = 'cp';
 
 const find = function(req, resp, callback) {
   const query = {
-    'userName': new RegExp(req.body.userName.trim()),
+    'loginName': new RegExp(req.body.userName.trim()),
     'state': {
       '$gte': 0
     }
