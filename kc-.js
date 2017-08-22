@@ -1,9 +1,10 @@
 'use strict';
 
 const kc = require('./lib/kc');
+const vlogRedis = require('./lib/vlogRedis');
 const path = require('path');
 const kconfig = kc.kconfig;
-const vlog = require('vlog').instance(__filename);
+const vlog = require('vlog').instance(__filename, vlogRedis);
 
 const navMaker = function(req, resp, next) {
   // 可在此根据userId和userLevel创建导航菜单

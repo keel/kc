@@ -1,6 +1,7 @@
 # KC 标准API系统
 
 ## UPDATE:
+* v2.0.31: 增加vlogRedis
 * v2.0.30: 增加pageMiddleware支持
 * v2.0.28: fix sessionExpireTime,增加fail2ban
 * v2.0.20: fix sessionGet
