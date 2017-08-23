@@ -16,7 +16,7 @@
     "s$_redisPort": 6379,
     "s$_pwd": false
   },
-  "vlogRedisLevel":"error",
+  "vlogRedisLevel":"log",
   "mongo": {
     "init": false,
     "s$_mongoDbName": "dbName",

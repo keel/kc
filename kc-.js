@@ -3,7 +3,7 @@
 const kc = require('./lib/kc');
 const vlogRedis = require('./lib/vlogRedis');
 const path = require('path');
-const kconfig = kc.kconfig;
+const kconfig = require('ktool').kconfig;
 const vlog = require('vlog').instance(__filename, vlogRedis);
 
 const navMaker = function(req, resp, next) {
