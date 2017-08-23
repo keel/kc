@@ -11,11 +11,12 @@
   "fail2ban": 3600,
   "fail2banTimes": 5,
   "redis": {
-    "init": false,
+    "init": true,
     "s$_redisIP": "127.0.0.1",
     "s$_redisPort": 6379,
     "s$_pwd": false
   },
+  "vlogRedisLevel":"error",
   "mongo": {
     "init": false,
     "s$_mongoDbName": "dbName",
