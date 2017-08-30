@@ -1,6 +1,7 @@
 {
   "apps": [{
     "name": "[#projectName]",
+    "args": "[#projectName]",
     "script": "run/[#projectName].js",
     "log_date_format":"YYYY-MM-DD HH:mm:ss"
   }]

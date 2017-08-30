@@ -10,7 +10,7 @@
     "lint": "eslint lib/*.js web/api/*.js"
   },
   "dependencies": {
-    "kc": "^2.0.37",
+    "kc": "^2.0.38",
     "aes-cross": "^1.0.8",
     "body-parser": "^1.17.2",
     "bson": "^0.4.20",
@@ -22,7 +22,7 @@
     "mongodb": "^2.2.30",
     "mysql": "^2.14.1",
     "redis": "^2.7.1",
-    "vlog": "^0.2.9",
+    "vlog": "^0.2.11",
     "xml2js": "^0.4.9"
   },
   "devDependencies": {

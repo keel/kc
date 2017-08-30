@@ -1,6 +1,7 @@
 {
   "apps": [{
     "name": "kc-",
+    "args": "kc-",
     "script": "./kc-.js",
     "log_date_format":"YYYY-MM-DD HH:mm:ss"
   }]

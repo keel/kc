@@ -14,8 +14,8 @@
    ✔ 配置输出到日志或显示时，加密字段统一用***表示，加密字段的前缀为s$_，如:"s$_passwd":"aaa1234" @done (17-08-03 16:25)
    ✔ kconfig自动初始化，所有用到kconfig的模块无需手动初始化kconfig, 使用f获取运行时路径，逐层向上查找config目录(currentPath.lastIndexOf('config')) @done (17-08-03 16:25)
    ✔ require kc时就自动初始化kc? @done (17-08-03 16:32)
- ☐ 通过jenkins发布到服务器时可加入配置文件内容，jenkins需要读取目标服务器的环境变量获取位置,将其生成文件写入,注意权限
- ☐ vlog与pm2 日志输出到elasticsearch打通
+ ✔ 通过jenkins发布到服务器时可加入配置文件内容，jenkins需要读取目标服务器的环境变量获取位置,将其生成文件写入,注意权限 @done (17-08-30 22:01)
+ ✔ vlog与pm2 日志输出到elasticsearch打通 @done (17-08-30 22:01)
  ☐ test mocha
  ✔ 增加showFilter? @done (17-08-03 19:37)
  ☐ sqlite支持,以实现无数据库方式，从而使jup项目单机使用
