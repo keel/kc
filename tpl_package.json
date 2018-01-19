@@ -10,7 +10,7 @@
     "lint": "eslint lib/*.js web/api/*.js"
   },
   "dependencies": {
-    "kc": "^2.0.40",
+    "kc": "^2.0.42",
     "aes-cross": "^1.0.8",
     "body-parser": "^1.17.2",
     "bson": "^0.4.20",
