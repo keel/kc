@@ -8,6 +8,7 @@
   "sessionType": "mem",
   "failLoginRedirect": "login",
   "s$_apiKey": "[#apiKey]",
+  "ignoreIpCheck":false,
   "fail2ban": 3600,
   "fail2banTimes": 5,
   "redis": {
