@@ -3,7 +3,7 @@ web/render/*
 config/*
 !config/default.json
 !config/tpl_default.json
-
+package-lock.json
 
 
 

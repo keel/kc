@@ -10,20 +10,16 @@
     "lint": "eslint lib/*.js web/api/*.js"
   },
   "dependencies": {
-    "kc": "^2.0.43",
+    "kc": "^2.0.44",
     "aes-cross": "^1.0.8",
     "body-parser": "^1.17.2",
-    "bson": "^0.4.20",
     "cck": "^1.0.12",
     "dot": "^1.1.2",
     "express": "^4.15.3",
-    "ktool": "^1.0.20",
-    "mkdirp": "^0.5.1",
+    "ktool": "^1.0.21",
     "mongodb": "^2.2.30",
-    "mysql": "^2.14.1",
     "redis": "^2.7.1",
-    "vlog": "^0.2.11",
-    "xml2js": "^0.4.9"
+    "vlog": "^0.2.12"
   },
   "devDependencies": {
     "chai": "*",
