@@ -60,7 +60,7 @@ const testApi = function(req, resp, callback) {
 const iiConfig = {
   'auth': false, //[auth]:是否需要登录验证,默认需要auth,除非配置强制设置为false
   // 'validatorFailStateCode':403, //[validatorFailStateCode]:当validator验证失败时返回的http状态码,默认为200,此处可以进行全局修改
-  // 'type': 'application/json', //[type]:http请求头的type,可选,默认'application/json'
+  // 'bodyParserType': 'json', //
   'act': {
     //接口1,地址如:http://localhost:16000/[#apiName]/test
     'test': {
