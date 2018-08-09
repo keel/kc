@@ -72,9 +72,9 @@ const inputCheck = function(input) {
 const iiConfig = {
   'auth': false,
   'act': {
-    //空字符串表示仅有一个顶级动作,无二级动作
     '': {
       'showLevel': showLevel,
+      'isXssFilter':true,
       'validator': {
         'loginName': inputCheck,
         'loginPwd': inputCheck

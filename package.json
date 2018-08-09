@@ -1,6 +1,6 @@
 {
   "name": "kc",
-  "version": "2.0.46",
+  "version": "2.0.47",
   "description": "kc",
   "main": "lib/kc.js",
   "preferGlobal": "true",
@@ -25,13 +25,12 @@
   "author": "keel",
   "license": "MIT",
   "dependencies": {
-    "aes-cross": "^1.0.8",
+    "aes-cross": "^1.0.9",
     "body-parser": "^1.18.2",
     "bson": "^0.4.20",
     "cck": "^1.0.12",
-    "dot": "^1.1.2",
     "express": "^4.16.3",
-    "ktool": "^1.0.23",
+    "ktool": "^1.0.31",
     "mkdirp": "^0.5.1",
     "mongodb": "^2.2.35",
     "mysql": "^2.15.0",
