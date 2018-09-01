@@ -1,4 +1,9 @@
 {
+"parserOptions":
+{
+    "sourceType": "module",
+    "ecmaVersion": 8
+},
   "rules": {
     "no-var": [2],
     "object-shorthand": [2, "always", {
