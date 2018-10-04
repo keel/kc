@@ -3,6 +3,7 @@
  */
 'use strict';
 const cck = require('cck');
+const ktool = require('ktool');
 const kc = require('../../lib/kc');
 const fail2ban = kc.fail2ban;
 const iApi = kc.iApi;
@@ -13,7 +14,7 @@ const sessionAuth = kc.sessionAuth;
 const vlog = require('vlog').instance(__filename);
 const apiKey = kc.kconfig.get('s$_apiKey');
 const showLevel = 0;
-const ueserTable = 'cp';
+const userTable = 'cp';
 
 const login = function(req, resp, callback) {
   const reqDataArr = iApi.parseApiReq(req.body, apiKey);
@@ -28,36 +29,38 @@ const login = function(req, resp, callback) {
     }
     const query = {
       'loginName': reqData.loginName,
-      'loginPwd': reqData.loginPwd,
+      // 'loginPwd': reqData.loginPwd,
       'state': {
         '$gte': 0
       }
     };
     const options = {
-      'fields': {
+      'projection': {
         'userName': 1,
+        'loginPwd': 1,
+        'createTime': 1,
         'level': 1
-      },
-      'limit': 1
+      }
     };
     // vlog.log('body:%j,options:%j', reqData, options);
-    db.c(ueserTable).query(query, options, function(err, re) {
+    db.c(userTable).findOne(query, options, function(err, re) {
       if (err) {
-        return callback(vlog.ee(err, 'login:find', reqData));
+        return callback(vlog.ee(err, 'login:queryOneFromDb', reqData));
       }
-      if (!re || re.length <= 0) {
-        fail2ban.failOne(reqData.loginName);
-        return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 200);
+      if (!re) {
+        return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 403);
       }
-      //sessionSet示例,存入userName
-      sessionAuth.sessionSet(req, resp, 'userName', re.userName);
-      fail2ban.clear(reqData.loginName);
-      sessionAuth.setAuthed(req, resp, re[0]._id, re[0].level, function(err, re) {
-        if (err) {
-          return callback(vlog.ee(err, 'login:setAuthed', reqData), re, 500, 'cache');
-        }
-        callback(null, { 're': '0' });
-      });
+      //密码使用sha1保存
+      if (re.loginPwd && re.loginPwd === ktool.sha1(reqData.loginPwd + ',')) {
+        sessionAuth.setAuthed(req, resp, re._id, re.level, function(err, re) {
+          if (err) {
+            return callback(vlog.ee(err, 'login:setAuthed', reqData), re, 500, 'cache');
+          }
+          callback(null, { 're': '0' });
+        });
+      } else {
+        return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 403);
+      }
     });
   });
 };
@@ -74,7 +77,7 @@ const iiConfig = {
   'act': {
     '': {
       'showLevel': showLevel,
-      'isXssFilter':true,
+      'isXssFilter': true,
       'validator': {
         'loginName': inputCheck,
         'loginPwd': inputCheck
