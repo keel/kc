@@ -11,6 +11,7 @@
   ".eslintrc": "file",
   ".jsbeautifyrc": "file",
   "config/tpl_default.json": "tpl",
+  "config/tpl_test.json": "tpl",
   "tpl_package.json": "tpl",
   "tpl_process.json": "tpl",
   "kc-.js": "tpl"

@@ -2,7 +2,7 @@
   "ver": 1,
   "project": "[#projectName]",
   "h$_key":"[#random]",
-  "ts": 0,
+  "ts": "test",
   "s$_sessionKey": "[#random]",
   "sessionExpire": 1800,
   "sessionType": "mem",
