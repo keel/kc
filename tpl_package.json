@@ -10,7 +10,7 @@
     "lint": "eslint lib/*.js web/api/*.js"
   },
   "dependencies": {
-    "kc": "^2.0.54",
+    "kc": "^2.0.55",
     "aes-cross": "^1.0.9",
     "body-parser": "^1.17.2",
     "cck": "^1.0.12",
@@ -21,7 +21,7 @@
     "vlog": "^0.2.12"
   },
   "devDependencies": {
-    "chai": "*",
-    "mocha": "*"
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3"
   }
 }
