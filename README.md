@@ -35,7 +35,7 @@ redis.setWithTime('bbbb', 'hhhhh', 20, (e, j) => console.log('setWithTime:', e, 
 //通过ktool.promi转为await使用
 const val = await ktool.promi(kc.redis.get)('key1'); //要求最新版ktool
 
-//多个redisl连接同时使用见lib/redis.test.js
+//多个redis连接同时使用见lib/redis.test.js
 ```
 
 ### mongodb
@@ -100,7 +100,7 @@ mysql.c().query('select * from tt1 limit 3', (e, re) => {console.log('re:%j', re
   git commit -m 'init'
   ```
 
-4. config/default.json配置(暂缺)
+4. config/default.json配置(暂缺说明)
 4. kc config指令:生成远端加密配置文件
 
   ```
@@ -108,8 +108,8 @@ mysql.c().query('select * from tt1 limit 3', (e, re) => {console.log('re:%j', re
   ```
   product.json放置在config目录下,为标准JSON格式,生成的配置文件密文为config/项目名.js,通过jenkins发布到指定服务端,git上不保存product.json等非default.json文件
 
-4. package.json配置(暂缺)
-4. process.json配置(暂缺)
+4. package.json配置(暂缺说明)
+4. process.json配置(暂缺说明)
 
 4. 启动项目,如使用deploy的方式启动,需要pm2新版本
 
@@ -124,7 +124,8 @@ mysql.c().query('select * from tt1 limit 3', (e, re) => {console.log('re:%j', re
   ```
 
   可自动生成新api的框架代码在web/api/apiName.js中
-6. 增加页面 && tpls目录(暂缺)
+
+6. 增加页面 && tpls目录(暂缺说明)
 
 ## api说明(见IAPI.md)
 
