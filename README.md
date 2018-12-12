@@ -78,7 +78,7 @@ mysql.c().query('insert into tt1 set phone = "11111111111",name="aabb"');
 
 mysql.c().query('select * from tt1 limit 3', (e, re) => {console.log('re:%j', re); });
 
-//mysql.pc()方法支持await,但仍然要ktool.promi配合使用,暂未测试
+//mysql.pc()方法支持await,暂未测试
 
 ```
 
