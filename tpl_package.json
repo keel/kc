@@ -10,12 +10,12 @@
     "lint": "eslint lib/*.js web/api/*.js"
   },
   "dependencies": {
-    "kc": "^2.0.59",
+    "kc": "^2.0.60",
     "aes-cross": "^1.0.9",
     "body-parser": "^1.18.3",
     "cck": "^1.0.16",
     "express": "^4.16.4",
-    "ktool": "^1.0.43",
+    "ktool": "^1.0.45",
     "mongodb": "^3.1.10",
     "redis": "^2.8.0",
     "vlog": "^0.2.12"
