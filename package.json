@@ -7,7 +7,6 @@
   "bin": {
     "kc": "bin/kc.js"
   },
-  "private": true,
   "scripts": {
     "deploy-clear": "rm -rf deploy && mkdir deploy",
     "deploy-tar": "tar -zcf deploy/deploy.tar.gz --exclude={deploy,test,'.git'} ./",
