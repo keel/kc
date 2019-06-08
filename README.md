@@ -2,7 +2,7 @@
 集成ktool,vlog工具库,集成express,集成dot模板引擎,集成对redis、mongodb、mysql的直接使用
 
 ## UPDATE:
-* v2.0.63 iApi可自定义sign方法
+* v2.0.64 iApi可自定义sign方法
 * v2.0.57: validator中可以配置respFn定制req参数错误时的返回,修订readme
 * v2.0.54: kc.mongo增加pQuery/pLogToDb/pAggr以方便async/await操作，mongo驱动升级到3.0版本,增加aggr方法保持返回array，更新ktool使用其新特性(如使用ktool.promi可转callback为promise)
 * v2.0.49: 去掉对dotJs原版的依赖(原版始终不接受!号过滤的string保证)，内置其改版
