@@ -2,6 +2,7 @@
 集成ktool,vlog工具库,集成express,集成dot模板引擎,集成对redis、mongodb、mysql的直接使用
 
 ## UPDATE:
+* v2.0.69 mongo增加useUnifiedTopology默认参数
 * v2.0.68 dot支持对pre的strip排除,mongo.idObj增加catch
 * v2.0.65 kc导出内部doT引用
 * v2.0.64 iApi可自定义sign方法
