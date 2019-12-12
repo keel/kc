@@ -2,6 +2,7 @@
 集成ktool,vlog工具库,集成express,集成dot模板引擎,集成对redis、mongodb、mysql的直接使用
 
 ## UPDATE:
+* v2.0.72 mongo去除reconnectTries参数
 * v2.0.71 iCache也增加convert相关方法
 * v2.0.70 修正初始化时dbsInitOK事件
 * v2.0.69 mongo增加useUnifiedTopology默认参数
