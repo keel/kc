@@ -1,6 +1,6 @@
 {
   "name": "kc",
-  "version": "2.0.75",
+  "version": "2.0.76",
   "description": "kc",
   "main": "lib/kc.js",
   "preferGlobal": "true",
@@ -30,16 +30,15 @@
     "bson": "^0.4.20",
     "cck": "^1.0.25",
     "express": "^4.17.1",
-    "ktool": "^1.0.56",
-    "mongodb": "^3.5.6",
+    "ktool": "^1.0.58",
+    "mongodb": "^3.5.8",
     "mysql": "^2.18.1",
     "redis": "^2.8.0",
-    "vlog": "^0.2.12",
-    "xml2js": "^0.4.23"
+    "vlog": "^0.2.12"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^7.1.0"
+    "mocha": "^7.2.0"
   },
   "bugs": {
     "url": "https://github.com/keel/kc/issues"
