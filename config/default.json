@@ -50,5 +50,11 @@
       }
     }
   },
+  "influx":{
+    "s$_token":"ZsaNPL***w==",
+    "url":"http://localhost:9999",
+    "org":"td",
+    "bucket":"t3"
+  },
   "startPort": 15001
 }
