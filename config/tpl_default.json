@@ -10,6 +10,13 @@
   "s$_apiKey": "[#apiKey]",
   "fail2ban": 3600,
   "fail2banTimes": 5,
+  "firstUser":{
+    "isFirst":true,
+    "loginName":"admin",
+    "loginPwd":"helloFirst",
+    "level":10,
+    "_id":0
+  },
   "redis": {
     "init": false,
     "s$_redisIP": "127.0.0.1",

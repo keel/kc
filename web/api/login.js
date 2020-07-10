@@ -16,6 +16,10 @@ const apiKey = kc.kconfig.get('s$_apiKey');
 const showLevel = 0;
 const userTable = 'cp';
 
+
+//用于首次创建用户登录使用
+const firstUser = kc.kconfig.get('firstUser');
+
 const login = function(req, resp, callback) {
   const reqDataArr = iApi.parseApiReq(req.body, apiKey);
   // vlog.log('reqData:%j',reqData);
@@ -23,6 +27,25 @@ const login = function(req, resp, callback) {
     return callback(null, { 're': reqDataArr[0] });
   }
   const reqData = reqDataArr[1];
+
+
+
+  //用于首次创建用户登录使用
+  if (firstUser && firstUser.isFirst) {
+    if (reqData.loginName === firstUser.loginName && reqData.loginPwd === firstUser.loginPwd) {
+      sessionAuth.setAuthed(req, resp, firstUser._id, firstUser.level, function(err, re) {
+        if (err) {
+          return callback(vlog.ee(err, 'login:setAuthed', reqData), re, 500, 'cache');
+        }
+        return callback(null, { 're': '0' });
+      });
+    }else{
+      return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 403);
+    }
+    return;
+  }
+
+
   fail2ban.checkBan(reqData.loginName, (err, waitHours) => {
     if (err) {
       return callback(null, error.json('fail2ban', '登录失败次数过多，请等待 ' + waitHours + ' 小时后重试.'), 200);
