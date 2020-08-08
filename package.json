@@ -1,6 +1,6 @@
 {
   "name": "kc",
-  "version": "2.0.80",
+  "version": "2.0.81",
   "description": "kc",
   "main": "lib/kc.js",
   "preferGlobal": "true",
@@ -25,14 +25,14 @@
   "author": "keel",
   "license": "MIT",
   "dependencies": {
-    "@influxdata/influxdb-client": "^1.4.0",
+    "@influxdata/influxdb-client": "^1.5.0",
     "aes-cross": "^1.0.9",
     "body-parser": "^1.19.0",
     "bson": "^0.4.20",
-    "cck": "^1.0.25",
+    "cck": "^1.0.27",
     "express": "^4.17.1",
-    "ktool": "^1.0.62",
-    "mongodb": "^3.5.9",
+    "ktool": "^1.0.63",
+    "mongodb": "^3.6.0",
     "mysql": "^2.18.1",
     "redis": "^2.8.0",
     "vlog": "^0.2.12"
