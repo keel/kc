@@ -6,7 +6,7 @@ config/*
 !config/tpl_test.json
 package-lock.json
 
-
+*.class
 
 ### Node ###
 
