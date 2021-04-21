@@ -148,7 +148,8 @@ class JApi{
     HashMap<String,Object> reqData = new HashMap<String,Object>();
     reqData.put("user_id", "340421190710145412");
     reqData.put("user_name", "张三");
-    String re = sendReq("http://localhost:15006/fangcm/checkId",reqData,"testKey");
+    reqData.put("c_key", "test_c_key");
+    String re = sendReq("http://localhost:15006/fangcm/checkCNId",reqData,"testKey");
     System.out.println("re:["+re+"]");
 
   }
