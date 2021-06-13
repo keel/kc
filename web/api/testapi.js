@@ -78,6 +78,8 @@ const iiConfig = {
           }
         }
       },
+      'bodyParserType':'urlencoded' //application/x-www-form-urlencoded
+      'bodyParserTypeOption':{extended:false}
       */
       'resp': test //接口实现方法,必须有
     },
@@ -86,6 +88,7 @@ const iiConfig = {
       'validator': {
         phone: 'mobileCN'
       },
+      'crossDomain': true, //可支持跨域
       'resp': testApi
     }
   }
@@ -108,7 +111,7 @@ exports.router = function() {
     });
   });
   */
-  router.get('*', function(req, resp, next) {  // eslint-disable-line
+  router.get('*', function(req, resp, next) { // eslint-disable-line
     resp.status(404).send(error.json('404', 'testApi'));
   });
   return router;

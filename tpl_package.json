@@ -10,13 +10,13 @@
     "lint": "eslint lib/*.js web/api/*.js"
   },
   "dependencies": {
-    "kc": "^2.0.90",
+    "kc": "^2.0.91",
     "aes-cross": "^1.0.9",
-    "vlog": "^0.2.12",
+    "vlog": "^0.2.12"
     "cck": "^1.0.32",
-    "ktool": "^1.0.83",
-    "mongodb": "^3.6.6",
-    "redis": "^2.8.0"
+    "ktool": "^1.0.92",
+    "mongodb": "^3.6.9",
+    "redis": "^3.1.2"
   },
   "devDependencies": {
     "chai": "^4.3.4",

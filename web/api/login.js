@@ -4,12 +4,12 @@
 'use strict';
 const cck = require('cck');
 const ktool = require('ktool');
-const kc = require('../../lib/kc');
+const kc = require('kc');
 const fail2ban = kc.fail2ban;
 const iApi = kc.iApi;
 const render = kc.render();
 const db = kc.mongo.init();
-const error = require('../error');
+const error = require('../../lib/error');
 const sessionAuth = kc.sessionAuth;
 const vlog = require('vlog').instance(__filename);
 const apiKey = kc.kconfig.get('s$_apiKey');
@@ -17,8 +17,10 @@ const showLevel = 0;
 const userTable = 'cp';
 
 
+const kconfig = kc.kconfig;
 //用于首次创建用户登录使用
-const firstUser = kc.kconfig.get('firstUser');
+const firstUser = kconfig.get('firstUser');
+
 
 const login = function(req, resp, callback) {
   const reqDataArr = iApi.parseApiReq(req.body, apiKey);
@@ -29,22 +31,20 @@ const login = function(req, resp, callback) {
   const reqData = reqDataArr[1];
 
 
-
   //用于首次创建用户登录使用
   if (firstUser && firstUser.isFirst) {
     if (reqData.loginName === firstUser.loginName && reqData.loginPwd === firstUser.loginPwd) {
-      sessionAuth.setAuthed(req, resp, firstUser._id, firstUser.level, function(err, re) {
+      sessionAuth.setAuthedWithParas(req, resp, firstUser._id, firstUser.level, { 'userName': firstUser.loginName, 'userPermission': kc.auth.getAuthMap() }, function(err, re) {
         if (err) {
           return callback(vlog.ee(err, 'login:setAuthed', reqData), re, 500, 'cache');
         }
         return callback(null, { 're': '0' });
       });
-    }else{
+    } else {
       return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 403);
     }
     return;
   }
-
 
   fail2ban.checkBan(reqData.loginName, (err, waitHours) => {
     if (err) {
@@ -59,10 +59,11 @@ const login = function(req, resp, callback) {
     };
     const options = {
       'projection': {
-        'userName': 1,
+        'name': 1,
         'loginPwd': 1,
         'createTime': 1,
-        'level': 1
+        'level': 1,
+        'permission':1,
       }
     };
     // vlog.log('body:%j,options:%j', reqData, options);
@@ -74,8 +75,9 @@ const login = function(req, resp, callback) {
         return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 403);
       }
       //密码使用sha1保存
-      if (re.loginPwd && re.loginPwd === ktool.sha1(reqData.loginPwd + ',')) {
-        sessionAuth.setAuthed(req, resp, re._id, re.level, function(err, re) {
+      if (re.loginPwd && re.loginPwd === ktool.sha1(reqData.loginPwd + ',' + re.createTime)) {
+        // console.log('login user:%j', re);
+        sessionAuth.setAuthedWithParas(req, resp, re._id, re.level, { 'userName': re.name, 'userPermission': re.permission }, function(err) {
           if (err) {
             return callback(vlog.ee(err, 'login:setAuthed', reqData), re, 500, 'cache');
           }
