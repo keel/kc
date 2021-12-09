@@ -6,7 +6,6 @@
 // const render = require('../lib/renderTool');
 const iApi = require('../../lib/kc').iApi;
 // const db = require('../lib/db');
-// const error = require('./error');
 const vlog = require('vlog').instance(__filename);  // eslint-disable-line
 const urllib = require('url');
 // const showLevel = 0;

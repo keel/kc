@@ -7,7 +7,6 @@ const cck = require('cck');
 const kc = require('../../lib/kc');
 const iApi = kc.iApi;
 const db = kc.mongo.init();
-// const error = require('./error');
 const vlog = require('vlog').instance(__filename);
 
 const showLevel = 1;

@@ -5,7 +5,7 @@
 const kc = require('kc');
 const ktool = require('ktool');
 const iApi = kc.iApi;
-const error = require('./../error');
+const error = require('../../lib/error');
 const vlog = require('vlog').instance(__filename);
 
 //标准API协议所用到的key,可根据情况从配置文件,数据库或其他位置获取,这里仅作为示例
@@ -65,6 +65,7 @@ const iiConfig = {
     //接口1,地址如:http://localhost:16000/[#apiName]/testAct
     'test': {
       /*
+      'crossDomain':true, //本接口可跨域,也可为function形式限制过滤条件(参考iApi的defaultCrossDomain)
       'showLevel': 0, //[showLevel]:如果需要验证,此处为用户最可访问的最低level,可选,默认0
       'validator': { //[validator]:参数校验器,可选
         'phone': 'mobileCN', //手机号参数验证示例,详细校验参数可参见cck项目
