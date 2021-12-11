@@ -1,6 +1,6 @@
 {
   "name": "kc",
-  "version": "2.0.97",
+  "version": "2.0.98",
   "description": "kc",
   "main": "lib/kc.js",
   "preferGlobal": "true",
@@ -27,7 +27,6 @@
   "dependencies": {
     "@influxdata/influxdb-client": "^1.21.0",
     "aes-cross": "^1.0.9",
-    "body-parser": "^1.19.0",
     "cck": "^1.0.34",
     "express": "^4.17.1",
     "ktool": "^1.0.100",
