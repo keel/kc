@@ -5,6 +5,9 @@ config/*
 !config/tpl_default.json
 !config/tpl_test.json
 package-lock.json
+web/public
+
+
 
 *.class
 
@@ -20,7 +23,7 @@ yarn-error.log*
 .npm
 
 # Dependency directories
-/node_modules
+node_modules
 /jspm_packages
 /bower_components
 

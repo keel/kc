@@ -1,7 +1,15 @@
 # KC web系统快速构建工具
-集成ktool,vlog工具库,集成express,集成dot模板引擎,集成对redis、mongodb、mysql的直接使用
+web项目骨架, 集成ktool,vlog工具库,集成express,集成dot模板引擎, 集成对redis、mongodb、mysql的直接使用
+
+v3版本说明:
+为更方便使用, 引入vue2(vue2.6,暂不使用v3版本)和element-ui组合形成基础的单页前端以实现一个基础的管理后台, 使之开箱可用, 原dot模板生成页面的逻辑转为可选.
+可能缺失了原来的灵活性(绑定了vue和element-ui), 但使用上更为便捷, 也可以在初始化时控制参数去掉引入前端组件(只使用核心lib部分).
+vue的部分加入了自定义的插件, 以实现类jquery和ajax相关的功能, 非管理后台的web项目也可以使用.
+受限于vue2.6和element-ui, npm安装时会产生一些vulnerabilities, 暂时只能忽略.
 
 ## UPDATE:
+* v3.0.1 加入vue和element-ui结合的前端实现
+
 * v2.0.72 mongo去除reconnectTries参数
 * v2.0.71 iCache也增加convert相关方法
 * v2.0.70 修正初始化时dbsInitOK事件

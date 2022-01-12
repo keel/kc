@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1B1C3B;
+}
+
+[v-cloak]{
+display:none !important;
+}
+
+
+
+.el-card {
+  margin-top: 10px;
+  background-color: #2a2a4a;
+  color: #f6f6fb;
+  border-radius: 6px;
+  border: none;
+}
