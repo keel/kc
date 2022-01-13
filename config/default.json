@@ -6,7 +6,7 @@
   "s$_sessionKey": "sessionauthbythiskey",
   "sessionExpire": 1800,
   "sessionType": "mem",
-  "failLoginRedirect": "login",
+  "failLoginRedirect": "/login",
   "s$_apiKey": "[#apiKey]",
   "ignoreIpCheck":false,
   "fail2ban": 3600,

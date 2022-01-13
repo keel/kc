@@ -1,27 +1,34 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Main from '../views/Main.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Main',
+    component: Main,
+    children:[
+      {'name':'Project','path':'project',component: () => import(/* webpackChunkName: "about" */ '../views/Project.vue')},
+      {'name':'Product','path':'product',component: () => import(/* webpackChunkName: "about" */ '../views/Product.vue')},
+      {'name':'Nothing','path':'nothing',component: () => import(/* webpackChunkName: "about" */ '../views/Nothing.vue')},
+      {'name':'About','path':'about',component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')},
+      {'name':'Home','path':'home',component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue')},
+    ],
   },
   {
-    path: '/about',
-    name: 'About',
+    path: '/logout',
+    name: 'Logout',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Logout.vue')
+  },
+  {
+    path: '/login',
+    name: 'Login',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  {
-    path: '/nothing',
-    name: 'Nothing',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Nothing.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
   },
   {'path':'*','component':() => import('../views/NotFound.vue')},
 ]

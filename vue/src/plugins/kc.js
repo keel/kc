@@ -87,7 +87,7 @@ var timeFormat = function(formatStr, millSec) {
   return formatStr;
 };
 
-var kHttp = function(url, httpType, data, headers, callback) {
+var kHttp = function(that, url, httpType, data, headers, callback) {
   if (headers && typeof headers === 'function') {
     callback = headers;
     headers = {};
@@ -119,18 +119,18 @@ var kHttp = function(url, httpType, data, headers, callback) {
   // llog('kHttp url:'+url+','+httpType);
   xhr.onload = function() {
     if (xhr.status == 200) {
-      return callback(null, xhr.responseText);
+      return callback.call(that, null, xhr.responseText);
     } else {
-      return callback('kHttpERR-' + xhr.status, xhr.responseText, xhr);
+      return callback.call(that, 'kHttpERR-' + xhr.status, xhr.responseText);
     }
   };
 };
 
 var kPost = function(url, data, headers, callback) {
-  kHttp(url, 'POST', data, headers, callback);
+  kHttp(this, url, 'POST', data, headers, callback);
 };
 var kGet = function(url, headers, callback) {
-  kHttp(url, 'GET', null, headers, callback);
+  kHttp(this, url, 'GET', null, headers, callback);
 };
 
 Vue.prototype.$kc = {

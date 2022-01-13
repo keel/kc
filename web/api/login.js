@@ -4,7 +4,7 @@
 'use strict';
 const cck = require('cck');
 const ktool = require('ktool');
-const kc = require('kc');
+const kc = require('../../lib/kc');
 const fail2ban = kc.fail2ban;
 const iApi = kc.iApi;
 const render = kc.render();

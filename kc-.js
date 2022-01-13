@@ -5,8 +5,7 @@ const kconfig = kc.kconfig;
 
 //生成项目express主进程
 const app = kc.createApp(__dirname);
-// const sideMenu = require('./web/api/_sideMenu');
-// const app = kc.createApp(__dirname, sideMenu.createNav);
+// const app = kc.createApp(__dirname, pageMiddleWare);
 
 
 //附加有dbsInitOK事件会在redis,mongo.mysql初始化完成后触发

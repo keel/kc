@@ -6,7 +6,7 @@
   "s$_sessionKey": "[#random]",
   "sessionExpire": 1800,
   "sessionType": "mem",
-  "failLoginRedirect": "login",
+  "failLoginRedirect": "/login",
   "s$_apiKey": "[#apiKey]",
   "fail2ban": 3600,
   "fail2banTimes": 5,

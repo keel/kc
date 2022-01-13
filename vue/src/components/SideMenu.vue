@@ -4,20 +4,20 @@
       <router-link :to="{name:'Home'}" style="color: #FFF; text-decoration: none;"><i class="el-icon-menu"></i> {{(isCollapse)?'':'控制台'}}</router-link>
     </div>
     <el-menu :collapse-transition="false" :router="true" class="menu-vertical" :collapse="isCollapse">
-      <el-menu-item index="/">
-        <i class="el-icon-s-home"></i>
-        <template v-slot:title>首页</template>
-      </el-menu-item>
-      <el-submenu index="projects">
-        <template v-slot:title>
-          <i class="el-icon-s-order"></i><span>项目</span>
+
+      <template v-for="mItem in menuArr">
+        <template v-if="mItem.subs">
+          <el-submenu :index="mItem.link" :key="mItem.link">
+            <template v-slot:title>
+              <i  :class="mItem.icon"></i><span>{{ mItem.name }}</span>
+            </template>
+            <el-menu-item  v-for="subItem in mItem.subs" :index="subItem.link" :key="subItem.link"><i class="el-icon-caret-right"></i><template v-slot:title>{{ subItem.name }}</template></el-menu-item>
+          </el-submenu>
         </template>
-        <el-menu-item index="proj-list"><i class="el-icon-caret-right"></i>项目列表</el-menu-item>
-        <el-menu-item index="proj-search"><i class="el-icon-caret-right"></i>项目查询</el-menu-item>
-      </el-submenu>
-      <el-menu-item index="about"><i class="el-icon-document"></i><template v-slot:title>关于导航2</template></el-menu-item>
-      <el-menu-item index="nothing"><i class="el-icon-s-data"></i><template v-slot:title>关于导航3</template></el-menu-item>
-      <el-menu-item index="/login"><i class="el-icon-s-opportunity"></i><template v-slot:title>退出系统</template></el-menu-item>
+        <template v-else>
+          <el-menu-item :index="mItem.link" :key="mItem.link"><i :class="mItem.icon"></i><template v-slot:title>{{ mItem.name }}</template></el-menu-item>
+        </template>
+      </template>
 
     </el-menu>
   </el-aside>
@@ -31,11 +31,19 @@ export default {
   'data': function() {
     return {
       'isCollapse': this.isToCollapse,
+      'menuArr':[],
     }
   },
   mounted() {
-    //TODO : 根据接口返回数据生成菜单
-    // this.$kc.kPost();
+    this.$kc.kPost('/sideMenu/showMenu','{}',(err, reData) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const reJson = JSON.parse('' + reData);
+      console.log('sideMenu data:',reJson);
+      this.menuArr = reJson.data;
+    });
   },
   'methods': {
 

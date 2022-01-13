@@ -21,6 +21,8 @@ import {
   CheckboxButton,
   DatePicker,
   Link,
+  Form,
+  FormItem,
 } from 'element-ui';
 
 const commps = [Button,
@@ -43,6 +45,8 @@ const commps = [Button,
   CheckboxButton,
   DatePicker,
   Link,
+  Form,
+  FormItem,
 ];
 for (const i in commps) {
   Vue.use(commps[i]);
