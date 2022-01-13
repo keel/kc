@@ -22,6 +22,15 @@ const kconfig = kc.kconfig;
 const firstUser = kconfig.get('firstUser');
 
 
+const loginTest = function(req, resp, callback) {
+  const loginName = req.body.loginName;
+  // const loginPwd = req.body.loginPwd;
+  if (loginName.toLowerCase().indexOf('keel') >= 0) {
+    return callback(null, { 'code': 0 });
+  }
+  callback(null, error.json('auth', '用户名密码验证失败，请重试.'));
+};
+
 const login = function(req, resp, callback) {
   const reqDataArr = iApi.parseApiReq(req.body, apiKey);
   // vlog.log('reqData:%j',reqData);
@@ -63,7 +72,7 @@ const login = function(req, resp, callback) {
         'loginPwd': 1,
         'createTime': 1,
         'level': 1,
-        'permission':1,
+        'permission': 1,
       }
     };
     // vlog.log('body:%j,options:%j', reqData, options);
@@ -107,7 +116,7 @@ const iiConfig = {
         'loginName': inputCheck,
         'loginPwd': inputCheck
       },
-      'resp': login
+      'resp': loginTest
     }
   }
 };

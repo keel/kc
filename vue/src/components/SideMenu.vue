@@ -37,11 +37,10 @@ export default {
   mounted() {
     this.$kc.kPost('/sideMenu/showMenu','{}',(err, reData) => {
       if (err) {
-        console.error(err);
+        this.$kc.lerr(err);
         return;
       }
       const reJson = JSON.parse('' + reData);
-      console.log('sideMenu data:',reJson);
       this.menuArr = reJson.data;
     });
   },

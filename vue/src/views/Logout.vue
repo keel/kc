@@ -1,17 +1,13 @@
 <template>
-  <LoginForm />
+  <span />
 </template>
 <script>
-  import LoginForm from '../components/LoginForm.vue';
-  export default {
-    'name': 'Logout',
-    'components':{
-      LoginForm
-    },
-    mounted(){
-      this.$kc.kGet('/logout',() => {
-        console.log('logout');
-      });
-    },
-  }
+export default {
+  'name': 'Logout',
+  mounted() {
+    this.$kc.kPost('/logout', '{}', () => {
+      this.$router.push('/login');
+    });
+  },
+}
 </script>

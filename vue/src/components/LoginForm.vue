@@ -10,7 +10,7 @@
             <el-input v-model="oneForm.loginName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="loginPwd">
-            <el-input v-model="oneForm.loginPwd" autocomplete="off"  show-password></el-input>
+            <el-input v-model="oneForm.loginPwd" autocomplete="off" show-password></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('oneForm')">登录</el-button>
@@ -60,12 +60,22 @@ export default {
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!');
-        } else {
-          console.log('error submit!!');
+        if (!valid) {
+          console.log('error valid!!');
           return false;
         }
+        this.$kc.kPost('/login', { 'loginName': this.oneForm.loginName, 'loginPwd': this.oneForm.loginPwd }, (err, reData) => {
+          if (err) {
+            console.error('login Fail:' + reData);
+            return;
+          }
+          const reJson = JSON.parse('' + reData);
+          if (reJson.code === 0) {
+            this.$router.push('/home');
+          }else{
+            console.error('login Fail:' + reData);
+          }
+        });
       });
     },
     resetForm(formName) {

@@ -22,13 +22,11 @@
 </template>
 <script>
 import SideMenu from '../components/SideMenu.vue';
-import Test1 from '../components/Test1.vue';
 
 export default {
   'name': 'Main',
   'components': {
     SideMenu,
-    Test1,
   },
   'data': function() {
     return {
@@ -37,6 +35,9 @@ export default {
   },
   mounted(){
     this.$kc.$('elHeader').removeAttribute("style"); //清除el-header的bug
+    if(this.$router.currentRoute.name === 'Main'){
+      this.$router.push('/home');
+    }
   },
   'methods': {
     menuFold() {
