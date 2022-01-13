@@ -1,6 +1,6 @@
 <template>
   <el-row type="flex" justify="center" align="middle" style="height: 100%;">
-    <el-col :xs="24" :sm="12" :md="10" :lg="8" :xl="6">
+    <el-col :xs="24" :sm="16" :md="12" :lg="8" :xl="6">
       <el-card class="box-card" style="width: 100%;background-color: #FFF;">
         <div slot="header" class="clearfix">
           <div style="text-align:center;width: 100%;color:#000;">登录</div>
