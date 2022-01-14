@@ -277,7 +277,7 @@
   .el-date-table.is-week-mode .el-date-table__row:hover div {
     background-color: #F2F6FC; }
   .el-date-table.is-week-mode .el-date-table__row:hover td.available:hover {
-    color: #9595b5; }
+    color: #dedefd; }
   .el-date-table.is-week-mode .el-date-table__row:hover td:first-child div {
     margin-left: 5px;
     border-top-left-radius: 15px;
@@ -364,10 +364,10 @@
       border-radius: 15px; }
     .el-date-table td.week {
       font-size: 80%;
-      color: #9595b5; }
+      color: #dedefd; }
   .el-date-table th {
     padding: 5px;
-    color: #9595b5;
+    color: #dedefd;
     font-weight: 400;
     border-bottom: solid 1px #EBEEF5; }
 
@@ -531,7 +531,7 @@
       height: 36px;
       display: block;
       line-height: 36px;
-      color: #9595b5;
+      color: #dedefd;
       margin: 0 auto;
       border-radius: 18px; }
       .el-month-table td .cell:hover {
@@ -710,7 +710,7 @@
       height: 32px;
       display: block;
       line-height: 32px;
-      color: #9595b5;
+      color: #dedefd;
       margin: 0 auto; }
       .el-year-table td .cell:hover {
         color: #6c5ffc; }
@@ -910,7 +910,7 @@
   height: 32px;
   line-height: 32px;
   font-size: 12px;
-  color: #9595b5; }
+  color: #dedefd; }
   .el-time-spinner__item:hover:not(.disabled):not(.active) {
     background: #6c5ffc;
     cursor: pointer; }
@@ -1473,7 +1473,7 @@
     width: 39%;
     text-align: center;
     font-size: 14px;
-    color: #9595b5; }
+    color: #dedefd; }
     .el-date-editor .el-range-input::-webkit-input-placeholder {
       color: #C0C4CC; }
     .el-date-editor .el-range-input::-moz-placeholder {
@@ -1982,7 +1982,7 @@
 /* Break-point
 --------------------------*/
 .el-picker-panel {
-  color: #9595b5;
+  color: #dedefd;
   border: 1px solid #E4E7ED;
   -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -2011,7 +2011,7 @@
     background-color: transparent;
     line-height: 28px;
     font-size: 14px;
-    color: #9595b5;
+    color: #dedefd;
     padding-left: 12px;
     text-align: left;
     outline: none;
@@ -2110,7 +2110,7 @@
     line-height: 22px;
     text-align: center;
     cursor: pointer;
-    color: #9595b5; }
+    color: #dedefd; }
     .el-date-picker__header-label:hover {
       color: #6c5ffc; }
     .el-date-picker__header-label.active {
@@ -2961,7 +2961,7 @@
     box-sizing: border-box;
     width: 100%;
     font-size: inherit;
-    color: #9595b5;
+    color: #dedefd;
     background-color: #2a2a4a;
     background-image: none;
     border: 1px solid #4A4B6D;
@@ -3058,7 +3058,7 @@
     border: 1px solid #4A4B6D;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    color: #9595b5;
+    color: #dedefd;
     display: inline-block;
     font-size: inherit;
     height: 40px;

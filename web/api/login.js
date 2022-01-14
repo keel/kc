@@ -22,10 +22,20 @@ const kconfig = kc.kconfig;
 const firstUser = kconfig.get('firstUser');
 
 
-const loginTest = function(req, resp, callback) {
-  const loginName = req.body.loginName;
-  // const loginPwd = req.body.loginPwd;
-  if (loginName.toLowerCase().indexOf('keel') >= 0) {
+const loginTest2 = function(req, resp, callback) {
+  const reqDataArr = iApi.parseApiReq(req.body, apiKey);
+  if (reqDataArr[0] !== 0) {
+    return callback(null, { 'code': reqDataArr[0] });
+  }
+  const reqData = reqDataArr[1];
+  try {
+    let pwdStr = Buffer.from(reqData.loginPwd, 'base64').toString();
+    pwdStr = pwdStr.substring(pwdStr.indexOf('@') + 1);
+    console.log('=====pwd:[%s]', pwdStr);
+  } catch (e) {
+    return callback(null, error.json('auth', '用户名密码验证失败，请重试.'));
+  }
+  if (reqData.loginName && reqData.loginName.toLowerCase().indexOf('keel') >= 0) {
     return callback(null, { 'code': 0 });
   }
   callback(null, error.json('auth', '用户名密码验证失败，请重试.'));
@@ -35,25 +45,34 @@ const login = function(req, resp, callback) {
   const reqDataArr = iApi.parseApiReq(req.body, apiKey);
   // vlog.log('reqData:%j',reqData);
   if (reqDataArr[0] !== 0) {
-    return callback(null, { 're': reqDataArr[0] });
+    return callback(null, { 'code': reqDataArr[0] });
   }
   const reqData = reqDataArr[1];
-
+  let pwdStr;
+  try {
+    pwdStr = Buffer.from(reqData.loginPwd, 'base64').toString();
+    pwdStr = pwdStr.substring(pwdStr.indexOf('@') + 1);
+    // console.log('=====pwd:[%s]', pwdStr);
+  } catch (e) {
+    return callback(null, error.json('auth', '用户名密码验证失败，请重试.'));
+  }
 
   //用于首次创建用户登录使用
   if (firstUser && firstUser.isFirst) {
-    if (reqData.loginName === firstUser.loginName && reqData.loginPwd === firstUser.loginPwd) {
+    if (reqData.loginName === firstUser.loginName && pwdStr === firstUser.loginPwd) {
       sessionAuth.setAuthedWithParas(req, resp, firstUser._id, firstUser.level, { 'userName': firstUser.loginName, 'userPermission': kc.auth.getAuthMap() }, function(err, re) {
         if (err) {
           return callback(vlog.ee(err, 'login:setAuthed', reqData), re, 500, 'cache');
         }
-        return callback(null, { 're': '0' });
+        return callback(null, { 'code': 0 });
       });
     } else {
-      return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 403);
+      return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 200);
     }
     return;
   }
+
+
 
   fail2ban.checkBan(reqData.loginName, (err, waitHours) => {
     if (err) {
@@ -81,29 +100,24 @@ const login = function(req, resp, callback) {
         return callback(vlog.ee(err, 'login:queryOneFromDb', reqData));
       }
       if (!re) {
-        return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 403);
+        return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 200);
       }
       //密码使用sha1保存
-      if (re.loginPwd && re.loginPwd === ktool.sha1(reqData.loginPwd + ',' + re.createTime)) {
+      if (re.loginPwd && re.loginPwd === ktool.sha1(pwdStr + ',' + re.createTime)) {
         // console.log('login user:%j', re);
         sessionAuth.setAuthedWithParas(req, resp, re._id, re.level, { 'userName': re.name, 'userPermission': re.permission }, function(err) {
           if (err) {
             return callback(vlog.ee(err, 'login:setAuthed', reqData), re, 500, 'cache');
           }
-          callback(null, { 're': '0' });
+          callback(null, { 'code': 0 });
         });
       } else {
-        return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 403);
+        return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 200);
       }
     });
   });
 };
 
-
-const inputCheck = function(input) {
-  const re = cck.check(input, 'strLen', [3, 18]);
-  return re;
-};
 
 
 const iiConfig = {
@@ -113,10 +127,10 @@ const iiConfig = {
       'showLevel': showLevel,
       'isXssFilter': true,
       'validator': {
-        'loginName': inputCheck,
-        'loginPwd': inputCheck
+        'loginName': ['strLen', [2, 150]],
+        'loginPwd': ['strLen', [6, 150]]
       },
-      'resp': loginTest
+      'resp': login
     }
   }
 };
@@ -126,15 +140,7 @@ const iiConfig = {
 exports.router = function() {
   const router = iApi.getRouter(iiConfig);
   router.get('*', function(req, resp, next) { // eslint-disable-line
-    resp.send(render.login());
-    // if (req.userLevel < showLevel) {
-    //   resp.status(404).send('40401');
-    //   return;
-    // }
-    // resp.send(render.user({
-    //   level: req.userLevel,
-    //   cpid: req.userId
-    // }));
+    resp.send('404');
   });
 
   return router;

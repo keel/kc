@@ -303,7 +303,7 @@
     font-size: 14px;
     line-height: 21px;
     margin: 6px 0 0 0;
-    color: #9595b5;
+    color: #dedefd;
     text-align: justify; }
     .el-notification__content p {
       margin: 0; }
@@ -319,7 +319,7 @@
     color: #9595b5;
     font-size: 16px; }
     .el-notification__closeBtn:hover {
-      color: #9595b5; }
+      color: #dedefd; }
   .el-notification .el-icon-success {
     color: #67C23A; }
   .el-notification .el-icon-error {

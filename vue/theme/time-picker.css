@@ -550,7 +550,7 @@
     width: 39%;
     text-align: center;
     font-size: 14px;
-    color: #9595b5; }
+    color: #dedefd; }
     .el-date-editor .el-range-input::-webkit-input-placeholder {
       color: #C0C4CC; }
     .el-date-editor .el-range-input::-moz-placeholder {
@@ -789,7 +789,7 @@
 /* Break-point
 --------------------------*/
 .el-picker-panel {
-  color: #9595b5;
+  color: #dedefd;
   border: 1px solid #E4E7ED;
   -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -818,7 +818,7 @@
     background-color: transparent;
     line-height: 28px;
     font-size: 14px;
-    color: #9595b5;
+    color: #dedefd;
     padding-left: 12px;
     text-align: left;
     outline: none;
@@ -1068,7 +1068,7 @@
   height: 32px;
   line-height: 32px;
   font-size: 12px;
-  color: #9595b5; }
+  color: #dedefd; }
   .el-time-spinner__item:hover:not(.disabled):not(.active) {
     background: #6c5ffc;
     cursor: pointer; }
@@ -1716,7 +1716,7 @@
     box-sizing: border-box;
     width: 100%;
     font-size: inherit;
-    color: #9595b5;
+    color: #dedefd;
     background-color: #2a2a4a;
     background-image: none;
     border: 1px solid #4A4B6D;
@@ -1813,7 +1813,7 @@
     border: 1px solid #4A4B6D;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    color: #9595b5;
+    color: #dedefd;
     display: inline-block;
     font-size: inherit;
     height: 40px;

@@ -1489,7 +1489,7 @@
     box-sizing: border-box;
     width: 100%;
     font-size: inherit;
-    color: #9595b5;
+    color: #dedefd;
     background-color: #2a2a4a;
     background-image: none;
     border: 1px solid #4A4B6D;
@@ -1586,7 +1586,7 @@
     border: 1px solid #4A4B6D;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    color: #9595b5;
+    color: #dedefd;
     display: inline-block;
     font-size: inherit;
     height: 40px;
@@ -2521,7 +2521,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #9595b5;
+  color: #dedefd;
   height: 34px;
   line-height: 34px;
   -webkit-box-sizing: border-box;
@@ -3361,7 +3361,7 @@
   .el-pagination__sizes {
     margin: 0 10px 0 0;
     font-weight: normal;
-    color: #9595b5; }
+    color: #dedefd; }
     .el-pagination__sizes .el-input .el-input__inner {
       font-size: 13px;
       padding-left: 8px; }
@@ -3370,11 +3370,11 @@
   .el-pagination__total {
     margin-right: 10px;
     font-weight: normal;
-    color: #9595b5; }
+    color: #dedefd; }
   .el-pagination__jump {
     margin-left: 24px;
     font-weight: normal;
-    color: #9595b5; }
+    color: #dedefd; }
     .el-pagination__jump .el-input__inner {
       padding: 0 3px; }
   .el-pagination__rightwrapper {
@@ -3401,7 +3401,7 @@
   .el-pagination.is-background .el-pager li {
     margin: 0 5px;
     background-color: #e7f1fc;
-    color: #9595b5;
+    color: #dedefd;
     min-width: 30px;
     border-radius: 2px; }
     .el-pagination.is-background .btn-prev.disabled,

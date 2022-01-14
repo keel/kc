@@ -670,7 +670,7 @@
 /* Break-point
 --------------------------*/
 .el-checkbox {
-  color: #9595b5;
+  color: #dedefd;
   font-weight: 500;
   font-size: 14px;
   position: relative;
@@ -856,7 +856,7 @@
     background: #2a2a4a;
     border: 1px solid #4A4B6D;
     border-left: 0;
-    color: #9595b5;
+    color: #dedefd;
     -webkit-appearance: none;
     text-align: center;
     -webkit-box-sizing: border-box;
@@ -1336,7 +1336,7 @@
 /* Break-point
 --------------------------*/
 .el-radio {
-  color: #9595b5;
+  color: #dedefd;
   font-weight: 500;
   line-height: 1;
   position: relative;
@@ -1805,7 +1805,7 @@
   min-width: 180px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  color: #9595b5;
+  color: #dedefd;
   border-right: solid 1px #E4E7ED; }
   .el-cascader-menu:last-child {
     border-right: none; }
@@ -1850,7 +1850,7 @@
   line-height: 34px;
   outline: none; }
   .el-cascader-node.is-selectable.in-active-path {
-    color: #9595b5; }
+    color: #dedefd; }
   .el-cascader-node.in-active-path, .el-cascader-node.is-selectable.in-checked-path, .el-cascader-node.is-active {
     color: #6c5ffc;
     font-weight: bold; }

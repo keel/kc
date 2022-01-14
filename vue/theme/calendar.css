@@ -676,7 +676,7 @@
   background: #2a2a4a;
   border: 1px solid #4A4B6D;
   border-color: #4A4B6D;
-  color: #9595b5;
+  color: #dedefd;
   -webkit-appearance: none;
   text-align: center;
   -webkit-box-sizing: border-box;
@@ -1071,7 +1071,7 @@
     -ms-flex-pack: justify;
     justify-content: space-between;
     padding: 12px 20px;
-    border-bottom: 1px solid #EBEEF5; }
+    border-bottom: 1px solid #4A4B6D; }
   .el-calendar__title {
     color: #000000;
     -ms-flex-item-align: center;
@@ -1084,14 +1084,14 @@
   width: 100%; }
   .el-calendar-table thead th {
     padding: 12px 0;
-    color: #9595b5;
+    color: #dedefd;
     font-weight: normal; }
   .el-calendar-table:not(.is-range) td.prev,
   .el-calendar-table:not(.is-range) td.next {
     color: #C0C4CC; }
   .el-calendar-table td {
-    border-bottom: 1px solid #EBEEF5;
-    border-right: 1px solid #EBEEF5;
+    border-bottom: 1px solid #4A4B6D;
+    border-right: 1px solid #4A4B6D;
     vertical-align: top;
     -webkit-transition: background-color 0.2s ease;
     transition: background-color 0.2s ease; }
@@ -1100,9 +1100,9 @@
     .el-calendar-table td.is-today {
       color: #6c5ffc; }
   .el-calendar-table tr:first-child td {
-    border-top: 1px solid #EBEEF5; }
+    border-top: 1px solid #4A4B6D; }
   .el-calendar-table tr td:first-child {
-    border-left: 1px solid #EBEEF5; }
+    border-left: 1px solid #4A4B6D; }
   .el-calendar-table tr.el-calendar-table__row--hide-border td {
     border-top: none; }
   .el-calendar-table .el-calendar-day {

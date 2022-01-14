@@ -303,7 +303,7 @@
   .el-link [class*="el-icon-"] + span {
     margin-left: 5px; }
   .el-link.el-link--default {
-    color: #9595b5; }
+    color: #dedefd; }
     .el-link.el-link--default:hover {
       color: #6c5ffc; }
     .el-link.el-link--default:after {

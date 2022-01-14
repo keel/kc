@@ -9,8 +9,18 @@ body, html {
 display:none !important;
 }
 
+.el-message-box {
+  background-color: #1B1C3B;
+  border: none;
+}
 
-
+/*.el-table tr{
+  background-color: #1B1C3B;
+  border-color: #9595b5;
+}*/
+/*.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell{
+  background-color: #2a2a4a;
+}*/
 .el-card {
   margin-top: 10px;
   background-color: #2a2a4a;

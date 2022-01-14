@@ -4,7 +4,7 @@
 <script>
   import LoginForm from '../components/LoginForm.vue';
   export default {
-    'name': 'Logout',
+    'name': 'Login',
     'components':{
       LoginForm
     },

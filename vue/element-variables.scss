@@ -51,7 +51,7 @@ $--color-info-lighter: mix($--color-white, $--color-info, 90%) !default;
 /// color|1|Font Color|2
 $--color-text-primary: #f6f6fb !default;
 /// color|1|Font Color|2
-$--color-text-regular: #9595b5 !default;
+$--color-text-regular: #dedefd !default;
 /// color|1|Font Color|2
 $--color-text-secondary: #9595b5 !default;
 /// color|1|Font Color|2
@@ -629,14 +629,14 @@ $--dialog-padding-primary: 20px !default;
 /* Table
 -------------------------- */
 /// color||Color|0
-$--table-border-color: $--border-color-lighter !default;
+$--table-border-color: $--border-color-base !default;
 $--table-border: 1px solid $--table-border-color !default;
 /// color||Color|0
 $--table-font-color: $--color-text-regular !default;
 /// color||Color|0
 $--table-header-font-color: $--color-text-secondary !default;
 /// color||Color|0
-$--table-row-hover-background-color: $--background-color-base !default;
+$--table-row-hover-background-color: #1B1C3B !default;
 $--table-current-row-background-color: $--color-primary-light-9 !default;
 /// color||Color|0
 $--table-header-background-color: $--background-color-card !default;
@@ -749,7 +749,7 @@ $--badge-size: 18px !default;
 /* Card
 --------------------------*/
 /// color||Color|0
-$--card-border-color: $--border-color-lighter !default;
+$--card-border-color: #4a4b6d !default;
 $--card-border-radius: 4px !default;
 /// padding||Spacing|3
 $--card-padding: 20px !default;
@@ -785,7 +785,7 @@ $--menu-item-font-size: $--font-size-base !default;
 /// color||Color|0
 $--menu-item-font-color: $--color-text-primary !default;
 /// color||Color|0
-$--menu-background-color: #2a2a4a !default;
+$--menu-background-color: $--background-color-card !default;
 $--menu-item-hover-fill: #37386a !default;
 
 /* Rate

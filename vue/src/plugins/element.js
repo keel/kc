@@ -23,6 +23,11 @@ import {
   Link,
   Form,
   FormItem,
+  MessageBox,
+  Loading,
+  Table,
+  TableColumn,
+  Pagination,
 } from 'element-ui';
 
 const commps = [Button,
@@ -47,7 +52,22 @@ const commps = [Button,
   Link,
   Form,
   FormItem,
+  Table,
+  TableColumn,
+  Pagination,
+  // MessageBox,
+  // Loading,
 ];
 for (const i in commps) {
   Vue.use(commps[i]);
 }
+
+Vue.use(Loading.directive);
+
+Vue.prototype.$loading = Loading.service;
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$prompt = MessageBox.prompt;
+// Vue.prototype.$notify = Notification;
+// Vue.prototype.$message = Message;

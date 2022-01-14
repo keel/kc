@@ -287,7 +287,7 @@
   .el-breadcrumb__item {
     float: left; }
     .el-breadcrumb__inner {
-      color: #9595b5; }
+      color: #dedefd; }
       .el-breadcrumb__inner.is-link, .el-breadcrumb__inner a {
         font-weight: bold;
         text-decoration: none;
@@ -301,7 +301,7 @@
     .el-breadcrumb__item:last-child .el-breadcrumb__inner a,
     .el-breadcrumb__item:last-child .el-breadcrumb__inner a:hover {
       font-weight: normal;
-      color: #9595b5;
+      color: #dedefd;
       cursor: text; }
     .el-breadcrumb__item:last-child .el-breadcrumb__separator {
       display: none; }

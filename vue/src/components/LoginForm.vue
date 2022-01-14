@@ -1,7 +1,7 @@
 <template>
   <el-row type="flex" justify="center" align="middle" style="height: 100%;">
     <el-col :xs="24" :sm="16" :md="12" :lg="8" :xl="6">
-      <el-card class="box-card" style="width: 100%;background-color: #FFF;">
+      <el-card class="box-card" style="width: 100%;background-color: #1B1C3B;">
         <div slot="header" class="clearfix">
           <div style="text-align:center;width: 100%;color:#000;">登录</div>
         </div>
@@ -25,55 +25,61 @@
 export default {
   'name': 'LoginForm',
   data() {
-    var validatePass = (rule, value, callback) => {
-      if (!value || value.length < 6) {
-        callback(new Error('请正确输入密码'));
-      } else {
-        if (this.oneForm.loginName !== '') {
-          this.$refs.oneForm.validateField('loginName');
-        }
-        callback();
-      }
-    };
-    var validateLoginName = (rule, value, callback) => {
-      if (!value || value.length < 4) {
-        callback(new Error('用户名长度不够'));
-      } else {
-        callback();
-      }
-    };
     return {
-      oneForm: {
-        loginPwd: '',
-        loginName: '',
+      'oneForm': {
+        'loginPwd': '',
+        'loginName': '',
       },
-      rules: {
-        loginPwd: [
-          { validator: validatePass, trigger: 'blur' }
-        ],
-        loginName: [
-          { validator: validateLoginName, trigger: 'blur' }
-        ],
-      }
+      'rules': {}
+    };
+  },
+
+  mounted() {
+    this.rules = {
+      'loginPwd': [{
+        'validator': (rule, value, callback) => {
+          if (!value || value.length < 6) {
+            callback(new Error('请正确输入密码'));
+          } else {
+            if (this.oneForm.loginName !== '') {
+              this.$refs.oneForm.validateField('loginName');
+            }
+            callback();
+          }
+        },
+        'trigger': 'blur'
+      }],
+      'loginName': [{
+        'validator': (rule, value, callback) => {
+          if (!value || value.length < 4) {
+            callback(new Error('用户名长度不够'));
+          } else {
+            callback();
+          }
+        },
+        'trigger': 'blur'
+      }],
     };
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (!valid) {
-          console.log('error valid!!');
+          // console.log('error valid!!');
           return false;
         }
-        this.$kc.kPost('/login', { 'loginName': this.oneForm.loginName, 'loginPwd': this.oneForm.loginPwd }, (err, reData) => {
+        this.$kc.apiReq('/login', { 'loginName': this.oneForm.loginName, 'loginPwd': this.$kc.codeTool().b64(Date.now() + '@' + this.oneForm.loginPwd) }, (err, reData) => {
           if (err) {
-            console.error('login Fail:' + reData);
+            console.error('login Fail1:' + reData);
+            this.$alert((reData ? reData : '请检查输入'), '登录失败');
             return;
           }
           const reJson = JSON.parse('' + reData);
-          if (reJson.code === 0) {
+          if ('' + reJson.code === '0') {
             this.$router.push('/home');
-          }else{
-            console.error('login Fail:' + reData);
+          } else {
+            console.error('login Fail2:' + reJson.data);
+            this.$alert(reJson.data || '请检查输入', '登录失败');
           }
         });
       });
@@ -84,3 +90,4 @@ export default {
   }
 }
 </script>
+

@@ -8,11 +8,12 @@ const iApi = kc.iApi;
 const error = require('../../lib/error');
 // const vlog = require('vlog').instance(__filename);
 
-
+const adminLevel = 10;
 const isTest = true;
 
 const homeLink = { 'name': '首页', 'link': '/home', 'icon': 'el-icon-s-home' };
 const menuArr = [
+
   {
     'name': '项目',
     'link': 'projectTitle',
@@ -62,13 +63,12 @@ const showMenu = function(req, resp, callback) {
 
   const userLv = (req.userLevel === undefined) ? -1 : req.userLevel;
   const menu = [];
-  if (userLv >= 0) {
+  if (userLv >= 0 || isTest) {
     menu.push(homeLink);
   }
   //管理员直接返回所有菜单
-  if (userLv >= 99 || isTest) {
-    menuArr.unshift(homeLink);
-    return callback(null, { 'code': 0, 'data': menuArr });
+  if (userLv >= adminLevel || isTest) {
+    return callback(null, { 'code': 0, 'data': menu.concat(menuArr) });
   }
   const permission = req.sessionValue ? req.sessionValue.userPermission : {};
 
