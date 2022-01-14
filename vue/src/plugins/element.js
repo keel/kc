@@ -28,6 +28,8 @@ import {
   Table,
   TableColumn,
   Pagination,
+  Breadcrumb,
+  BreadcrumbItem,
 } from 'element-ui';
 
 const commps = [Button,
@@ -55,6 +57,8 @@ const commps = [Button,
   Table,
   TableColumn,
   Pagination,
+  Breadcrumb,
+  BreadcrumbItem,
   // MessageBox,
   // Loading,
 ];

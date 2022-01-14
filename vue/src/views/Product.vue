@@ -1,5 +1,12 @@
 <template>
-  <div class="about">
-    <h1>This is an Product page</h1>
-  </div>
+  <TableList />
 </template>
+<script>
+  import TableList from '../components/TableList.vue';
+  export default {
+    'name': 'Product',
+    'components':{
+      TableList
+    },
+  }
+</script>
