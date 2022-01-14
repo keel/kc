@@ -415,7 +415,7 @@ var mkSign = function(data, key) {
     str += '&' + pArr[i];
   }
   str = str.substring(1) + '&key=' + key;
-  console.log('mkSign', str);
+  // console.log('mkSign', str);
   return codeTool().hex_sha1(str);
 };
 var mkApiReq = function(data) {
