@@ -2,9 +2,9 @@
   <TableList />
 </template>
 <script>
-  import TableList from '../components/TableList.vue';
+  import TableList from '../../components/TableList.vue';
   export default {
-    'name': 'Product',
+    'name': 'project',
     'components':{
       TableList
     },

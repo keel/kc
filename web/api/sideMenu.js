@@ -11,9 +11,8 @@ const error = require('../../lib/error');
 const adminLevel = 10;
 const isTest = true;
 
-const homeLink = { 'name': '首页', 'link': '/home', 'icon': 'el-icon-s-home' };
+const homeLink = { 'name': '首页', 'link': '/', 'icon': 'el-icon-s-home' };
 const menuArr = [
-
   {
     'name': '项目',
     'link': 'projectTitle',

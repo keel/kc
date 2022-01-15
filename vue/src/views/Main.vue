@@ -7,7 +7,7 @@
           <el-row>
             <el-col :span="4"><el-link :underline="false" icon="el-icon-s-fold" @click="menuFold()"></el-link></el-col>
             <el-col :span="20" style="text-align: right;" id="nav">
-              <router-link :to="{name:'Home'}">Home</router-link> |
+              <router-link :to="{path:'/'}">Main</router-link> |
               <router-link :to="{name:'About'}">About</router-link> |
               <router-link :to="{name:'Nothing'}">Nothing</router-link>
             </el-col>
@@ -35,9 +35,9 @@ export default {
   },
   mounted(){
     this.$kc.$('elHeader').removeAttribute("style"); //清除el-header的bug
-    if(this.$router.currentRoute.name === 'Main'){
-      this.$router.push('/home');
-    }
+    // if(this.$router.currentRoute.name === 'Main'){
+    //   this.$router.push('/home');
+    // }
   },
   'methods': {
     menuFold() {
