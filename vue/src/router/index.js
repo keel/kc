@@ -8,7 +8,6 @@ Vue.use(VueRouter);
 
 const routes = [{
     path: '/',
-    name: 'Main',
     component: Main,
     children: [
       { 'path': '', 'component': Home },
@@ -33,7 +32,7 @@ const routes = [{
   { 'path': '*', 'component': () => import('../views/NotFound.vue') },
 ];
 
-//自动添加curd目录下的所有vue到路径
+//自动添加curd目录下的所有vue到routes
 const contexts = require.context('../views/curd', false, /\.vue$/);
 contexts.keys().forEach((fileName) => {
   const routePath = fileName.split('/').pop().replace(/\.vue$/, '');

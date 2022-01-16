@@ -21,7 +21,7 @@
 </template>
 <script>
 export default {
-  'name': 'TableAdd',
+  'name': 'CurdAdd',
   data() {
     return {
       'addForm': {

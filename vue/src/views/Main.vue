@@ -35,9 +35,6 @@ export default {
   },
   mounted(){
     this.$kc.$('elHeader').removeAttribute("style"); //清除el-header的bug
-    // if(this.$router.currentRoute.name === 'Main'){
-    //   this.$router.push('/home');
-    // }
   },
   'methods': {
     menuFold() {

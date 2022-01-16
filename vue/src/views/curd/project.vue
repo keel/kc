@@ -1,12 +1,12 @@
 <template>
-  <TableList />
+  <CurdList />
 </template>
 <script>
-  import TableList from '../../components/TableList.vue';
+  import CurdList from '../../components/CurdList.vue';
   export default {
     'name': 'project',
     'components':{
-      TableList
+      CurdList
     },
   }
 </script>

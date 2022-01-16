@@ -1,17 +1,20 @@
 <template>
   <div>
-    <TableList />
-    <TableAdd />
+    <CurdList />
+    <CurdAdd />
+    <CurdOne />
   </div>
 </template>
 <script>
-  import TableList from '../../components/TableList.vue';
-  import TableAdd from '../../components/TableAdd.vue';
+  import CurdList from '../../components/CurdList.vue';
+  import CurdAdd from '../../components/CurdAdd.vue';
+  import CurdOne from '../../components/CurdOne.vue';
   export default {
-    'name': 'Product',
+    'name': 'product',
     'components':{
-      TableList,
-      TableAdd,
+      CurdList,
+      CurdAdd,
+      CurdOne,
     },
   }
 </script>
