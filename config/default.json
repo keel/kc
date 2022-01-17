@@ -22,7 +22,7 @@
     "loginName":"admin",
     "loginPwd":"helloFirst",
     "level":10,
-    "_id":0
+    "_id":999
   },
   "vlogRedisLevel":"log",
   "mongo": {

@@ -2,7 +2,7 @@
 curd,默认与vue前端配合,示例见最下方注释
  */
 'use strict';
-const kc = require('kc');
+const kc = require('../../lib/kc');
 const ktool = require('ktool');
 const iApi = kc.iApi;
 const error = require('../../lib/error');
@@ -19,12 +19,18 @@ const processProp = function(prop) {
   const validatorAdd = {};
   const validatorUpdate = {};
   const checkTypeMap = {};
-  const formatter = {};
+  const formatterArr = [];
+  const tableTitles = [];
   for (let i = 0, len = prop.fields.length; i < len; i++) {
     const item = prop.fields[i];
     fieldsMap[item.col] = item;
-    if (!item.hide || item.hide.indexOf('all') < 0 || item.hide.indexOf('list') < 0) {
+    if (!item.hide || (item.hide.indexOf('all') < 0 && item.hide.indexOf('list') < 0)) {
       listProjection[item.col] = 1;
+      const titleObj = { 'prop': item.col, 'label': item.name };
+      if (item.width) {
+        titleObj.width = item.width;
+      }
+      tableTitles.push(titleObj);
     }
     if (item.input) {
       customInputType[item.col] = item.input;
@@ -46,17 +52,17 @@ const processProp = function(prop) {
       checkTypeMap[item.col] = 'unknown';
     }
     if (item.formatter) {
-      formatter[item.col] = item.formatter;
+      formatterArr.push({ 'col': item.col, 'fn': item.formatter });
     }
-  }
 
+  }
   prop.listProjection = listProjection;
   prop.fieldsMap = fieldsMap;
   prop.customInputType = customInputType;
   prop.validatorAdd = validatorAdd;
   prop.validatorUpdate = validatorUpdate;
-  prop.formatter = formatter;
-
+  prop.formatterArr = formatterArr;
+  prop.tableTitles = tableTitles;
   //处理默认值
   if (!prop.tbName) {
     prop.tbName = prop.tb;
@@ -92,14 +98,12 @@ const processProp = function(prop) {
   if (!prop.beforeList) {
     prop.beforeList = function(req, query, callback) { callback(null, query); };
   }
-  if (prop.curdLevel && prop.curdLevel.length > 0) {
-    const curdArr = ['c', 'u', 'r', 'd', 'm'];
-    const lvLen = prop.curdLevel.length;
-    for (let i = 0, len = curdArr.length; i < len; i++) {
-      const lvVal = (lvLen >= i) ? 0 : parseInt(prop.curdLevel[i]);
-      const lvKey = curdArr[i] + 'Level';
-      prop[lvKey] = lvVal;
-    }
+  const curdArr = ['c', 'u', 'r', 'd', 'm'];
+  const lvLen = (prop.curdLevel) ? prop.curdLevel.length : 0;
+  for (let i = 0, len = curdArr.length; i < len; i++) {
+    const lvVal = (lvLen <= i) ? 0 : parseInt(prop.curdLevel[i]);
+    const lvKey = curdArr[i] + 'Level';
+    prop[lvKey] = lvVal;
   }
   return prop;
 };
@@ -164,18 +168,27 @@ function instance(prop) {
   };
 
   const reDataTables = function(showNew, showOne, draw, recordsFiltered, recordsTotal, data, err) {
-    let re = '{"code":0,';
-    re += '"draw":' + draw + ',';
     if (err) {
-      re += '"err":"' + err + '"}';
-      return re;
+      return error.json('curdList', err);
     }
-    re += '"recordsTotal":' + recordsTotal + ',';
-    re += '"recordsFiltered":' + recordsFiltered + ',';
-    re += '"data":' + JSON.stringify(data) + ',';
-    re += '"showNew":' + showNew + ',';
-    re += '"showOne":' + showOne + '}';
-    // vlog.log('re:%s',re);
+    if (me.formatterArr.length > 0) {
+      for (let i = 0, len = data.length; i < len; i++) {
+        for (const j in me.formatterArr) {
+          const fm = me.formatterArr[j];
+          data[i][fm.col] = fm.fn(data[i][fm.col]);
+        }
+      }
+    }
+    const re = {
+      'code': 0,
+      draw,
+      recordsTotal,
+      recordsFiltered,
+      data,
+      showNew,
+      showOne,
+      'tableTitles': me.tableTitles,
+    };
     return re;
   };
 
@@ -188,10 +201,9 @@ function instance(prop) {
     let showUpdate = true;
     let showDel = true;
     if (me.authPath) {
-      // console.log('p:' + renderName + '/' + (renderType.toLowerCase()));
-      if (!req.sessionValue || !req.sessionValue.userPermission || !req.sessionValue.userPermission[me.authPath + '/one']) {
-        return callback(null, error.json('auth'));
-      }
+      // if (!kc.auth.auth(req, me.authPath + '/one')) {  //iApi会自动检测权限
+      //   return callback(null, error.json('auth'));
+      // }
       if (!req.sessionValue.userPermission[me.authPath + '/del']) {
         showDel = false;
       }
@@ -202,7 +214,7 @@ function instance(prop) {
     me.db.c(me.tb, me.dbConf).findOne({ '_id': me.db.idObj(req.params.id) }, function(err, re) {
       if (err) {
         vlog.eo(err, 'showId', me.tb + '/' + req.params.id);
-        return callback(null, error.json('showId'));
+        return callback(null, error.json('curdOne'));
       }
       if (re) {
         if (me.formatter) {
@@ -213,7 +225,7 @@ function instance(prop) {
         me.onOne(req, re, (err, reData) => {
           if (err) {
             vlog.eo(err, 'showId.onOne', me.tb + '/' + req.params.id);
-            return callback(null, error.json('showId'));
+            return callback(null, error.json('curdOne'));
           }
 
           const respObj = {
@@ -235,7 +247,8 @@ function instance(prop) {
 
 
   const mkListQueryFromSearch = function(req, query) {
-    const search = ktool.dotSelector(req.body, 'search.value');
+    // const search = ktool.dotSelector(req.body, 'search.value');
+    const search = req.body.search;
     if (!search || search.trim() === '') {
       return;
     }
@@ -286,11 +299,11 @@ function instance(prop) {
 
 
   me.doList = function(req, resp, query, showNew, showOne, callback) {
-    mkListQueryFromSearch(query);
+    mkListQueryFromSearch(req, query);
     // vlog.log('req.body:%j',req.body);
     const draw = parseInt(req.body.draw);
     if (isNaN(draw)) {
-      resp.send('');
+      callback(null, (error.json('curdList')));
       return;
     }
     const start = parseInt(req.body.start);
@@ -315,7 +328,7 @@ function instance(prop) {
         me.db.c(me.tb, me.dbConf).query(query, opt, function(err, docs) {
           if (err) {
             vlog.error(err.stack);
-            resp.send(reDataTables(showNew, showOne, draw, 0, 0, null, 'server error 2'));
+            callback(null, (reDataTables(showNew, showOne, draw, 0, 0, null, 'server error 2')));
             return;
           }
           // vlog.log('docs:%j',docs);
@@ -324,10 +337,10 @@ function instance(prop) {
               if (err) {
                 return vlog.eo(err, '');
               }
-              resp.send(reDataTables(showNew, showOne, draw, dbCount, respData.length, ktool.xssFilter(respData)));
+              callback(null, (reDataTables(showNew, showOne, draw, dbCount, respData.length, respData)));
             });
           } else {
-            resp.send(reDataTables(showNew, showOne, draw, dbCount, 0, []));
+            callback(null, (reDataTables(showNew, showOne, draw, dbCount, 0, [])));
           }
         });
       });
@@ -338,9 +351,9 @@ function instance(prop) {
     let showNew = true;
     let showOne = true;
     if (me.authPath) {
-      if (!req.sessionValue || !req.sessionValue.userPermission || !req.sessionValue.userPermission[me.authPath + '/list']) {
-        return resp.send(error.json('auth'));
-      }
+      // if (!kc.auth.auth(req, me.authPath + '/list')) { //iApi会自动检测权限
+      //   return callback(null, (error.json('auth')));
+      // }
       if (!req.sessionValue.userPermission[me.authPath + '/add']) {
         showNew = false;
       }
@@ -368,20 +381,21 @@ function instance(prop) {
 
 
   const update = function(req, resp, callback) {
-    if (me.authPath) {
-      if (!req.sessionValue || !req.sessionValue.userPermission || !req.sessionValue.userPermission[me.authPath + '/update']) {
-        return resp.send(error.json('auth'));
-      }
-    }
+    // if (me.authPath) {  //iApi会自动检测权限
+    //   if (!kc.auth.auth(req, me.authPath + '/update')) {
+    //     return callback(null, (error.json('auth')));
+    //   }
+    // }
     const reqDataArr = iApi.parseApiReq(req.body, me.apiKey);
     if (reqDataArr[0] !== 0) {
-      return callback(vlog.ee(new Error('iApi update'), 'kc iApi update error', reqDataArr), null, 200, reqDataArr[0]);
+      return error.apiErr('iApi update', callback, '' + reqDataArr[0]);
+      // return callback(vlog.ee(new Error('iApi update'), 'kc iApi update error', reqDataArr), null, 200, reqDataArr[0]);
     }
     const reqData = reqDataArr[1];
 
     me.onUpdate(req, reqData, (err) => {
       if (err) {
-        return error.apiErr(err, callback, 'curdUpdate');
+        return error.apiErr(err, callback, 'curdOnUpdate');
       }
       // vlog.log('update reqData:%j', reqData);
       const query = {
@@ -408,14 +422,14 @@ function instance(prop) {
   };
 
   const del = function(req, resp, callback) {
-    if (me.authPath) {
-      if (!req.sessionValue || !req.sessionValue.userPermission || !req.sessionValue.userPermission[me.authPath + '/del']) {
-        return resp.send(error.json('auth'));
-      }
-    }
+    // if (me.authPath) { //iApi会自动检测权限
+    //   if (!kc.auth.auth(req, me.authPath + '/del')) {
+    //     return callback(null, error.json('auth'));
+    //   }
+    // }
     const reqDataArr = iApi.parseApiReq(req.body, me.apiKey);
     if (reqDataArr[0] !== 0) {
-      return callback(vlog.ee(new Error('iApi del'), 'kc iApi del error', reqDataArr), null, 200, reqDataArr[0]);
+      return error.apiErr('iApi del', callback, '' + reqDataArr[0]);
     }
     const reqData = reqDataArr[1];
     // vlog.log('del reqData:%j',reqData);
@@ -423,9 +437,9 @@ function instance(prop) {
       _id: me.db.idObj(reqData.c_id)
     };
     // vlog.log('curd del: %j',query);
-    me.db.c(me.tb, me.dbConf).deleteMany(query, null, function(err, re) {
+    me.db.c(me.tb, me.dbConf).deleteOne(query, null, function(err, re) {
       if (err) {
-        return error.apiErr(err, callback, 'hardDel');
+        return error.apiErr(err, callback, 'curdDel');
       }
       const respObj = iApi.makeApiResp(0, 'ok', me.apiKey);
       callback(null, respObj);
@@ -436,14 +450,14 @@ function instance(prop) {
   };
 
   const add = function(req, resp, callback) {
-    if (me.authPath) {
-      if (!req.sessionValue || !req.sessionValue.userPermission || !req.sessionValue.userPermission[me.authPath + '/add']) {
-        return resp.send(error.json('auth'));
-      }
-    }
+    // if (me.authPath) { //iApi会自动检测权限
+    //   if (!kc.auth.auth(req, me.authPath + '/add')) {
+    //     return callback(null, error.json('auth'));
+    //   }
+    // }
     const reqDataArr = iApi.parseApiReq(req.body, me.apiKey);
     if (reqDataArr[0] !== 0) {
-      return callback(vlog.ee(new Error('iApi add'), 'kc iApi add error', reqDataArr), null, 200, reqDataArr[0]);
+      return error.apiErr('iApi add', callback, '' + reqDataArr[0]);
     }
     const reqData = reqDataArr[1];
     // vlog.log('curd add req body:%j',req.body);
@@ -482,14 +496,14 @@ function instance(prop) {
 
 
   const updateOne = function(req, resp, callback) {
-    if (me.authPath) {
-      if (!req.sessionValue || !req.sessionValue.userPermission || !req.sessionValue.userPermission[me.authPath + '/updateOne']) {
-        return resp.send(error.json('auth'));
-      }
-    }
+    // if (me.authPath) { //iApi会自动检测权限
+    //   if (!kc.auth.auth(req, me.authPath + '/updateOne')) {
+    //     return callback(null, error.json('auth'));
+    //   }
+    // }
     const reqDataArr = iApi.parseApiReq(req.body, me.apiKey);
     if (reqDataArr[0] !== 0) {
-      return callback(vlog.ee(new Error('iApi updateOne'), 'kc iApi updateOne error', reqDataArr), null, 200, reqDataArr[0]);
+      return error.apiErr('iApi updateOne', callback, '' + reqDataArr[0]);
     }
     const reqData = reqDataArr[1];
     const editType = reqData.type;
@@ -503,7 +517,7 @@ function instance(prop) {
 
     me.onUpdateOne(req, reqData, (err) => {
       if (err) {
-        return error.apiErr(err, callback, 'onUpdateOne');
+        return error.apiErr(err, callback, 'curdOnUpdateOne');
       }
       // vlog.log('curd updateOne reqData:%j', reqData);
       const query = {
@@ -512,7 +526,7 @@ function instance(prop) {
 
       const update = me.setUpdate(reqData);
       if (update === null) {
-        resp.send(error.json('params'));
+        callback(null, error.json('params'));
         return;
       }
 
@@ -520,7 +534,7 @@ function instance(prop) {
         //直接删除!!
         me.db.c(me.tb, me.dbConf).deleteOne(query, function(err) {
           if (err) {
-            return error.apiErr(err, callback, 'onUpdateOne.del');
+            return error.apiErr(err, callback, 'curdUpdateOne');
           }
           const respObj = iApi.makeApiResp(0, { 'code': 'ok' }, me.apiKey);
 
@@ -539,7 +553,7 @@ function instance(prop) {
       // vlog.log('curd updateOne: %j,query:%j', update, query);
       me.db.c(me.tb, me.dbConf).updateOne(query, update, { 'upsert': false }, function(err, re) {
         if (err) {
-          return error.apiErr(err, callback, 'onUpdateOne');
+          return error.apiErr(err, callback, 'curdUpdateOne');
         }
         const changeIndexs = [4, 13, 14];
         const listFiles = me.listProjection;
@@ -569,42 +583,42 @@ function instance(prop) {
     'act': {
       'list': {
         'showLevel': me.rLevel,
-        'isXssFilter': true,
+        // 'isXssFilter': true,
         'resp': list,
         'authName': '-列表',
       },
       'add': {
         'showLevel': me.cLevel,
         'validator': me.validatorAdd,
-        'isXssFilter': true,
+        // 'isXssFilter': true,
         'resp': add,
         'authName': '-新建',
       },
       'update': {
         'showLevel': me.uLevel,
         'validator': me.validatorUpdate,
-        'isXssFilter': true,
+        // 'isXssFilter': true,
         'resp': update,
         'authName': '-修改',
       },
       'updateOne': {
         'showLevel': me.uLevel,
         'validator': me.validatorUpdate,
-        'isXssFilter': true,
+        // 'isXssFilter': true,
         'resp': updateOne,
         'authName': '-单项修改',
       },
       'del': {
         'showLevel': me.dLevel,
         // 'validator': me.validatorDel,
-        'isXssFilter': true,
+        // 'isXssFilter': true,
         'resp': del,
         'authName': '-硬删除',
       },
       'one': {
         'showLevel': me.rLevel,
         // 'validator': me.validatorDel,
-        'isXssFilter': true,
+        // 'isXssFilter': true,
         'resp': showId,
         'authName': '-详情页',
       },

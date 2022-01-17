@@ -1,5 +1,5 @@
 /**
- * 用于生成页面左边导航
+ * 用于生成dot前端页面左边导航,vue前端不用
  */
 'use strict';
 // const ktool = require('ktool');

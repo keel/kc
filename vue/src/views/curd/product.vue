@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CurdList />
+    <CurdList tbName="product" tbTxt="产品" />
     <CurdAdd />
     <CurdOne />
   </div>

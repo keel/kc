@@ -57,7 +57,7 @@ const login = function(req, resp, callback) {
     return callback(null, error.json('auth', '用户名密码验证失败，请重试.'));
   }
 
-  //用于首次创建用户登录使用
+  //用于首次创建用户登录使用,具备所有权限
   if (firstUser && firstUser.isFirst) {
     if (reqData.loginName === firstUser.loginName && pwdStr === firstUser.loginPwd) {
       sessionAuth.setAuthedWithParas(req, resp, firstUser._id, firstUser.level, { 'userName': firstUser.loginName, 'userPermission': kc.auth.getAuthMap() }, function(err, re) {
