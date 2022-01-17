@@ -167,7 +167,7 @@ function instance(prop) {
     return out;
   };
 
-  const reDataTables = function(showNew, showOne, draw, recordsFiltered, recordsTotal, data, err) {
+  const reDataTables = function(showNew, showOne, draw, recordsTotal, recordsFiltered, data, err) {
     if (err) {
       return error.json('curdList', err);
     }

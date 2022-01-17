@@ -16,7 +16,15 @@
         </el-table-column>
       </el-table>
       <div style="text-align:right;padding-top: 10px;">
-        <el-pagination layout="sizes, prev, pager, next" :total="1000">
+        <span style="float:left;padding-top: 8px;color: #dedefd;font-size: 12px;">第 {{(recordsFiltered>0)?(start+1):0}} 至 {{start+recordsFiltered}} 项, 共 {{recordsTotal}} 项 (本页 {{recordsFiltered}} 项)</span>
+        <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="pageNum"
+        :page-sizes="[10, 25, 50, 100]"
+        :page-size="pageSize"
+        layout="sizes, prev, pager, next"
+        :total="recordsTotal">
         </el-pagination>
       </div>
     </el-card>
@@ -46,8 +54,11 @@ export default {
       },
       'tableTitles': [],
       'tableData': [],
-      'start': 0,
-      'length': 20,
+      'start':0,
+      'pageNum': 1,
+      'pageSize': 25,
+      'recordsTotal':0,
+      'recordsFiltered':0,
       'search': '',
     }
   },
@@ -55,19 +66,12 @@ export default {
     this.showList();
   },
   'methods': {
-    showList(pageNum, pageLen) {
-      if (!pageNum || pageNum <= 0) {
-        pageNum = 1;
-      }
-      if (!pageLen || pageLen <= 0) {
-        pageLen = 20;
-      }
-      this.start = (pageNum - 1) * pageLen;
-      this.length = pageLen;
+    showList() {
+      this.start = (this.pageNum - 1) * this.pageSize;
       const reqObj = {
         'draw': 1, //列表id,因为curd列表只有一个,这里写死
         'start': this.start,
-        'length': this.length,
+        'length': this.pageSize,
         'search': this.search,
       };
       this.$kc.kPost('/' + this.tb + '/list', JSON.stringify(reqObj), (err, reData) => {
@@ -86,9 +90,21 @@ export default {
           return;
         }
         this.tableTitles = reJson.tableTitles;
+        this.recordsTotal = reJson.recordsTotal;
+        this.recordsFiltered = reJson.recordsFiltered;
         this.tableData = reJson.data;
       });
     },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.pageSize = val;
+      this.showList();
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.pageNum = val;
+      this.showList();
+    }
   }
 }
 </script>
