@@ -36,11 +36,11 @@ const processProp = function(prop) {
       customInputType[item.col] = item.input;
     }
     if (item.validator) {
-      if (typeof item.validator === 'string' && item.validator.indexOf(0) === '@') {
+      if (typeof item.validator === 'string' && item.validator.charAt(0) === '@') {
         const valKey = item.col;
         const valiVal = item.validator.substring(1);
-        validatorAdd[valKey] = valiVal;
-        validatorUpdate[valKey] = valiVal;
+        validatorAdd['@' + valKey] = valiVal;
+        validatorUpdate['@' + valKey] = valiVal;
       } else {
         validatorAdd[item.col] = item.validator;
         validatorUpdate['@' + item.col] = item.validator;
@@ -57,6 +57,7 @@ const processProp = function(prop) {
 
   }
   prop.listProjection = listProjection;
+  prop.checkTypeMap = checkTypeMap;
   prop.fieldsMap = fieldsMap;
   prop.customInputType = customInputType;
   prop.validatorAdd = validatorAdd;
@@ -163,7 +164,7 @@ function instance(prop) {
     if (_inc) {
       out['$inc'] = _inc;
     }
-    // vlog.log('_curd update:%j',out);
+    // vlog.log('_curd setUpdate:%j',out);
     return out;
   };
 
@@ -397,9 +398,8 @@ function instance(prop) {
       if (err) {
         return error.apiErr(err, callback, 'curdOnUpdate');
       }
-      // vlog.log('update reqData:%j', reqData);
       const query = {
-        '_id': me.db.idObj(reqData.c_id)
+        '_id': me.db.idObj(reqData._id)
       };
       const update = me.setUpdate(reqData);
       if (update === null) {
@@ -434,7 +434,7 @@ function instance(prop) {
     const reqData = reqDataArr[1];
     // vlog.log('del reqData:%j',reqData);
     const query = {
-      _id: me.db.idObj(reqData.c_id)
+      _id: me.db.idObj(reqData._id)
     };
     // vlog.log('curd del: %j',query);
     me.db.c(me.tb, me.dbConf).deleteOne(query, null, function(err, re) {
@@ -521,7 +521,7 @@ function instance(prop) {
       }
       // vlog.log('curd updateOne reqData:%j', reqData);
       const query = {
-        _id: me.db.idObj(reqData.c_id)
+        _id: me.db.idObj(reqData._id)
       };
 
       const update = me.setUpdate(reqData);

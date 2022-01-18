@@ -19,6 +19,24 @@ var lerr = function() {
   console.error.apply(window, args);
 };
 
+const clone = function(json) {
+  if (Array.isArray(json)) {
+    const target = [];
+    for (let i = 0, len = json.length; i < len; i++) {
+      target.push(clone(json[i]));
+    }
+    return target;
+  }
+  if (Object.prototype.toString.call(json) === '[object Object]') {
+    const target = {};
+    for (const i in json) {
+      target[i] = clone(json[i]);
+    }
+    return target;
+  }
+  return json;
+};
+
 var codeTool = function(hexcaseIn, b64padIn, chrszIn) {
   var me = {};
 
@@ -430,7 +448,6 @@ var mkApiReq = function(data) {
 };
 
 var apiReq = function(url, data, callback) {
-  console.log('b64_decode:[' + codeTool().b64_decode(data.loginPwd) + ']');
   kPost.call(this, url, mkApiReq(data), callback);
 };
 
@@ -448,4 +465,5 @@ Vue.prototype.$kc = {
   kGet,
   apiReq,
   codeTool,
+  clone,
 };

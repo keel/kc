@@ -5,7 +5,7 @@
   "ts": 0,
   "s$_sessionKey": "sessionauthbythiskey",
   "sessionExpire": 1800,
-  "sessionType": "mem",
+  "sessionType": "redis",
   "failLoginRedirect": "/login",
   "s$_apiKey": "[#apiKey]",
   "ignoreIpCheck":false,

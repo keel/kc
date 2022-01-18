@@ -30,6 +30,7 @@ import {
   Pagination,
   Breadcrumb,
   BreadcrumbItem,
+  Message,
 } from 'element-ui';
 
 const commps = [Button,
@@ -74,4 +75,4 @@ Vue.prototype.$alert = MessageBox.alert;
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 // Vue.prototype.$notify = Notification;
-// Vue.prototype.$message = Message;
+Vue.prototype.$message = Message;

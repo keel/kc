@@ -1,27 +1,26 @@
 <template>
   <div>
-    <div style="padding:20px">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>{{ tbTxt }}</el-breadcrumb-item>
-        <el-breadcrumb-item>{{ tbTxt }}列表</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <div style="width: 100%;color:#dedefd;">{{ tbTxt }}列表</div>
       </div>
       <el-table :data="tableData" :row-style="rowStyle" :header-row-style="headerRowStyle" style="width: 100%">
         <el-table-column v-for="item in tableTitles" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width">
+          <template slot-scope="scope">
+            <template v-if="(item.prop == 'name')" >
+              <el-link style="color:#dedefd;" @click="showOne(scope.row)">{{scope.row.name}}</el-link>
+            </template>
+            <template v-else>{{scope.row[item.prop]}}</template>
+          </template>
         </el-table-column>
       </el-table>
       <div style="text-align:right;padding-top: 10px;">
-        <span style="float:left;padding-top: 8px;color: #dedefd;font-size: 12px;">第 {{(recordsFiltered>0)?(start+1):0}} 至 {{start+recordsFiltered}} 项, 共 {{recordsTotal}} 项 (本页 {{recordsFiltered}} 项)</span>
+        <span style="float:left;padding-top: 8px;color: #dedefd;font-size: 13px;">第 {{(recordsFiltered>0)?(start+1):0}} 至 {{start+recordsFiltered}} 项, 共 {{recordsTotal}} 项 (本页 {{recordsFiltered}} 项)</span>
         <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="pageNum"
-        :page-sizes="[10, 25, 50, 100]"
+        :page-sizes="[10, 20, 50, 100]"
         :page-size="pageSize"
         layout="sizes, prev, pager, next"
         :total="recordsTotal">
@@ -56,7 +55,7 @@ export default {
       'tableData': [],
       'start':0,
       'pageNum': 1,
-      'pageSize': 25,
+      'pageSize': 20,
       'recordsTotal':0,
       'recordsFiltered':0,
       'search': '',
@@ -66,6 +65,9 @@ export default {
     this.showList();
   },
   'methods': {
+    showOne(oneObj){
+      this.$emit('showOne',oneObj);
+    },
     showList() {
       this.start = (this.pageNum - 1) * this.pageSize;
       const reqObj = {
@@ -93,15 +95,14 @@ export default {
         this.recordsTotal = reJson.recordsTotal;
         this.recordsFiltered = reJson.recordsFiltered;
         this.tableData = reJson.data;
+        this.$emit('setTableTitles',this.tableTitles);
       });
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
       this.pageSize = val;
       this.showList();
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
       this.pageNum = val;
       this.showList();
     }

@@ -36,7 +36,7 @@ const prop = {
       'input': null, //输入类型,为空则为input,可自定义
       'formatter': null, //显示前进行处理的方法
     },
-    { 'col': 'fee', 'name': '资费(元)', 'type': 'int', 'validator': 'strInt', 'formatter': (data) => { return cck.priceIntShow(data) + '元'; } },
+    { 'col': 'fee', 'name': '资费(元)', 'type': 'int', 'validator': 'strInt' },
     {
       'col': 'feeType',
       'name': '计费类型',
@@ -67,7 +67,7 @@ const prop = {
 
   'onAdd': function(req, reqData, callback) {
     const now = Date.now();
-    const dbObj = {
+    const newObj = {
       'name': reqData.name.trim(),
       'feeType': reqData.feeType.trim(),
       'fee': cck.priceStrParse('' + reqData.fee),
@@ -76,19 +76,20 @@ const prop = {
       'createTime': now,
       'creatorId':req.userId,
     };
-    if (kc.iCache.getSync('product:name:' + dbObj.name)) {
-      return callback('重复产品名称: ' + dbObj.name);
+    if (kc.iCache.getSync('product:name:' + newObj.name)) {
+      return callback('重复产品名称: ' + newObj.name);
     }
-    dbObj.py = Pinyin.getPY(dbObj.name);
-    callback(null, dbObj);
+    newObj.py = Pinyin.getPY(newObj.name);
+    callback(null, newObj);
   },
   'onUpdate': function(req, reqData, callback) {
     const cacheOne = kc.iCache.getSync('product:name:' + reqData.name);
     if (cacheOne && '' + cacheOne._id !== reqData.c_id) {
       return callback('已存在重复产品名称: ' + reqData.name, callback, 'alreadyExists');
     }
-    reqData.fee = cck.priceStrParse('' + reqData.fee);
-    callback();
+    // reqData.fee = cck.priceStrParse('' + reqData.fee);
+    delete reqData.createTime;
+    callback(null, reqData);
   },
   // 'beforeList' : function(req, query, callback) { callback(null, query); }; //执行list的query之前
   // 'onList':function(req, listArr, callback) { callback(null, listArr); }, //执行list数据输出之前
@@ -126,7 +127,7 @@ const refreshCache = function(pid, isDel) {
 
     kc.iCache.cacheTable('mem', 'mongo', prop.tb, '_id,name', {
       _id: otherMongo.idObj(pid)
-    }, null, function(err) {
+    }, {'dbConfigName':'test2'}, function(err) { //dbConfigName指定非默认mongo,一般可不带此参数
       if (err) {
         vlog.error(err.stack);
         return;
@@ -140,10 +141,10 @@ ci.on('addOK', function(reqBody, uId, uLevel, dbObj) {
   refreshCache('' + dbObj._id);
 });
 ci.on('updateOK', function(reqBody, uId, uLevel) { // eslint-disable-line
-  refreshCache(reqBody.req.c_id);
+  refreshCache(reqBody.req._id);
 });
 ci.on('hardDelOK', function(reqBody, uId, uLevel) { // eslint-disable-line
-  refreshCache(reqBody.req.c_id, true);
+  refreshCache(reqBody.req._id, true);
 });
 
 exports.router = function() {
