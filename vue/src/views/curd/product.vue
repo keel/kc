@@ -11,8 +11,8 @@
       </div>
     </div>
     <CurdList v-show="(this.showContent === 'list')" ref="curdList" :tbName="tbName" :tbTxt="tbTxt"  @showOne="showOne" @setTableTitles="setTableTitles" />
-    <CurdOne v-show="(this.showContent === 'one')" style="display: none;" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" :oneObjIn="oneObj" @showList="showListNow" />
-    <CurdAdd v-show="(this.showContent === 'add')" style="display: none;" ref="curdAdd" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" />
+    <CurdOne v-show="(this.showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" :oneObjIn="oneObj" @showList="showListNow" />
+    <CurdAdd v-show="(this.showContent === 'add')" ref="curdAdd" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" />
   </div>
 </template>
 <script>
