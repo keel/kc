@@ -83,10 +83,10 @@ const prop = {
     callback(null, newObj);
   },
   'onUpdate': function(req, reqData, callback) {
-    const cacheOne = kc.iCache.getSync('product:name:' + reqData.name);
-    if (cacheOne && '' + cacheOne._id !== reqData.c_id) {
-      return callback('已存在重复产品名称: ' + reqData.name, callback, 'alreadyExists');
-    }
+    // const cacheOne = kc.iCache.getSync('product:name:' + reqData.name);
+    // if (cacheOne && '' + cacheOne._id !== reqData.c_id) {
+    //   return callback('已存在重复产品名称: ' + reqData.name, callback, 'alreadyExists');
+    // }
     // reqData.fee = cck.priceStrParse('' + reqData.fee);
     delete reqData.createTime;
     callback(null, reqData);

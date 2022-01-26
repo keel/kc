@@ -10,7 +10,7 @@
           <!-- 这里处理input样式,逐个匹配input.type,暂未找到更合适的方法 -->
           <template v-if="item.input">
             <template v-if="(item.input.type == 'datetime')">
-              <el-date-picker v-show="isUpdate" @input="$forceUpdate()" v-model="updateObj[item.prop]" type="datetime" value-format="timestamp" :readonly="false" placeholder="选择日期时间"></el-date-picker>
+              <el-date-picker v-show="isUpdate" @input="$forceUpdate()" v-model="updateObj[item.prop]" type="datetime" value-format="timestamp" placeholder="选择日期时间"></el-date-picker>
             </template>
             <template v-else-if="(item.input.type == 'radio')">
               <el-radio v-show="isUpdate" @input="$forceUpdate()" v-for="radioItem in item.input.options" :key="radioItem.key" v-model="updateObj[item.prop]" :label="radioItem.val">{{radioItem.key}}</el-radio>
@@ -115,7 +115,7 @@ export default {
           return;
         }
         this.$alert('更新成功!');
-        this.oneObj = this.updateObj;
+        this.showList(true);
       });
     },
     doDel() {
