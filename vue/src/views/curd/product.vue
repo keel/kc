@@ -10,7 +10,7 @@
       </div>
     </div>
     <CurdList v-show="(this.showContent === 'list')" ref="curdList" :tbName="tbName" :tbTxt="tbTxt"  @showOne="showOne" @setTableTitles="setTableTitles" />
-    <CurdOne v-show="(this.showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" :oneObjIn="oneObj" @showList="showListNow" />
+    <CurdOne v-show="(this.showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" />
     <CurdAdd v-show="(this.showContent === 'add')" ref="curdAdd" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" />
   </div>
 </template>
@@ -30,21 +30,18 @@
         'tbName':'product',
         'tbTxt':'产品',
         'showContent':'list',
-        'oneObj':null,
         'tableTitles':null,
       };
     },
     'methods':{
       showOne(oneObj){
         // console.log('=====showOne:',oneObj);
-        this.oneObj = oneObj;
         this.showContent = 'one';
-        this.$refs.curdOne.showOneProp(this.oneObj,this.tableTitles);
+        this.$refs.curdOne.showOneProp(oneObj,this.tableTitles);
       },
       showListNow(isRefresh){
         // console.log('=====showListNow',isRefresh);
         this.showContent = 'list';
-        this.oneObj = null;
         if (isRefresh) {
           this.$refs.curdList.showList();
         }

@@ -109,6 +109,43 @@ const priceIntShow = function(priceInt, isDeciForce) {
   return out;
 };
 
+//返回以分为单位的整数，小数只支持两位，两位以上直接截断忽略
+const priceStrParse = function(priceStr) {
+  priceStr = priceStr.replace(/,/g, '');
+  let isNegative = false;
+  if (priceStr.startsWith('-')) {
+    isNegative = true;
+    priceStr = priceStr.substring(1);
+  }
+  if (!priceStr.match(/^[\d]+[\\.]?[\d]*$/g)) {
+    throw new Error('no priceStr');
+  }
+  const pointPo = priceStr.indexOf('.');
+  const pLen = priceStr.length;
+  let out = 0;
+  if (pointPo < 0) {
+    out = parseInt(priceStr + '00');
+  } else if (pointPo === pLen - 1) {
+    out = parseInt(priceStr.substring(0, pLen - 1) + '00');
+  } else {
+    const intNum = priceStr.substring(0, pointPo);
+    let deciNumEnd = pointPo + 3;
+    let deciAdd = '';
+    if (pLen - pointPo === 2) {
+      //1位小数特别处理
+      deciNumEnd = pointPo + 2;
+      deciAdd = '0';
+    }
+    // console.log('deciNumEnd', deciNumEnd, 'pLen', pLen, 'pointPo', pointPo);
+    const deciNum = priceStr.substring(pointPo + 1, deciNumEnd);
+    // console.log('intNum:', intNum, 'deciNum', deciNum);
+    out = parseInt('' + intNum + deciNum + deciAdd);
+  }
+  if (isNegative) {
+    return 0 - out;
+  }
+  return out;
+};
 
 const showValMap = {
   'pwd': () => { return '***'; },
@@ -522,4 +559,6 @@ Vue.prototype.$kc = {
   codeTool,
   clone,
   showValue,
+  priceIntShow,
+  priceStrParse,
 };

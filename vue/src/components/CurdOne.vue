@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <div style="width: 100%;color:#dedefd;">{{oneTbTxt}}详情</div>
       </div>
-      <el-form :model="oneObj" status-icon :rules="rules" label-width="100px">
+      <el-form :model="updateObj" status-icon :rules="rules" label-width="100px">
         <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label">
           <span v-show="!isUpdate">{{$kc.showValue(item.val, item.input)}}</span>
           <!-- 这里处理input样式,逐个匹配input.type,暂未找到更合适的方法 -->
@@ -40,16 +40,16 @@
 //<CurdInput v-show="isUpdate" :inputConf="item.input" :value="updateObj[item.prop]" />
 export default {
   'name': 'CurdOne',
-  'props': ['oneObjIn', 'tbName', 'tbTxt'],
+  'props': ['tbName', 'tbTxt'],
   // 'components': {
   //   CurdInput
   // },
   data() {
     return {
       'oneArr': [],
-      'oneObj': this.oneObjIn,
       'updateObj': {},
       'rules': {},
+      'inputMap':{},
       'isUpdate': false,
       'oneTbName': this.tbName,
       'oneTbTxt': this.tbTxt,
@@ -57,49 +57,72 @@ export default {
         'datetimeBAK': (val) => { //通过value-format定义解决了
           return new Date(val);
         },
-        'rmb':this.$kc.priceIntShow,
+        'rmb': (val) => {
+          return this.$kc.priceIntShow(val);
+        },
+      },
+      'inputFormatBackMap': {
+        'datetimeBAK': (val) => { //通过value-format定义解决了
+          return val.getTime();
+        },
+        'rmb': (val) => {
+          return this.$kc.priceStrParse(val);
+        },
       },
     };
   },
   'methods': {
     cloneOneObj(newOne) {
-      this.oneObj = newOne;
       this.updateObj = {};
       for (const i in newOne) {
         const thisOne = newOne[i];
         this.updateObj[i] = thisOne;
-        if (thisOne.input) {
-          const inputFormater = this.inputFormatMap[thisOne.input.type];
+        if (this.inputMap[i]) {
+          const inputFormater = this.inputFormatMap[this.inputMap[i].type];
           if (inputFormater) {
-            this.updateObj[i] = inputFormater(thisOne.val);
+            this.updateObj[i] = inputFormater(thisOne);
           }
         }
       }
     },
-    showOneProp(newOne, tableTitles) {
-      if (newOne) {
-        this.cloneOneObj(newOne);
+    mkUpdateObj(){
+      const out = {};
+      for (const i in this.updateObj) {
+        const thisOne = this.updateObj[i];
+        out[i] = thisOne;
+        if (this.inputMap[i]) {
+          const inputFormater = this.inputFormatBackMap[this.inputMap[i].type];
+          if (inputFormater) {
+            out[i] = inputFormater(thisOne);
+          }
+        }
       }
-      if (!this.oneObj || !tableTitles) {
+      return out;
+    },
+    showOneProp(newOne, tableTitles) {
+      if (!newOne || !tableTitles) {
         return;
       }
       const arr = [];
       for (let i = 0, len = tableTitles.length; i < len; i++) {
         const titleOne = tableTitles[i];
-        arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'val': this.updateObj[titleOne.prop], 'input': titleOne.input });
+        arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'val': newOne[titleOne.prop], 'input': titleOne.input });
+        if (titleOne.input) {
+          this.inputMap[titleOne.prop] = titleOne.input;
+        }
       }
       this.oneArr = arr;
+      this.cloneOneObj(newOne);
     },
     showList(isRefresh) {
       this.isUpdate = false;
       this.$emit('showList', isRefresh);
     },
     showUpdate() {
-      this.cloneOneObj(this.oneObj);
       this.isUpdate = true;
     },
     doUpdate() {
-      this.$kc.apiReq('/' + this.tbName + '/update', this.updateObj, (err, reData) => {
+      this.$kc.apiReq('/' + this.tbName + '/update', this.mkUpdateObj(), (err, reData) => {
         if (err) {
           this.$kc.lerr('updateERR:' + err);
           if (('' + err).indexOf('403') >= 0) {
@@ -124,7 +147,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$kc.apiReq('/' + this.tbName + '/del', { '_id': '' + this.oneObj._id }, (err, reData) => {
+        this.$kc.apiReq('/' + this.tbName + '/del', { '_id': '' + this.updateObj._id }, (err, reData) => {
           if (err) {
             this.$kc.lerr('delERR:' + err);
             if (('' + err).indexOf('403') >= 0) {
