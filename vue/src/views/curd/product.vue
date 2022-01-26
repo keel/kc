@@ -4,7 +4,6 @@
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>{{ tbTxt }}</el-breadcrumb-item>
-        <el-breadcrumb-item>{{ tbTxt }}列表</el-breadcrumb-item>
       </el-breadcrumb>
       <div style="padding-top: 20px;">
         <el-button size="small" type="primary" @click="showAdd()">新建</el-button>

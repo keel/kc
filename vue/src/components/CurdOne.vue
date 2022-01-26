@@ -6,8 +6,23 @@
       </div>
       <el-form :model="oneObj" status-icon :rules="rules" label-width="100px">
         <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label">
-          <span v-show="!isUpdate">{{item.val}}</span>
-          <el-input v-model="updateObj[item.prop]" v-show="isUpdate"></el-input>
+          <span v-show="!isUpdate">{{$kc.showValue(item.val, item.input)}}</span>
+          <!-- 这里处理input样式,逐个匹配input.type,暂未找到更合适的方法 -->
+          <template v-if="item.input">
+            <template v-if="(item.input.type == 'datetime')">
+              <el-date-picker v-show="isUpdate" @input="$forceUpdate()" v-model="updateObj[item.prop]" type="datetime" value-format="timestamp" :readonly="false" placeholder="选择日期时间"></el-date-picker>
+            </template>
+            <template v-else-if="(item.input.type == 'radio')">
+              <el-radio v-show="isUpdate" @input="$forceUpdate()" v-for="radioItem in item.input.options" :key="radioItem.key" v-model="updateObj[item.prop]" :label="radioItem.val">{{radioItem.key}}</el-radio>
+            </template>
+            <template v-else>
+              <el-input v-show="isUpdate" @input="$forceUpdate()" v-model="updateObj[item.prop]"></el-input>
+            </template>
+          </template>
+          <template v-else>
+            <el-input v-show="isUpdate" @input="$forceUpdate()" v-model="updateObj[item.prop]"></el-input>
+          </template>
+          <!-- 处理input样式结束  -->
         </el-form-item>
       </el-form>
       <div style="padding-left: 100px;">
@@ -21,29 +36,49 @@
   </div>
 </template>
 <script>
+// import CurdInput from './CurdInput.vue';
+//<CurdInput v-show="isUpdate" :inputConf="item.input" :value="updateObj[item.prop]" />
 export default {
   'name': 'CurdOne',
-  'props': {
-    'oneObjIn': null,
-    'tbName': '',
-    'tbTxt': '',
-  },
+  'props': ['oneObjIn', 'tbName', 'tbTxt'],
+  // 'components': {
+  //   CurdInput
+  // },
   data() {
     return {
       'oneArr': [],
       'oneObj': this.oneObjIn,
-      'updateObj': this.$kc.clone(this.oneObjIn),
+      'updateObj': {},
       'rules': {},
       'isUpdate': false,
       'oneTbName': this.tbName,
       'oneTbTxt': this.tbTxt,
+      'inputFormatMap': {
+        'datetimeBAK': (val) => { //通过value-format定义解决了
+          return new Date(val);
+        },
+        'rmb':this.$kc.priceIntShow,
+      },
     };
   },
   'methods': {
+    cloneOneObj(newOne) {
+      this.oneObj = newOne;
+      this.updateObj = {};
+      for (const i in newOne) {
+        const thisOne = newOne[i];
+        this.updateObj[i] = thisOne;
+        if (thisOne.input) {
+          const inputFormater = this.inputFormatMap[thisOne.input.type];
+          if (inputFormater) {
+            this.updateObj[i] = inputFormater(thisOne.val);
+          }
+        }
+      }
+    },
     showOneProp(newOne, tableTitles) {
       if (newOne) {
-        this.oneObj = newOne;
-        this.updateObj = this.$kc.clone(this.oneObj);
+        this.cloneOneObj(newOne);
       }
       if (!this.oneObj || !tableTitles) {
         return;
@@ -51,7 +86,7 @@ export default {
       const arr = [];
       for (let i = 0, len = tableTitles.length; i < len; i++) {
         const titleOne = tableTitles[i];
-        arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'val': this.oneObj[titleOne.prop] });
+        arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'val': this.updateObj[titleOne.prop], 'input': titleOne.input });
       }
       this.oneArr = arr;
     },
@@ -60,7 +95,7 @@ export default {
       this.$emit('showList', isRefresh);
     },
     showUpdate() {
-      this.updateObj = this.$kc.clone(this.oneObj);
+      this.cloneOneObj(this.oneObj);
       this.isUpdate = true;
     },
     doUpdate() {
@@ -104,7 +139,7 @@ export default {
             this.$alert('删除数据失败 ' + (reJson.data || ''), '删除失败');
             return;
           }
-          this.$message({ type: 'success', 'message': '删除成功!' });
+          this.$msgok('删除成功!');
           this.showList(true);
         });
       }).catch(() => {

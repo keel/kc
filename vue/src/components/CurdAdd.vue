@@ -65,7 +65,7 @@ export default {
           this.$alert('新增数据失败 ' + (reJson.data || ''), '新增失败');
           return;
         }
-        this.$message('新增成功!');
+        this.$msgok('新增成功!');
         this.showList(true);
       });
     }

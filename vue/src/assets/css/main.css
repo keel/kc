@@ -28,3 +28,7 @@ display:none !important;
   border-radius: 6px;
   border: none;
 }
+
+.el-picker-panel, .el-date-table th,.el-date-picker__header-label,.el-picker-panel__icon-btn,.el-time-spinner__item,.el-time-spinner__item.active:not(.disabled) {
+  color: #4c4c9e;
+}

@@ -10,7 +10,7 @@
             <template v-if="(item.prop == 'name')" >
               <el-link style="color:#dedefd;" @click="showOne(scope.row)">{{scope.row.name}}</el-link>
             </template>
-            <template v-else>{{scope.row[item.prop]}}</template>
+            <template v-else>{{$kc.showValue(scope.row[item.prop], item.input)}}</template>
           </template>
         </el-table-column>
       </el-table>
@@ -30,6 +30,8 @@
   </div>
 </template>
 <script>
+
+
 export default {
   'name': 'CurdList',
   'props': {

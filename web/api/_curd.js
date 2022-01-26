@@ -15,7 +15,6 @@ const vlog = require('vlog').instance(__filename);
 const processProp = function(prop) {
   const listProjection = {};
   const fieldsMap = {};
-  const customInputType = {};
   const validatorAdd = {};
   const validatorUpdate = {};
   const checkTypeMap = {};
@@ -26,15 +25,16 @@ const processProp = function(prop) {
     fieldsMap[item.col] = item;
     if (!item.hide || (item.hide.indexOf('all') < 0 && item.hide.indexOf('list') < 0)) {
       listProjection[item.col] = 1;
-      const titleObj = { 'prop': item.col, 'label': item.name };
+      const titleObj = { 'prop': item.col, 'label': item.name, 'input': item.input };
       if (item.width) {
         titleObj.width = item.width;
       }
+      if (item.input) {
+        titleObj.input = item.input;
+      }
       tableTitles.push(titleObj);
     }
-    if (item.input) {
-      customInputType[item.col] = item.input;
-    }
+
     if (item.validator) {
       if (typeof item.validator === 'string' && item.validator.charAt(0) === '@') {
         const valKey = item.col;
@@ -59,7 +59,6 @@ const processProp = function(prop) {
   prop.listProjection = listProjection;
   prop.checkTypeMap = checkTypeMap;
   prop.fieldsMap = fieldsMap;
-  prop.customInputType = customInputType;
   prop.validatorAdd = validatorAdd;
   prop.validatorUpdate = validatorUpdate;
   prop.formatterArr = formatterArr;

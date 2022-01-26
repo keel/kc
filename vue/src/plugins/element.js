@@ -31,6 +31,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Message,
+  Radio,
 } from 'element-ui';
 
 const commps = [Button,
@@ -60,6 +61,7 @@ const commps = [Button,
   Pagination,
   Breadcrumb,
   BreadcrumbItem,
+  Radio,
   // MessageBox,
   // Loading,
 ];
@@ -76,3 +78,4 @@ Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 // Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
+Vue.prototype.$msgok = (msg) => { Message({ 'type': 'success', 'message': msg }); }

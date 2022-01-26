@@ -27,37 +27,37 @@ const prop = {
     {
       'col': 'name', //数据表字段值
       'name': '产品名', //显示名
-      'type': 'string', //类型: string,int,float,inc(自动增1),array,json,pwd,不填则默认为string
+      'type': 'string', //类型: string,int,float,inc(自动增1),array,json,pwd,不填则默认为unknown; 这里影响服务端接收前端参数后的转换;
       'default': '', //默认值
       'validator': ['strLen', [2, 30]], //校验器,格式同iApi,在add和update中使用,不填则不校验
       'width': 180, //显示list时此字段的宽度
       'hide': null, //在哪些界面不显示: list,add,one,update,all,用|号分隔
       'info': null, //补充说明文字
-      'input': null, //输入类型,为空则为input,可自定义
-      'formatter': null, //显示前进行处理的方法
+      'input': null, //输入类型,为空则为input,这里会影响前端的展示,json类型,如{type,options...};
+      'formatter': null, //返回到前端之前进行格式处理的方法, 注意这里主要是面向安全性的服务端的处理, 若只是调整格式请使用input从前端调整, 如:'formatter': (data) => { return ktool.sha1(data); }
     },
-    { 'col': 'fee', 'name': '资费(元)', 'type': 'int', 'validator': 'strInt' },
+    { 'col': 'fee', 'name': '资费(元)', 'type': 'int', 'validator': 'strInt', 'input': { 'type': 'rmb' } },
     {
       'col': 'feeType',
       'name': '计费类型',
       'type': 'string',
       'info': '(以元为单位)',
       'default': '包月',
-      'input': {
-        'type': 'radio', //显示为radio
+      'input': { //input与前端配合可以约定不同的参数,将在list接口中作为titles参数传到前端
+        'type': 'radio', //显示为radio, //可以是date(日期显示),time(时间显示),datetime(时间显示),int(整数显示,input只能填整数),rmb(人民币显示),float(浮点数),textarea,radio等等
         'pickNum': 1, //默认选中
-        'options': { //radio列表
-          '点播': '点播',
-          '包月': '包月',
-          '按天收取': '按天收取',
-        }
+        'options': [ //radio列表
+          { 'key': '点播', 'val': '点播' },
+          { 'key': '包月', 'val': '包月' },
+          { 'key': '按天收取', 'val': '按天收取' },
+        ]
       },
       'validator': ['strLen', [1, 30]],
     },
     { 'col': 'feeCut', 'name': '分成比例', 'type': 'int', 'info': '(>=0且<=100的整数,表示百分比)', 'default': 100, 'validator': 'strInt' },
     { 'col': 'creatorId', 'type': 'string', 'hide': 'all' }, //创建人id
-    { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'formatter': (data) => { return cck.msToTime(data); } },
-    { 'col': 'state', 'name': '状态', 'type': 'int', 'hide': 'add|list', 'validator': '@strInt' }, //validator用@开头表示仅在有数据时校验
+    { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
+    { 'col': 'state', 'name': '状态', 'type': 'int', 'hide': 'add|list', 'validator': '@strInt', 'input': { 'type': 'int' } }, //validator用@开头表示仅在有数据时校验
     { 'col': 'py', 'type': 'string', 'hide': 'all' }, //拼音首字母,检索用,所有界面均不显示
   ],
 
@@ -74,7 +74,7 @@ const prop = {
       'feeCut': parseInt(reqData.feeCut.trim()),
       'state': 0,
       'createTime': now,
-      'creatorId':req.userId,
+      'creatorId': req.userId,
     };
     if (kc.iCache.getSync('product:name:' + newObj.name)) {
       return callback('重复产品名称: ' + newObj.name);
@@ -127,7 +127,7 @@ const refreshCache = function(pid, isDel) {
 
     kc.iCache.cacheTable('mem', 'mongo', prop.tb, '_id,name', {
       _id: otherMongo.idObj(pid)
-    }, {'dbConfigName':'test2'}, function(err) { //dbConfigName指定非默认mongo,一般可不带此参数
+    }, { 'dbConfigName': 'test2' }, function(err) { //dbConfigName指定非默认mongo,一般可不带此参数
       if (err) {
         vlog.error(err.stack);
         return;

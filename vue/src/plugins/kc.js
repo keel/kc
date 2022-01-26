@@ -37,6 +37,98 @@ const clone = function(json) {
   return json;
 };
 
+
+const twoInt = function(int) {
+  return (int < 10) ? '0' + int : int;
+};
+
+const threeInt = function(int) {
+  if (int < 10) {
+    return '00' + int;
+  } else if (int < 100) {
+    return '0' + int;
+  } else {
+    return '' + int;
+  }
+};
+
+/**
+ * 格式化时间,为避免错误，不支持12小时制
+ * @param  {int} millSec   millSeccond
+ * @param  {string} formatStr 默认为 'yyyy-MM-dd HH:mm:ss'
+ * @return {string}
+ */
+const timeFormat = function(millSec, formatStr) {
+  const d = millSec ? new Date(millSec) : new Date();
+  const df = {
+    'YYYY': d.getFullYear(),
+    'yyyy': d.getFullYear(),
+    'MM': twoInt(d.getMonth() + 1),
+    // 'DD': twoInt(d.getDate()),//年中的天数
+    'dd': twoInt(d.getDate()),
+    'HH': twoInt(d.getHours()),
+    // 'hh': (d.getHours() < 12) ? twoInt(d.getHours()) : twoInt(d.getHours() - 12),//12小时制
+    'mm': twoInt(d.getMinutes()),
+    'ss': twoInt(d.getSeconds()),
+    'SSS': threeInt(d.getMilliseconds()),
+  };
+  if (!formatStr) {
+    formatStr = 'yyyy-MM-dd HH:mm:ss'; //默认格式
+  }
+  for (const i in df) {
+    formatStr = formatStr.replace(new RegExp(i, 'g'), df[i]);
+  }
+  return formatStr;
+};
+
+const priceIntShow = function(priceInt, isDeciForce) {
+  let negativeTag = '';
+  if (priceInt < 0) {
+    negativeTag = '-';
+    priceInt = Math.abs(priceInt);
+  }
+  if (priceInt !== parseInt(priceInt)) {
+    priceInt = Math.round(priceInt); //当priceInt非整数时，确保其为整数
+  }
+  if (priceInt === 0) {
+    return (isDeciForce) ? '0.00' : '0';
+  } else if (priceInt < 10) {
+    return negativeTag + '0.0' + priceInt;
+  } else if (priceInt < 100) {
+    return negativeTag + '0.' + priceInt;
+  }
+  let out = negativeTag;
+  if (priceInt % 100 === 0) {
+    out += parseInt(priceInt / 100);
+    return (isDeciForce) ? out + '.00' : out;
+  }
+  const f = priceInt / 100;
+  out += f;
+  const pointPo = out.indexOf('.');
+  out = out.substring(0, pointPo + 3);
+  return out;
+};
+
+
+const showValMap = {
+  'pwd': () => { return '***'; },
+  'rmb': (val) => { return priceIntShow(val); },
+  'datetime': (val) => { return timeFormat(val); },
+};
+
+
+const showValue = function(val, inputObj) {
+  if (!inputObj) {
+    return val;
+  }
+  const fn = showValMap[inputObj.type];
+  if (!fn) {
+    return val;
+  }
+  return fn(val, inputObj);
+};
+
+
 var codeTool = function(hexcaseIn, b64padIn, chrszIn) {
   var me = {};
 
@@ -329,43 +421,6 @@ function setStyle(el, newStyle, isReplace) {
   el.setAttribute('style', mkStyle(styleObj));
 }
 
-var twoInt = function(int) {
-  return (int < 10) ? '0' + int : int;
-};
-
-var threeInt = function(int) {
-  if (int < 10) {
-    return '00' + int;
-  } else if (int < 100) {
-    return '0' + int;
-  } else {
-    return '' + int;
-  }
-};
-
-var timeFormat = function(formatStr, millSec) {
-  const d = millSec ? new Date(millSec) : new Date();
-  const df = {
-    'YYYY': d.getFullYear(),
-    'yyyy': d.getFullYear(),
-    'MM': twoInt(d.getMonth() + 1),
-    // 'DD': twoInt(d.getDate()),//年中的天数
-    'dd': twoInt(d.getDate()),
-    'HH': twoInt(d.getHours()),
-    // 'hh': (d.getHours() < 12) ? twoInt(d.getHours()) : twoInt(d.getHours() - 12),//12小时制
-    'mm': twoInt(d.getMinutes()),
-    'ss': twoInt(d.getSeconds()),
-    'SSS': threeInt(d.getMilliseconds()),
-  };
-  if (!formatStr) {
-    formatStr = 'yyyy-MM-dd HH:mm:ss'; //默认格式
-  }
-  for (const i in df) {
-    formatStr = formatStr.replace(new RegExp(i, 'g'), df[i]);
-  }
-  return formatStr;
-};
-
 var kHttp = function(that, url, httpType, data, headers, callback) {
   if (headers && typeof headers === 'function') {
     callback = headers;
@@ -466,4 +521,5 @@ Vue.prototype.$kc = {
   apiReq,
   codeTool,
   clone,
+  showValue,
 };

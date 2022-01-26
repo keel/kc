@@ -32,4 +32,4 @@ echarts.use([
   VisualMapComponent,
 ]);
 
-Vue.prototype.$echarts = echarts
+Vue.prototype.$echarts = echarts;

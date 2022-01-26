@@ -2,7 +2,6 @@
 CURD配置典型示例
  */
 'use strict';
-const cck = require('cck');
 const path = require('path');
 const kc = require('../../lib/kc');
 // const db = kc.mongo.init();
@@ -22,15 +21,27 @@ const prop = {
   'fields': [ //必填
     //字段
     { 'col': 'name', 'name': '项目名', 'type': 'string' },
-    { 'col': 'gameType', 'name': '类型', 'type': 'string' },
+    {
+      'col': 'gameType',
+      'name': '类型',
+      'type': 'string',
+      'input': {
+        'type': 'radio',
+        'pickNum': 0,
+        'options': {
+          'APK': 'APK',
+          'H5': 'H5',
+        }
+      },
+    },
     { 'col': 'channel', 'name': '渠道', 'type': 'string' },
 
     //拼音首字母检索用
     { 'col': 'py', 'type': 'string', 'hide': 'all' },
 
     //以下字段建议所有表都保留
-    { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'formatter': (data) => { return cck.msToTime(data); } },
-    { 'col': 'state', 'name': '状态', 'type': 'int', 'hide': 'add', 'validator': '@strInt' },
+    { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
+    { 'col': 'state', 'name': '状态', 'type': 'int', 'hide': 'add', 'validator': '@strInt', 'input': { 'type': 'int' } },
     { 'col': 'creatorId', 'type': 'string', 'hide': 'all' },
   ],
 
