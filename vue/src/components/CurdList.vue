@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <div style="width: 100%;color:#dedefd;">{{ tbTxt }}列表</div>
       </div>
-      <el-table :data="tableData" :row-style="rowStyle" :header-row-style="headerRowStyle" style="width: 100%">
+      <el-table v-loading="listLoading" :data="tableData" :row-style="rowStyle" :header-row-style="headerRowStyle" style="width: 100%">
         <el-table-column v-for="item in tableTitles" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width">
           <template slot-scope="scope">
             <template v-if="(item.prop == 'name')" >
@@ -60,7 +60,8 @@ export default {
       'pageSize': 20,
       'recordsTotal':0,
       'recordsFiltered':0,
-      'search': '',
+      'inputMap':{},
+      'listLoading':false,
     }
   },
   mounted() {
@@ -70,15 +71,19 @@ export default {
     showOne(oneObj){
       this.$emit('showOne',oneObj);
     },
-    showList() {
+    showList(searchObj) {
       this.start = (this.pageNum - 1) * this.pageSize;
       const reqObj = {
         'draw': 1, //列表id,因为curd列表只有一个,这里写死
         'start': this.start,
         'length': this.pageSize,
-        'search': this.search,
       };
+      if (searchObj) {
+        reqObj.search = this.$kc.backUpdateObj(searchObj, this.inputMap);
+      }
+      this.listLoading = true;
       this.$kc.kPost('/' + this.tb + '/list', JSON.stringify(reqObj), (err, reData) => {
+        this.listLoading = false;
         if (err) {
           this.$kc.lerr('listERR:'+err);
           if (('' + err).indexOf('403') >= 0) {
@@ -97,7 +102,13 @@ export default {
         this.recordsTotal = reJson.recordsTotal;
         this.recordsFiltered = reJson.recordsFiltered;
         this.tableData = reJson.data;
-        this.$emit('setTableTitles',this.tableTitles);
+        this.$emit('setTableTitles', this.tableTitles);
+        for (let i = 0, len = this.tableTitles.length; i < len; i++) {
+          const titleOne = this.tableTitles[i];
+          if (titleOne.input) {
+            this.inputMap[titleOne.prop] = titleOne.input;
+          }
+        }
       });
     },
     handleSizeChange(val) {

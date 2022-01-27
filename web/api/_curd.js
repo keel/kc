@@ -25,7 +25,7 @@ const processProp = function(prop) {
     fieldsMap[item.col] = item;
     if (!item.hide || (item.hide.indexOf('all') < 0 && item.hide.indexOf('list') < 0)) {
       listProjection[item.col] = 1;
-      const titleObj = { 'prop': item.col, 'label': item.name, 'input': item.input };
+      const titleObj = { 'prop': item.col, 'label': item.name, 'input': item.input, 'hide': item.hide, 'search': item.search };
       if (item.width) {
         titleObj.width = item.width;
       }
@@ -188,6 +188,7 @@ function instance(prop) {
       showNew,
       showOne,
       'tableTitles': me.tableTitles,
+      'searchArr': me.searchArr,
     };
     return re;
   };
@@ -231,8 +232,6 @@ function instance(prop) {
           const respObj = {
             'code': 0,
             'data': reData,
-            'kc_sessionValue': req.sessionValue,
-            'kc_mid': req.mid,
             showUpdate,
             showDel,
           };
@@ -249,41 +248,13 @@ function instance(prop) {
   const mkListQueryFromSearch = function(req, query) {
     // const search = ktool.dotSelector(req.body, 'search.value');
     const search = req.body.search;
-    if (!search || search.trim() === '') {
+    if (!search) {
       return;
     }
-    let po;
-    try {
-      po = JSON.parse(search);
-    } catch (e) {
-      po = search;
-    }
-
-    if (typeof po == 'object') {
-      for (const key in po) {
-        const keyType = me.checkTypeMap(key);
-        const val = po[key];
-        if (keyType) {
-          // vlog.log('search value:%s',val);
-          if (keyType === 'int' || keyType === 'inc') {
-            query[key] = parseInt(val);
-          } else if (keyType === 'array') {
-            query[key] = { '$all': ktool.strToArr(val) };
-          } else {
-            query[key] = {
-              '$regex': val
-            };
-          }
-        }
-      }
-    } else {
-      const po = search.indexOf(':');
-      const key = (po < 0) ? me.defaultSearch : search.substring(0, po).trim();
-      const val = (po < 0) ? search.trim() : search.substring(po + 1).trim();
-      // vlog.log('search key:%s',key);
-      const keyType = me.checkTypeMap(key);
+    for (const key in search) {
+      const keyType = me.checkTypeMap[key];
+      const val = search[key];
       if (keyType) {
-        // vlog.log('search value:%s',val);
         if (keyType === 'int' || keyType === 'inc') {
           query[key] = parseInt(val);
         } else if (keyType === 'array') {
@@ -295,6 +266,50 @@ function instance(prop) {
         }
       }
     }
+
+
+    // let po;
+    // try {
+    //   po = JSON.parse(search);
+    // } catch (e) {
+    //   po = search;
+    // }
+    // if (typeof po == 'object') {
+    //   for (const key in po) {
+    //     const keyType = me.checkTypeMap(key);
+    //     const val = po[key];
+    //     if (keyType) {
+    //       // vlog.log('search value:%s',val);
+    //       if (keyType === 'int' || keyType === 'inc') {
+    //         query[key] = parseInt(val);
+    //       } else if (keyType === 'array') {
+    //         query[key] = { '$all': ktool.strToArr(val) };
+    //       } else {
+    //         query[key] = {
+    //           '$regex': val
+    //         };
+    //       }
+    //     }
+    //   }
+    // } else {
+    //   const po = search.indexOf(':');
+    //   const key = (po < 0) ? me.defaultSearch : search.substring(0, po).trim();
+    //   const val = (po < 0) ? search.trim() : search.substring(po + 1).trim();
+    //   // vlog.log('search key:%s',key);
+    //   const keyType = me.checkTypeMap(key);
+    //   if (keyType) {
+    //     // vlog.log('search value:%s',val);
+    //     if (keyType === 'int' || keyType === 'inc') {
+    //       query[key] = parseInt(val);
+    //     } else if (keyType === 'array') {
+    //       query[key] = { '$all': ktool.strToArr(val) };
+    //     } else {
+    //       query[key] = {
+    //         '$regex': val
+    //       };
+    //     }
+    //   }
+    // }
   };
 
 

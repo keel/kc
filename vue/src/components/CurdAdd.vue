@@ -4,9 +4,28 @@
       <div slot="header" class="clearfix">
         <div style="width: 100%;color:#dedefd;">新增{{oneTbTxt}}</div>
       </div>
-      <el-form :model="oneObj" status-icon :rules="rules" label-width="100px">
+      <el-form :model="updateObj" status-icon :rules="rules" label-width="100px">
         <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label">
-          <el-input v-model="oneObj[item.prop]"></el-input>
+
+
+          <!-- 这里处理input样式,逐个匹配input.type,暂未找到更合适的方法 -->
+          <template v-if="item.input">
+            <template v-if="(item.input.type == 'datetime')">
+              <el-date-picker v-model="updateObj[item.prop]" type="datetime" value-format="timestamp" placeholder="选择日期时间"></el-date-picker>
+            </template>
+            <template v-else-if="(item.input.type == 'radio')">
+              <el-radio v-for="radioItem in item.input.options" :key="radioItem.key" v-model="updateObj[item.prop]" :label="radioItem.val">{{radioItem.key}}</el-radio>
+            </template>
+            <template v-else>
+              <el-input v-model="updateObj[item.prop]"></el-input>
+            </template>
+          </template>
+          <template v-else>
+            <el-input v-model="updateObj[item.prop]"></el-input>
+          </template>
+          <!-- 处理input样式结束  -->
+
+
         </el-form-item>
       </el-form>
       <div style="padding-left: 100px;">
@@ -20,7 +39,6 @@
 export default {
   'name': 'CurdAdd',
   'props': {
-    'oneObjIn': null,
     'oneTitle': '',
     'tbName': '',
     'tbTxt': '',
@@ -30,7 +48,7 @@ export default {
       'oneArr': [],
       'oneTbName': this.tbName,
       'oneTbTxt': this.tbTxt,
-      'oneObj':{},
+      'updateObj':{},
       'rules':{},
     };
   },
@@ -42,7 +60,10 @@ export default {
       const arr = [];
       for (let i = 0, len = tableTitles.length; i < len; i++) {
         const titleOne = tableTitles[i];
-        arr.push({ 'prop': titleOne.prop, 'label': titleOne.label});
+        if (titleOne.hide && titleOne.hide.indexOf('add') >= 0) {
+          continue;
+        }
+        arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'input': titleOne.input});
       }
       this.oneArr = arr;
     },
@@ -50,7 +71,7 @@ export default {
       this.$emit('showList',isRefresh);
     },
     addNew(){
-      this.$kc.apiReq('/' + this.tbName + '/add', this.oneObj, (err, reData) => {
+      this.$kc.apiReq('/' + this.tbName + '/add', this.updateObj, (err, reData) => {
         if (err) {
           this.$kc.lerr('addERR:' + err);
           if (('' + err).indexOf('403') >= 0) {

@@ -35,8 +35,9 @@ const prop = {
       'info': null, //补充说明文字
       'input': null, //输入类型,为空则为input,这里会影响前端的展示,json类型,如{type,options...};
       'formatter': null, //返回到前端之前进行格式处理的方法, 注意这里主要是面向安全性的服务端的处理, 若只是调整格式请使用input从前端调整, 如:'formatter': (data) => { return ktool.sha1(data); }
+      'search':'string', //可作为查询条件,格式为string
     },
-    { 'col': 'fee', 'name': '资费(元)', 'type': 'int', 'validator': 'strInt', 'input': { 'type': 'rmb' } },
+    { 'col': 'fee', 'name': '资费(元)', 'type': 'int', 'validator': 'strInt', 'input': { 'type': 'rmb' }, 'search':'int' },
     {
       'col': 'feeType',
       'name': '计费类型',
@@ -53,6 +54,7 @@ const prop = {
         ]
       },
       'validator': ['strLen', [1, 30]],
+      'search':'string',
     },
     { 'col': 'feeCut', 'name': '分成比例', 'type': 'int', 'info': '(>=0且<=100的整数,表示百分比)', 'default': 100, 'validator': 'strInt' },
     { 'col': 'creatorId', 'type': 'string', 'hide': 'all' }, //创建人id

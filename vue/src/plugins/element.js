@@ -32,6 +32,10 @@ import {
   BreadcrumbItem,
   Message,
   Radio,
+  Select,
+  Option,
+  OptionGroup,
+  ButtonGroup,
 } from 'element-ui';
 
 const commps = [Button,
@@ -62,6 +66,10 @@ const commps = [Button,
   Breadcrumb,
   BreadcrumbItem,
   Radio,
+  Select,
+  Option,
+  OptionGroup,
+  ButtonGroup,
   // MessageBox,
   // Loading,
 ];

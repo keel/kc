@@ -6,30 +6,34 @@
       </div>
       <el-form :model="updateObj" status-icon :rules="rules" label-width="100px">
         <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label">
-          <span v-show="!isUpdate">{{$kc.showValue(item.val, item.input)}}</span>
-          <!-- 这里处理input样式,逐个匹配input.type,暂未找到更合适的方法 -->
-          <template v-if="item.input">
-            <template v-if="(item.input.type == 'datetime')">
-              <el-date-picker v-show="isUpdate" @input="$forceUpdate()" v-model="updateObj[item.prop]" type="datetime" value-format="timestamp" placeholder="选择日期时间"></el-date-picker>
-            </template>
-            <template v-else-if="(item.input.type == 'radio')">
-              <el-radio v-show="isUpdate" @input="$forceUpdate()" v-for="radioItem in item.input.options" :key="radioItem.key" v-model="updateObj[item.prop]" :label="radioItem.val">{{radioItem.key}}</el-radio>
+          <template v-if="(!item.hide || item.hide.indexOf('one')<0)">
+            <span v-show="!isUpdate">{{$kc.showValue(item.val, item.input)}}</span>
+          </template>
+          <template v-if="(!item.hide || item.hide.indexOf('update')<0)">
+            <!-- 这里处理input样式,逐个匹配input.type,暂未找到更合适的方法 -->
+            <template v-if="item.input">
+              <template v-if="(item.input.type == 'datetime')">
+                <el-date-picker v-show="isUpdate" @input="$forceUpdate()" v-model="updateObj[item.prop]" type="datetime" value-format="timestamp" placeholder="选择日期时间"></el-date-picker>
+              </template>
+              <template v-else-if="(item.input.type == 'radio')">
+                <el-radio v-show="isUpdate" @input="$forceUpdate()" v-for="radioItem in item.input.options" :key="radioItem.key" v-model="updateObj[item.prop]" :label="radioItem.val">{{radioItem.key}}</el-radio>
+              </template>
+              <template v-else>
+                <el-input v-show="isUpdate" @input="$forceUpdate()" v-model="updateObj[item.prop]"></el-input>
+              </template>
             </template>
             <template v-else>
               <el-input v-show="isUpdate" @input="$forceUpdate()" v-model="updateObj[item.prop]"></el-input>
             </template>
+            <!-- 处理input样式结束  -->
           </template>
-          <template v-else>
-            <el-input v-show="isUpdate" @input="$forceUpdate()" v-model="updateObj[item.prop]"></el-input>
-          </template>
-          <!-- 处理input样式结束  -->
         </el-form-item>
       </el-form>
       <div style="padding-left: 100px;">
         <el-button v-show="!isUpdate" type="info" @click="showUpdate()">修改</el-button>
-        <el-button type="danger" @click="doDel()">删除</el-button>
-        <el-button v-show="isUpdate" type="info" @click="doUpdate()">执行修改</el-button>
-        <el-button v-show="isUpdate" type="info" @click="cancelUpdate()">取消修改</el-button>
+        <el-button type="danger" @click="doDel()" :loading="doDelLoading">删除</el-button>
+        <el-button v-show="isUpdate" type="info" @click="doUpdate()" :loading="doUpdateLoading">执行修改</el-button>
+        <el-button v-show="isUpdate" type="info" @click="cancelUpdate()">取消</el-button>
         <el-button type="primary" @click="showList()">返回列表</el-button>
       </div>
     </el-card>
@@ -53,52 +57,11 @@ export default {
       'isUpdate': false,
       'oneTbName': this.tbName,
       'oneTbTxt': this.tbTxt,
-      'inputFormatMap': {
-        'datetimeBAK': (val) => { //通过value-format定义解决了
-          return new Date(val);
-        },
-        'rmb': (val) => {
-          return this.$kc.priceIntShow(val);
-        },
-      },
-      'inputFormatBackMap': {
-        'datetimeBAK': (val) => { //通过value-format定义解决了
-          return val.getTime();
-        },
-        'rmb': (val) => {
-          return this.$kc.priceStrParse(val);
-        },
-      },
+      'doUpdateLoading':false,
+      'doDelLoading':false,
     };
   },
   'methods': {
-    cloneOneObj(newOne) {
-      this.updateObj = {};
-      for (const i in newOne) {
-        const thisOne = newOne[i];
-        this.updateObj[i] = thisOne;
-        if (this.inputMap[i]) {
-          const inputFormater = this.inputFormatMap[this.inputMap[i].type];
-          if (inputFormater) {
-            this.updateObj[i] = inputFormater(thisOne);
-          }
-        }
-      }
-    },
-    mkUpdateObj(){
-      const out = {};
-      for (const i in this.updateObj) {
-        const thisOne = this.updateObj[i];
-        out[i] = thisOne;
-        if (this.inputMap[i]) {
-          const inputFormater = this.inputFormatBackMap[this.inputMap[i].type];
-          if (inputFormater) {
-            out[i] = inputFormater(thisOne);
-          }
-        }
-      }
-      return out;
-    },
     showOneProp(newOne, tableTitles) {
       if (!newOne || !tableTitles) {
         return;
@@ -106,13 +69,16 @@ export default {
       const arr = [];
       for (let i = 0, len = tableTitles.length; i < len; i++) {
         const titleOne = tableTitles[i];
-        arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'val': newOne[titleOne.prop], 'input': titleOne.input });
+        if (titleOne.hide && (titleOne.hide.indexOf('all')>=0 ||(titleOne.hide.indexOf('one') >= 0 && titleOne.hide.indexOf('update') >= 0)) ) {
+          continue;
+        }
+        arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'val': newOne[titleOne.prop], 'input': titleOne.input, 'hide': titleOne.hide });
         if (titleOne.input) {
           this.inputMap[titleOne.prop] = titleOne.input;
         }
       }
       this.oneArr = arr;
-      this.cloneOneObj(newOne);
+      this.updateObj = this.$kc.mkUpdateObj(newOne,this.inputMap);
     },
     showList(isRefresh) {
       this.isUpdate = false;
@@ -122,7 +88,9 @@ export default {
       this.isUpdate = true;
     },
     doUpdate() {
-      this.$kc.apiReq('/' + this.tbName + '/update', this.mkUpdateObj(), (err, reData) => {
+      this.doUpdateLoading = true;
+      this.$kc.apiReq('/' + this.tbName + '/update', this.$kc.backUpdateObj(this.updateObj, this.inputMap), (err, reData) => {
+        this.doUpdateLoading = false;
         if (err) {
           this.$kc.lerr('updateERR:' + err);
           if (('' + err).indexOf('403') >= 0) {
@@ -142,12 +110,14 @@ export default {
       });
     },
     doDel() {
+      this.doDelLoading = true;
       this.$confirm('将删除此项数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         this.$kc.apiReq('/' + this.tbName + '/del', { '_id': '' + this.updateObj._id }, (err, reData) => {
+          this.doDelLoading = false;
           if (err) {
             this.$kc.lerr('delERR:' + err);
             if (('' + err).indexOf('403') >= 0) {
@@ -166,10 +136,11 @@ export default {
           this.showList(true);
         });
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
+        this.doDelLoading = false;
+        // this.$message({
+        //   type: 'info',
+        //   message: '已取消删除'
+        // });
       });
 
     },

@@ -153,7 +153,6 @@ const showValMap = {
   'datetime': (val) => { return timeFormat(val); },
 };
 
-
 const showValue = function(val, inputObj) {
   if (!inputObj) {
     return val;
@@ -165,6 +164,55 @@ const showValue = function(val, inputObj) {
   return fn(val, inputObj);
 };
 
+const inputFormatMap = {
+  'rmb': (val) => {
+    return priceIntShow(val);
+  },
+};
+const inputFormatBackMap = {
+  'rmb': (val) => {
+    return priceStrParse(val);
+  },
+};
+
+const inputFormat = function(val, type) {
+  if (!type) {
+    return val;
+  }
+  const inputFormater = inputFormatMap[type];
+  if (inputFormater) {
+    return inputFormater(val);
+  }
+  return val;
+};
+
+const inputFormatBack = function(val, type) {
+  if (!type) {
+    return val;
+  }
+  const inputFormater = inputFormatBackMap[type];
+  if (inputFormater) {
+    return inputFormater(val);
+  }
+  return val;
+};
+
+const mkUpdateObj = function(newOne, inputMap) {
+  const out = {};
+  for (const i in newOne) {
+    const thisOne = newOne[i];
+    out[i] = inputFormat(thisOne, (inputMap[i] ? inputMap[i].type : null));
+  }
+  return out;
+};
+const backUpdateObj = function(updateObj, inputMap){
+  const out = {};
+  for (const i in updateObj) {
+    const thisOne = updateObj[i];
+    out[i] = inputFormatBack(thisOne, (inputMap[i] ? inputMap[i].type : null));
+  }
+  return out;
+};
 
 var codeTool = function(hexcaseIn, b64padIn, chrszIn) {
   var me = {};
@@ -561,4 +609,8 @@ Vue.prototype.$kc = {
   showValue,
   priceIntShow,
   priceStrParse,
+  mkUpdateObj,
+  backUpdateObj,
+  inputFormat,
+  inputFormatBack,
 };

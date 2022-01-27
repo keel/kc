@@ -5,54 +5,104 @@
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>{{ tbTxt }}</el-breadcrumb-item>
       </el-breadcrumb>
-      <div style="padding-top: 20px;">
-        <el-button size="small" type="primary" @click="showAdd()">新建</el-button>
-      </div>
     </div>
-    <CurdList v-show="(this.showContent === 'list')" ref="curdList" :tbName="tbName" :tbTxt="tbTxt"  @showOne="showOne" @setTableTitles="setTableTitles" />
+    <el-card class="box-card">
+      <el-row :gutter="10">
+        <el-col :span="12">
+          <el-input size="small" placeholder="请输入查询内容" v-model="searchInput" class="input-with-select">
+            <el-select v-model="searchKey" slot="prepend" placeholder="查询字段">
+              <el-option v-for="searchItem in searchArr" :key="searchItem.key" :label="searchItem.label" :value="searchItem.key"></el-option>
+            </el-select>
+            <el-button slot="append" icon="el-icon-search" @click="doSearch()"></el-button>
+          </el-input>
+        </el-col>
+        <el-col :span="12">
+          <el-button size="small" type="danger" @click="showAdd()">新建</el-button>
+          <el-button size="small" type="info">导出</el-button>
+        </el-col>
+      </el-row>
+    </el-card>
+    <CurdList v-show="(this.showContent === 'list')" ref="curdList" :tbName="tbName" :tbTxt="tbTxt" @showOne="showOne" @setTableTitles="setTableTitles" />
     <CurdOne v-show="(this.showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" />
     <CurdAdd v-show="(this.showContent === 'add')" ref="curdAdd" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" />
   </div>
 </template>
 <script>
-  import CurdList from '../../components/CurdList.vue';
-  import CurdAdd from '../../components/CurdAdd.vue';
-  import CurdOne from '../../components/CurdOne.vue';
-  export default {
-    'name': 'product',
-    'components':{
-      CurdList,
-      CurdAdd,
-      CurdOne,
+import CurdList from '../../components/CurdList.vue';
+import CurdAdd from '../../components/CurdAdd.vue';
+import CurdOne from '../../components/CurdOne.vue';
+export default {
+  'name': 'product',
+  'components': {
+    CurdList,
+    CurdAdd,
+    CurdOne,
+  },
+  'data': function() {
+    return {
+      'tbName': 'product',
+      'tbTxt': '产品',
+      'showContent': 'list',
+      'tableTitles': null,
+      'searchInput': '',
+      'searchKey': '',
+      'searchArr': [],
+    };
+  },
+  'methods': {
+    showOne(oneObj) {
+      // console.log('=====showOne:',oneObj);
+      this.showContent = 'one';
+      this.$refs.curdOne.showOneProp(oneObj, this.tableTitles);
     },
-    'data':function () {
-      return {
-        'tbName':'product',
-        'tbTxt':'产品',
-        'showContent':'list',
-        'tableTitles':null,
-      };
+    showListNow(isRefresh) {
+      // console.log('=====showListNow',isRefresh);
+      this.showContent = 'list';
+      if (isRefresh) {
+        this.$refs.curdList.showList();
+      }
     },
-    'methods':{
-      showOne(oneObj){
-        // console.log('=====showOne:',oneObj);
-        this.showContent = 'one';
-        this.$refs.curdOne.showOneProp(oneObj,this.tableTitles);
-      },
-      showListNow(isRefresh){
-        // console.log('=====showListNow',isRefresh);
-        this.showContent = 'list';
-        if (isRefresh) {
-          this.$refs.curdList.showList();
+    showAdd() {
+      this.$refs.curdAdd.showAddProp(this.tableTitles);
+      this.showContent = 'add';
+    },
+    doSearch() {
+      this.showContent = 'list';
+      let searchObj = {};
+      if (this.searchKey && this.searchInput) {
+        searchObj[this.searchKey] = this.searchInput;
+      }else{
+        searchObj = null;
+      }
+      this.$refs.curdList.showList(searchObj);
+    },
+    setTableTitles(tableTitles) {
+      this.tableTitles = tableTitles;
+      this.searchArr = [];
+      for (let i = 0, len = tableTitles.length; i < len; i++) {
+        const one = tableTitles[i];
+        if (one.search) {
+          this.searchArr.push({ 'label': one.label, 'key': one.prop, 'type': one.search });
         }
-      },
-      showAdd(){
-        this.$refs.curdAdd.showAddProp(this.tableTitles);
-        this.showContent = 'add';
-      },
-      setTableTitles(tableTitles){
-        this.tableTitles = tableTitles;
+      }
+      if (this.searchArr.length>0) {
+        this.searchKey = this.searchArr[0].key;
       }
     }
   }
+}
 </script>
+<style>
+.el-select .el-input {
+  width: 100px;
+}
+
+.el-icon-search,
+.el-input-group__prepend div.el-select .el-input__inner,
+.el-select-dropdown__item.selected,
+.el-select-dropdown__item.hover,
+.el-input-group__append,
+.el-input-group__prepend {
+  color: #FFF;
+}
+</style>
