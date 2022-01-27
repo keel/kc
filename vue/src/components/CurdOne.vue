@@ -30,8 +30,8 @@
         </el-form-item>
       </el-form>
       <div style="padding-left: 100px;">
-        <el-button v-show="!isUpdate" type="info" @click="showUpdate()">修改</el-button>
-        <el-button type="danger" @click="doDel()" :loading="doDelLoading">删除</el-button>
+        <el-button v-show="isShowUpdate && (!isUpdate)" type="info" @click="showUpdate()">修改</el-button>
+        <el-button v-show="isShowDel" type="danger" @click="doDel()" :loading="doDelLoading">删除</el-button>
         <el-button v-show="isUpdate" type="info" @click="doUpdate()" :loading="doUpdateLoading">执行修改</el-button>
         <el-button v-show="isUpdate" type="info" @click="cancelUpdate()">取消</el-button>
         <el-button type="primary" @click="showList()">返回列表</el-button>
@@ -62,6 +62,8 @@ export default {
       'doOneLoading':false,
       'tableTitles':[],
       'needRefreshList':false,
+      'isShowUpdate':false,
+      'isShowDel':false,
     };
   },
   'methods': {
@@ -102,6 +104,8 @@ export default {
         }
         this.oneArr = arr;
         this.updateObj = this.$kc.mkUpdateObj(newOne,this.inputMap);
+        this.isShowUpdate = reJson.showUpdate;
+        this.isShowDel = reJson.showDel;
       });
     },
     showList(isRefresh) {

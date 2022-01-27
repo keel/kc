@@ -13,12 +13,12 @@
             <el-select v-model="searchKey" slot="prepend" placeholder="查询字段">
               <el-option v-for="searchItem in searchArr" :key="searchItem.key" :label="searchItem.label" :value="searchItem.key"></el-option>
             </el-select>
-            <el-button slot="append" icon="el-icon-search" @click="doSearch()"></el-button>
+            <el-button :loading="searchLoading" slot="append" icon="el-icon-search" @click="doSearch()"></el-button>
           </el-input>
         </el-col>
         <el-col :span="12">
           <el-button size="small" type="danger" @click="showAdd()">新建</el-button>
-          <el-button size="small" type="info">导出</el-button>
+          <el-button size="small" type="info" @click="downCsv()">导出</el-button>
         </el-col>
       </el-row>
     </el-card>
@@ -47,6 +47,7 @@ export default {
       'searchInput': '',
       'searchKey': '',
       'searchArr': [],
+      'searchLoading': false,
     };
   },
   'methods': {
@@ -66,15 +67,23 @@ export default {
       this.$refs.curdAdd.showAddProp(this.tableTitles);
       this.showContent = 'add';
     },
-    doSearch() {
-      this.showContent = 'list';
+    mkSearchObj() {
       let searchObj = {};
       if (this.searchKey && this.searchInput) {
         searchObj[this.searchKey] = this.searchInput;
-      }else{
+      } else {
         searchObj = null;
       }
-      this.$refs.curdList.showList(searchObj);
+      return searchObj;
+    },
+    downCsv() {
+      const postUrl = '/' + this.tbName + '/csv/' + this.tbTxt + '_' + (Date.now()) + '.csv';
+      this.$kc.postDownFile(this.$refs.curdList.mkListReq(this.mkSearchObj()), postUrl);
+    },
+    doSearch() {
+      this.showContent = 'list';
+      this.searchLoading = true;
+      this.$refs.curdList.showList(this.mkSearchObj(), () => { this.searchLoading = false; });
     },
     setTableTitles(tableTitles) {
       this.tableTitles = tableTitles;
@@ -85,7 +94,7 @@ export default {
           this.searchArr.push({ 'label': one.label, 'key': one.prop, 'type': one.search });
         }
       }
-      if (this.searchArr.length>0) {
+      if (this.searchArr.length > 0) {
         this.searchKey = this.searchArr[0].key;
       }
     }

@@ -71,7 +71,7 @@ export default {
     showOne(id){
       this.$emit('showOne',id);
     },
-    showList(searchObj) {
+    mkListReq(searchObj){
       this.start = (this.pageNum - 1) * this.pageSize;
       const reqObj = {
         'draw': 1, //列表id,因为curd列表只有一个,这里写死
@@ -81,22 +81,28 @@ export default {
       if (searchObj) {
         reqObj.search = this.$kc.backUpdateObj(searchObj, this.inputMap);
       }
+      return reqObj;
+    },
+    showList(searchObj, callback) {
       this.listLoading = true;
-      this.$kc.kPost('/' + this.tb + '/list', JSON.stringify(reqObj), (err, reData) => {
+      if(!callback){
+        callback = ()=>{};
+      }
+      this.$kc.kPost('/' + this.tb + '/list', this.mkListReq(searchObj), (err, reData) => {
         this.listLoading = false;
         if (err) {
           this.$kc.lerr('listERR:'+err);
           if (('' + err).indexOf('403') >= 0) {
             this.$router.push('/login');
-            return;
+            return callback();
           }
           this.$alert('列表数据获取处理失败', '数据错误');
-          return;
+          return callback();
         }
         const reJson = JSON.parse('' + reData);
         if (reJson.code !== 0) {
           this.$alert('列表数据获取失败 ' + (reJson.data || ''), '列表错误');
-          return;
+          return callback();
         }
         this.tableTitles = [];
         this.recordsTotal = reJson.recordsTotal;
@@ -113,6 +119,7 @@ export default {
             this.inputMap[titleOne.prop] = titleOne.input;
           }
         }
+        callback();
       });
     },
     handleSizeChange(val) {

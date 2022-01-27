@@ -205,7 +205,7 @@ const mkUpdateObj = function(newOne, inputMap) {
   }
   return out;
 };
-const backUpdateObj = function(updateObj, inputMap){
+const backUpdateObj = function(updateObj, inputMap) {
   const out = {};
   for (const i in updateObj) {
     const thisOne = updateObj[i];
@@ -591,6 +591,27 @@ var apiReq = function(url, data, callback) {
   kPost.call(this, url, mkApiReq(data), callback);
 };
 
+var postDownFile = function(params, url) {
+  var form = document.createElement("form");
+  form.style.display = "none";
+  form.action = url;
+  form.method = "post";
+  document.body.appendChild(form);
+  for (var key in params) {
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = key;
+    var val = params[key];
+    if (typeof val === 'object') {
+      val = JSON.stringify(val);
+    }
+    input.value = val;
+    form.appendChild(input);
+  }
+  form.submit();
+  form.remove();
+};
+
 Vue.prototype.$kc = {
   $,
   llog,
@@ -613,4 +634,5 @@ Vue.prototype.$kc = {
   backUpdateObj,
   inputFormat,
   inputFormatBack,
+  postDownFile,
 };
