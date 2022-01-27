@@ -50,10 +50,10 @@ export default {
     };
   },
   'methods': {
-    showOne(oneObj) {
-      // console.log('=====showOne:',oneObj);
+    showOne(id) {
+      // console.log('=====showOne:',id);
       this.showContent = 'one';
-      this.$refs.curdOne.showOneProp(oneObj, this.tableTitles);
+      this.$refs.curdOne.showOneProp(id, this.tableTitles);
     },
     showListNow(isRefresh) {
       // console.log('=====showListNow',isRefresh);

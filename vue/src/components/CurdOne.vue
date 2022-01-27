@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <div style="width: 100%;color:#dedefd;">{{oneTbTxt}}详情</div>
       </div>
-      <el-form :model="updateObj" status-icon :rules="rules" label-width="100px">
+      <el-form  v-loading="doOneLoading" :model="updateObj" status-icon :rules="rules" label-width="100px">
         <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label">
           <template v-if="(!item.hide || item.hide.indexOf('one')<0)">
             <span v-show="!isUpdate">{{$kc.showValue(item.val, item.input)}}</span>
@@ -59,30 +59,54 @@ export default {
       'oneTbTxt': this.tbTxt,
       'doUpdateLoading':false,
       'doDelLoading':false,
+      'doOneLoading':false,
+      'tableTitles':[],
+      'needRefreshList':false,
     };
   },
   'methods': {
-    showOneProp(newOne, tableTitles) {
-      if (!newOne || !tableTitles) {
+    showOneProp(id, tableTitles) {
+      if (!id || !tableTitles) {
         return;
       }
-      const arr = [];
-      for (let i = 0, len = tableTitles.length; i < len; i++) {
-        const titleOne = tableTitles[i];
-        if (titleOne.hide && (titleOne.hide.indexOf('all')>=0 ||(titleOne.hide.indexOf('one') >= 0 && titleOne.hide.indexOf('update') >= 0)) ) {
-          continue;
+      this.tableTitles = tableTitles;
+      this.doOneLoading = true;
+      this.$kc.kPost('/' + this.tbName + '/one', { id }, (err, reData) => {
+        this.doOneLoading = false;
+        if (err) {
+          this.$kc.lerr('updateERR:' + err);
+          if (('' + err).indexOf('403') >= 0) {
+            this.$router.push('/login');
+            return;
+          }
+          this.$alert('更新数据处理失败', '数据错误');
+          return;
         }
-        arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'val': newOne[titleOne.prop], 'input': titleOne.input, 'hide': titleOne.hide });
-        if (titleOne.input) {
-          this.inputMap[titleOne.prop] = titleOne.input;
+        const reJson = JSON.parse('' + reData);
+        if (reJson.code !== 0) {
+          this.$alert('获取数据失败 ' + (reJson.data || ''), '获取数据失败');
+          return;
         }
-      }
-      this.oneArr = arr;
-      this.updateObj = this.$kc.mkUpdateObj(newOne,this.inputMap);
+        //处理返回数据
+        const arr = [];
+        const newOne = reJson.data;
+        for (let i = 0, len = tableTitles.length; i < len; i++) {
+          const titleOne = tableTitles[i];
+          if (titleOne.hide && (titleOne.hide.indexOf('all')>=0 ||(titleOne.hide.indexOf('one') >= 0 && titleOne.hide.indexOf('update') >= 0)) ) {
+            continue;
+          }
+          arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'val': newOne[titleOne.prop], 'input': titleOne.input, 'hide': titleOne.hide });
+          if (titleOne.input) {
+            this.inputMap[titleOne.prop] = titleOne.input;
+          }
+        }
+        this.oneArr = arr;
+        this.updateObj = this.$kc.mkUpdateObj(newOne,this.inputMap);
+      });
     },
     showList(isRefresh) {
       this.isUpdate = false;
-      this.$emit('showList', isRefresh);
+      this.$emit('showList', isRefresh || this.needRefreshList);
     },
     showUpdate() {
       this.isUpdate = true;
@@ -106,7 +130,9 @@ export default {
           return;
         }
         this.$alert('更新成功!');
-        this.showList(true);
+        this.showOneProp(this.updateObj._id,this.tableTitles);
+        this.isUpdate = false;
+        this.needRefreshList = true;
       });
     },
     doDel() {
@@ -133,6 +159,7 @@ export default {
             return;
           }
           this.$msgok('删除成功!');
+          this.needRefreshList = true;
           this.showList(true);
         });
       }).catch(() => {

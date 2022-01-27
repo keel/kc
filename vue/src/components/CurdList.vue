@@ -8,7 +8,7 @@
         <el-table-column v-for="item in tableTitles" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width">
           <template slot-scope="scope">
             <template v-if="(item.prop == 'name')" >
-              <el-link style="color:#dedefd;" @click="showOne(scope.row)">{{scope.row.name}}</el-link>
+              <el-link style="color:#dedefd;" @click="showOne(scope.row._id)">{{scope.row.name}}</el-link>
             </template>
             <template v-else>{{$kc.showValue(scope.row[item.prop], item.input)}}</template>
           </template>
@@ -68,8 +68,8 @@ export default {
     this.showList();
   },
   'methods': {
-    showOne(oneObj){
-      this.$emit('showOne',oneObj);
+    showOne(id){
+      this.$emit('showOne',id);
     },
     showList(searchObj) {
       this.start = (this.pageNum - 1) * this.pageSize;
@@ -98,13 +98,17 @@ export default {
           this.$alert('列表数据获取失败 ' + (reJson.data || ''), '列表错误');
           return;
         }
-        this.tableTitles = reJson.tableTitles;
+        this.tableTitles = [];
         this.recordsTotal = reJson.recordsTotal;
         this.recordsFiltered = reJson.recordsFiltered;
         this.tableData = reJson.data;
-        this.$emit('setTableTitles', this.tableTitles);
-        for (let i = 0, len = this.tableTitles.length; i < len; i++) {
-          const titleOne = this.tableTitles[i];
+        this.$emit('setTableTitles', reJson.tableTitles);
+        for (let i = 0, len = reJson.tableTitles.length; i < len; i++) {
+          const titleOne = reJson.tableTitles[i];
+          if (titleOne.hide && titleOne.hide.indexOf('list') >= 0) {
+            continue;
+          }
+          this.tableTitles.push(titleOne);
           if (titleOne.input) {
             this.inputMap[titleOne.prop] = titleOne.input;
           }

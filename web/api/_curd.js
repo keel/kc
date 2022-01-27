@@ -23,7 +23,7 @@ const processProp = function(prop) {
   for (let i = 0, len = prop.fields.length; i < len; i++) {
     const item = prop.fields[i];
     fieldsMap[item.col] = item;
-    if (!item.hide || (item.hide.indexOf('all') < 0 && item.hide.indexOf('list') < 0)) {
+    if (!item.hide || (item.hide.indexOf('all') < 0)) {
       listProjection[item.col] = 1;
       const titleObj = { 'prop': item.col, 'label': item.name, 'input': item.input, 'hide': item.hide, 'search': item.search };
       if (item.width) {
@@ -196,8 +196,11 @@ function instance(prop) {
 
 
   const showId = function(req, resp, callback) {
-    if (parseInt(req.userLevel) < me.rLevel && req.params.id !== req.userId) {
+    if (parseInt(req.userLevel) < me.rLevel && req.body.id !== req.userId) {
       return callback(null, error.json('level'));
+    }
+    if (!req.body.id) {
+      return error.apiErr('空id', callback, '404');
     }
     let showUpdate = true;
     let showDel = true;
@@ -212,9 +215,9 @@ function instance(prop) {
         showUpdate = false;
       }
     }
-    me.db.c(me.tb, me.dbConf).findOne({ '_id': me.db.idObj(req.params.id) }, function(err, re) {
+    me.db.c(me.tb, me.dbConf).findOne({ '_id': me.db.idObj(req.body.id) }, function(err, re) {
       if (err) {
-        vlog.eo(err, 'showId', me.tb + '/' + req.params.id);
+        vlog.eo(err, 'showId', me.tb + '/' + req.body.id);
         return callback(null, error.json('curdOne'));
       }
       if (re) {
@@ -225,7 +228,7 @@ function instance(prop) {
         }
         me.onOne(req, re, (err, reData) => {
           if (err) {
-            vlog.eo(err, 'showId.onOne', me.tb + '/' + req.params.id);
+            vlog.eo(err, 'showId.onOne', me.tb + '/' + req.body.id);
             return callback(null, error.json('curdOne'));
           }
 
@@ -235,7 +238,8 @@ function instance(prop) {
             showUpdate,
             showDel,
           };
-          return callback(null, { 'code': 0, 'data': JSON.stringify(respObj) });
+
+          return callback(null, respObj);
         });
 
       } else {
