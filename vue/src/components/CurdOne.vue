@@ -18,6 +18,9 @@
               <template v-else-if="(item.input.type == 'radio')">
                 <el-radio v-show="isUpdate" @input="$forceUpdate()" v-for="radioItem in item.input.options" :key="radioItem.key" v-model="updateObj[item.prop]" :label="radioItem.val">{{radioItem.key}}</el-radio>
               </template>
+              <template v-else-if="(item.input.type == 'pwd')">
+                <el-input v-show="isUpdate" @input="$forceUpdate()" placeholder="请输入密码" v-model="updateObj[item.prop]" show-password></el-input>
+              </template>
               <template v-else>
                 <el-input v-show="isUpdate" @input="$forceUpdate()" v-model="updateObj[item.prop]"></el-input>
               </template>
@@ -76,12 +79,12 @@ export default {
       this.$kc.kPost('/' + this.tbName + '/one', { id }, (err, reData) => {
         this.doOneLoading = false;
         if (err) {
-          this.$kc.lerr('updateERR:' + err);
+          this.$kc.lerr('oneERR:' + err);
           if (('' + err).indexOf('403') >= 0) {
             this.$router.push('/login');
             return;
           }
-          this.$alert('更新数据处理失败', '数据错误');
+          this.$alert('获取数据处理失败', '数据错误');
           return;
         }
         const reJson = JSON.parse('' + reData);

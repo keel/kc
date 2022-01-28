@@ -730,7 +730,7 @@ function instance(prop) {
         // 'isXssFilter': true,
         'resp': downloadCsv,
         'authName': '-导出csv',
-        'authPath': me.authPath + '/csv',
+        'authPath': me.authPath + '/csv', //定义authPath,覆盖路径定义
       },
     }
   };

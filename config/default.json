@@ -20,8 +20,10 @@
   "firstUser":{
     "isFirst":true,
     "loginName":"admin",
+    "name":"firstUser",
     "loginPwd":"helloFirst",
     "level":10,
+    "state":0,
     "_id":999
   },
   "vlogRedisLevel":"log",

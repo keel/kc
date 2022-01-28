@@ -18,7 +18,7 @@
         </el-col>
         <el-col :span="12">
           <el-button size="small" type="danger" @click="showAdd()">新建</el-button>
-          <el-button size="small" type="info" @click="downCsv()">导出</el-button>
+          [#{downCsv]<el-button size="small" type="info" @click="downCsv()">导出</el-button>[#}downCsv]
         </el-col>
       </el-row>
     </el-card>
@@ -32,7 +32,7 @@ import CurdList from '../../components/CurdList.vue';
 import CurdAdd from '../../components/CurdAdd.vue';
 import CurdOne from '../../components/CurdOne.vue';
 export default {
-  'name': 'product',
+  'name': '[#tb]',
   'components': {
     CurdList,
     CurdAdd,
@@ -40,8 +40,8 @@ export default {
   },
   'data': function() {
     return {
-      'tbName': 'product',
-      'tbTxt': '产品',
+      'tbName': '[#tb]',
+      'tbTxt': '[#tbName]',
       'showContent': 'list',
       'tableTitles': null,
       'searchInput': '',
@@ -74,10 +74,12 @@ export default {
       }
       return searchObj;
     },
+    [#{downCsv]
     downCsv() {
       const postUrl = '/' + this.tbName + '/csv/' + this.tbTxt + '_' + (Date.now()) + '.csv';
       this.$kc.postDownFile(this.$refs.curdList.mkListReq(this.mkSearchObj()), postUrl);
     },
+    [#}downCsv]
     doSearch() {
       this.showContent = 'list';
       this.searchLoading = true;

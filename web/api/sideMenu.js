@@ -18,7 +18,7 @@ const menuArr = [
     'link': 'projectTitle',
     'icon': 'el-icon-s-order',
     'subs': [
-      { 'name': '项目列表', 'link': '/project' },
+      { 'name': '项目列表', 'link': '/proj_p' },
       { 'name': '项目查询', 'link': '/proj-search' },
       { 'name': '项目统计', 'link': '/proj-assis' },
     ]
@@ -32,6 +32,11 @@ const menuArr = [
     'name': '关于信息',
     'link': '/about',
     'icon': 'el-icon-document',
+  },
+  {
+    'name': '账号管理',
+    'link': '/cp',
+    'icon': 'el-icon-user-solid',
   },
   {
     'name': '退出系统',

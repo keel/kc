@@ -5,21 +5,23 @@ CURD配置,完整示例
 const cck = require('cck');
 const path = require('path');
 const kc = require('../../lib/kc');
-// const db = kc.mongo.init();
 const Pinyin = require('../../lib/pinyin'); //引入拼音首字母便于快速检索
 const vlog = require('vlog').instance(__filename);
 const curd = require('./_curd');
 
-//这里使用非默认mongo库, 仅在同时连接多个数据库时使用, 一般不需要
-kc.kconfig.reInit(false, path.join(__dirname, '../../config/test2.json'), null, 'test2');
-const otherMongo = kc.mongo.reInit(false, 'test2');
+// const db = kc.mongo.init();
+//这里使用非默认mongo库, 仅在同时连接多个数据库时使用, 一般使用上面一句即可
+const dbConfName = 'test2';
+kc.kconfig.reInit(false, path.join(__dirname, '../../config/test2.json'), null, dbConfName);
+const db = kc.mongo.reInit(false, dbConfName);
+
 
 // ======>注: 除tb,fields字段必填, 其余均为选填
 const prop = {
   'tb': 'product', //表名, 必填
   'tbName': '产品', //表名显示, 不填则为tb
-  'db': otherMongo, //在使用不同数据库时与dbConf共同指定, 使用默认mongo可省略此项配置
-  'dbConf': 'test2', //配合db参数使用
+  'db': db, //在使用不同数据库时与dbConf共同指定, 使用默认mongo可省略此项配置
+  'dbConf': dbConfName, //配合db参数使用
   // 'apiKey': kc.kconfig.get('s$_apiKey'), //标准API协议所用到的key,可根据情况从配置文件,数据库或其他位置获取,不填则为kconfig.get('s$_apiKey')
   // 'defaultSearch': 'name',//默认搜索字段, 不填则为"name"
   'fields': [ //必填
@@ -35,9 +37,9 @@ const prop = {
       'info': null, //补充说明文字
       'input': null, //输入类型,为空则为input,这里会影响前端的展示,json类型,如{type,options...};
       'formatter': null, //返回到前端之前进行格式处理的方法, 注意这里主要是面向安全性的服务端的处理, 若只是调整格式请使用input从前端调整, 如:'formatter': (data) => { return ktool.sha1(data); }
-      'search':'string', //可作为查询条件,格式为string
+      'search': 'string', //可作为查询条件,格式为string
     },
-    { 'col': 'fee', 'name': '资费(元)', 'type': 'int', 'validator': 'strInt', 'input': { 'type': 'rmb' }, 'search':'int' },
+    { 'col': 'fee', 'name': '资费(元)', 'type': 'int', 'validator': 'strInt', 'input': { 'type': 'rmb' }, 'search': 'int' },
     {
       'col': 'feeType',
       'name': '计费类型',
@@ -54,7 +56,7 @@ const prop = {
         ]
       },
       'validator': ['strLen', [1, 30]],
-      'search':'string',
+      'search': 'string',
     },
     { 'col': 'feeCut', 'name': '分成比例', 'type': 'int', 'info': '(>=0且<=100的整数,表示百分比)', 'default': 100, 'validator': 'strInt' },
     { 'col': 'creatorId', 'type': 'string', 'hide': 'all' }, //创建人id
@@ -62,7 +64,7 @@ const prop = {
     { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
     { 'col': 'py', 'type': 'string', 'hide': 'all' }, //拼音首字母,检索用,所有界面均不显示
   ],
-
+  'downCsv': true, //是否支持CSV导出,此参数只影响模板生成
   'listSort': {
     'createTime': -1,
   },
@@ -128,8 +130,8 @@ const refreshCache = function(pid, isDel) {
     }
 
     kc.iCache.cacheTable('mem', 'mongo', prop.tb, '_id,name', {
-      _id: otherMongo.idObj(pid)
-    }, { 'dbConfigName': 'test2' }, function(err) { //dbConfigName指定非默认mongo,一般可不带此参数
+      _id: db.idObj(pid)
+    }, { 'dbConfigName': dbConfName }, function(err) { //dbConfigName指定非默认mongo,一般可不带此参数
       if (err) {
         vlog.error(err.stack);
         return;
@@ -155,14 +157,14 @@ exports.router = function() {
 
 //服务启动时检查表索引
 setTimeout(function() {
-  //停1秒等待otherMongo初始化结束,若使用默认mongo则不需要后两个参数(false,'test2')
-  otherMongo.checkIndex(prop.tb, {
+  //停1秒等待db初始化结束,若使用默认mongo则不需要后两个参数(false,dbConfName)
+  db.checkIndex(prop.tb, {
     'createTime_-1': { 'createTime': -1 },
     'name_-1': { 'name': -1 },
     'state_-1': { 'state': -1 },
-  }, false, 'test2');
+  }, false, dbConfName);
 }, 1000);
 
 
-// const mk = require('../../lib/mkCurd.js');
+// const mk = require('../../lib/mkCurdVue.js');
 // mk.make(prop);

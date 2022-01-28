@@ -148,7 +148,7 @@ const priceStrParse = function(priceStr) {
 };
 
 const showValMap = {
-  'pwd': () => { return '***'; },
+  'pwd': () => { return '******'; },
   'rmb': (val) => { return priceIntShow(val); },
   'datetime': (val) => { return timeFormat(val); },
 };
@@ -172,6 +172,12 @@ const inputFormatMap = {
 const inputFormatBackMap = {
   'rmb': (val) => {
     return priceStrParse(val);
+  },
+  'pwd': (val) => {
+    if (!val || (!val.trim())) {
+      return null;
+    }
+    return val;
   },
 };
 
