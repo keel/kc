@@ -36,6 +36,7 @@ import {
   Option,
   OptionGroup,
   ButtonGroup,
+  Tree,
 } from 'element-ui';
 
 const commps = [Button,
@@ -70,6 +71,7 @@ const commps = [Button,
   Option,
   OptionGroup,
   ButtonGroup,
+  Tree,
   // MessageBox,
   // Loading,
 ];

@@ -23,7 +23,9 @@
       </el-row>
     </el-card>
     <CurdList v-show="(this.showContent === 'list')" ref="curdList" :tbName="tbName" :tbTxt="tbTxt" @showOne="showOne" @setTableTitles="setTableTitles" />
-    <CurdOne v-show="(this.showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" />
+    <CurdOne v-show="(this.showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" >
+      <el-button type="danger" @click="$router.push('/permission')">权限配置</el-button>
+    </CurdOne>
     <CurdAdd v-show="(this.showContent === 'add')" ref="curdAdd" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" />
   </div>
 </template>

@@ -14,6 +14,7 @@ const routes = [{
       { 'name': 'Home', 'path': 'home', 'component': Home },
       { 'name': 'Nothing', 'path': 'nothing', component: () => import( /* webpackChunkName: "about" */ '../views/Nothing.vue') },
       { 'name': 'About', 'path': 'about', component: () => import( /* webpackChunkName: "about" */ '../views/About.vue') },
+      { 'name': 'permission', 'path': 'permission', component: () => import( '../views/permission.vue') },
     ],
   },
   {

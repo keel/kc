@@ -45,3 +45,8 @@ display:none !important;
 .el-input-group__prepend {
   color: #FFF;
 }
+
+.el-tree {
+  background: #1B1C3B;
+  padding: 20px;
+}

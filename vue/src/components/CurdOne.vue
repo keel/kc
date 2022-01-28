@@ -33,6 +33,7 @@
         </el-form-item>
       </el-form>
       <div style="padding-left: 100px;">
+        <slot></slot>
         <el-button v-show="isShowUpdate && (!isUpdate)" type="info" @click="showUpdate()">修改</el-button>
         <el-button v-show="isShowDel" type="danger" @click="doDel()" :loading="doDelLoading">删除</el-button>
         <el-button v-show="isUpdate" type="info" @click="doUpdate()" :loading="doUpdateLoading">执行修改</el-button>
