@@ -22,9 +22,9 @@
         </el-col>
       </el-row>
     </el-card>
-    <CurdList v-show="(this.showContent === 'list')" ref="curdList" :tbName="tbName" :tbTxt="tbTxt" @showOne="showOne" @setTableTitles="setTableTitles">[#listSlot]</CurdList>
-    <CurdOne v-show="(this.showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow">[#oneSlot]</CurdOne>
-    <CurdAdd v-show="(this.showContent === 'add')" ref="curdAdd" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow">[#addSlot]</CurdAdd>
+    <CurdList v-show="(showContent === 'list')" ref="curdList" :tbName="tbName" :tbTxt="tbTxt" @showOne="showOne" @setTableTitles="setTableTitles">[#listSlot]</CurdList>
+    <CurdOne v-show="(showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" @setOneParas="setOneParas" @showList="showListNow">[#oneSlot]</CurdOne>
+    <CurdAdd v-show="(showContent === 'add')" ref="curdAdd" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow">[#addSlot]</CurdAdd>
   </div>
 </template>
 <script>
