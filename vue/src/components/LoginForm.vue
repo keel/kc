@@ -68,7 +68,7 @@ export default {
           // console.log('error valid!!');
           return false;
         }
-        this.$kc.apiReq('/login', { 'loginName': this.oneForm.loginName, 'loginPwd': this.$kc.codeTool().b64(Date.now() + '@' + this.oneForm.loginPwd) }, (err, reData) => {
+        this.$kc.apiReq(this,' /login', { 'loginName': this.oneForm.loginName, 'loginPwd': this.$kc.codeTool().b64(Date.now() + '@' + this.oneForm.loginPwd) }, (err, reData) => {
           if (err) {
             console.error('login Fail1:' + reData);
             this.$alert((reData ? reData : '请检查输入'), '登录失败');

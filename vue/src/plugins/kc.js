@@ -546,16 +546,20 @@ var kHttp = function(that, url, httpType, data, headers, callback) {
     if (xhr.status == 200) {
       return callback.call(that, null, xhr.responseText);
     } else {
+      if (xhr.status === 403 && that.$router) {
+        that.$router.push('/login');
+        return;
+      }
       return callback.call(that, 'kHttpERR-' + xhr.status, xhr.responseText);
     }
   };
 };
 
-var kPost = function(url, data, headers, callback) {
-  kHttp(this, url, 'POST', data, headers, callback);
+var kPost = function(v, url, data, headers, callback) {
+  kHttp(v, url, 'POST', data, headers, callback);
 };
-var kGet = function(url, headers, callback) {
-  kHttp(this, url, 'GET', null, headers, callback);
+var kGet = function(v,url, headers, callback) {
+  kHttp(v, url, 'GET', null, headers, callback);
 };
 var pushToArr = function(data, pArr) {
   for (var i in data) {
@@ -593,8 +597,8 @@ var mkApiReq = function(data) {
   return JSON.stringify(reqData);
 };
 
-var apiReq = function(url, data, callback) {
-  kPost.call(this, url, mkApiReq(data), callback);
+var apiReq = function(v, url, data, callback) {
+  kPost(v, url, mkApiReq(data), callback);
 };
 
 var postDownFile = function(params, url) {

@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <div style="width: 100%;color:#dedefd;">{{ tbTxt }}列表</div>
+        <div style="width: 100%;color:#dedefd;">{{ tbTxt }}列表 <slot /></div>
       </div>
       <el-table v-loading="listLoading" :data="tableData" :row-style="rowStyle" :header-row-style="headerRowStyle" style="width: 100%">
         <el-table-column v-for="item in tableTitles" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width">
@@ -34,10 +34,7 @@
 
 export default {
   'name': 'CurdList',
-  'props': {
-    'tbName': '',
-    'tbTxt': '',
-  },
+  'props': ['tbName','tbTxt'],
   data() {
     return {
       'tb': this.tbName,
@@ -88,14 +85,10 @@ export default {
       if(!callback){
         callback = ()=>{};
       }
-      this.$kc.kPost('/' + this.tb + '/list', this.mkListReq(searchObj), (err, reData) => {
+      this.$kc.kPost(this,' /' + this.tb + '/list', this.mkListReq(searchObj), (err, reData) => {
         this.listLoading = false;
         if (err) {
-          this.$kc.lerr('listERR:'+err);
-          if (('' + err).indexOf('403') >= 0) {
-            this.$router.push('/login');
-            return callback();
-          }
+          console.log('list',this);
           this.$alert('列表数据获取处理失败', '数据错误');
           return callback();
         }

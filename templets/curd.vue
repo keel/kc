@@ -22,9 +22,9 @@
         </el-col>
       </el-row>
     </el-card>
-    <CurdList v-show="(this.showContent === 'list')" ref="curdList" :tbName="tbName" :tbTxt="tbTxt" @showOne="showOne" @setTableTitles="setTableTitles" />
-    <CurdOne v-show="(this.showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" />
-    <CurdAdd v-show="(this.showContent === 'add')" ref="curdAdd" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" />
+    <CurdList v-show="(this.showContent === 'list')" ref="curdList" :tbName="tbName" :tbTxt="tbTxt" @showOne="showOne" @setTableTitles="setTableTitles">[#listSlot]</CurdList>
+    <CurdOne v-show="(this.showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow">[#oneSlot]</CurdOne>
+    <CurdAdd v-show="(this.showContent === 'add')" ref="curdAdd" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow">[#addSlot]</CurdAdd>
   </div>
 </template>
 <script>
@@ -48,10 +48,13 @@ export default {
       'searchKey': '',
       'searchArr': [],
       'searchLoading': false,
+      'oneId':null,
+      'oneParas':{},//保存CurdOne回传的其他参数
     };
   },
   'methods': {
     showOne(id) {
+      this.oneId = id;
       this.showContent = 'one';
       this.$refs.curdOne.showOneProp(id, this.tableTitles);
     },
@@ -97,7 +100,14 @@ export default {
       if (this.searchArr.length > 0) {
         this.searchKey = this.searchArr[0].key;
       }
-    }
+    },
+    setOneParas(paras){
+      if(!paras){
+        return;
+      }
+      this.oneParas = paras;
+    },
+
   }
 }
 </script>

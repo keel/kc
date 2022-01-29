@@ -22,11 +22,9 @@
         </el-col>
       </el-row>
     </el-card>
-    <CurdList v-show="(this.showContent === 'list')" ref="curdList" :tbName="tbName" :tbTxt="tbTxt" @showOne="showOne" @setTableTitles="setTableTitles" />
-    <CurdOne v-show="(this.showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" >
-      <el-button type="danger" @click="$router.push('/permission')">权限配置</el-button>
-    </CurdOne>
-    <CurdAdd v-show="(this.showContent === 'add')" ref="curdAdd" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow" />
+    <CurdList v-show="(this.showContent === 'list')" ref="curdList" :tbName="tbName" :tbTxt="tbTxt" @showOne="showOne" @setTableTitles="setTableTitles">listSlot</CurdList>
+    <CurdOne v-show="(this.showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow"><el-button v-if="oneParas.authMap" type="danger" @click="$router.push('/permission/'+oneId)">权限配置</el-button></CurdOne>
+    <CurdAdd v-show="(this.showContent === 'add')" ref="curdAdd" :tbName="tbName" :tbTxt="tbTxt" @showList="showListNow">addSlot</CurdAdd>
   </div>
 </template>
 <script>
@@ -43,17 +41,20 @@ export default {
   'data': function() {
     return {
       'tbName': 'cp',
-      'tbTxt': '账号',
+      'tbTxt': '账号管理',
       'showContent': 'list',
       'tableTitles': null,
       'searchInput': '',
       'searchKey': '',
       'searchArr': [],
       'searchLoading': false,
+      'oneId':null,
+      'oneParas':{},//保存CurdOne回传的其他参数
     };
   },
   'methods': {
     showOne(id) {
+      this.oneId = id;
       this.showContent = 'one';
       this.$refs.curdOne.showOneProp(id, this.tableTitles);
     },
@@ -94,7 +95,14 @@ export default {
       if (this.searchArr.length > 0) {
         this.searchKey = this.searchArr[0].key;
       }
-    }
+    },
+    setOneParas(paras){
+      if(!paras){
+        return;
+      }
+      this.oneParas = paras;
+    },
+
   }
 }
 </script>

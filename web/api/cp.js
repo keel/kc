@@ -17,17 +17,93 @@ kc.kconfig.reInit(false, path.join(__dirname, '../../config/test2.json'), null, 
 const db = kc.mongo.reInit(false, dbConfName);
 
 
+const adminLevel = 10; //可进行权限配置的level等级
+
+
+
+const mkPwd = function(pwdStr, createTime) {
+  const newPwd = pwdStr.trim() + ',' + createTime;
+  return ktool.sha1(newPwd);
+};
+
+//显示权限树
+const authMap = function(req, resp, callback) {
+  if (req.userLevel < 10) {
+    return resp.send('{"code":0}');
+  }
+  const authMap = kc.auth.getAuthMap();
+  const cp = kc.iCache.getSync('cp:_id:' + req.body.uid);
+  if (!cp || !cp.permission) {
+    return resp.send(JSON.stringify(authMap));
+  }
+  if (cp.permission) {
+    const permission = JSON.parse(cp.permission);
+    for (const i in permission) {
+      if (!authMap[i]) {
+        // authMap[i] = { 'name': i };
+        continue;
+      }
+      authMap[i].check = (permission[i]) ? 1 : 0;
+      // console.log('authMap i:%j, p:%j',i,permission[i],authMap[i]);
+    }
+  }
+  const showUpdate = (kc.auth.auth(req, 'cp/authSave')) ? 1 : 0;
+  resp.send(JSON.stringify({ 'code': 0, 'data': authMap, showUpdate }));
+};
+
+//更新权限
+const authSave = function(req, resp, callback) {
+  if (req.userLevel < adminLevel) {
+    return resp.send('{}');
+  }
+  const re = { 'code': 0, 'data': '权限保存成功!' };
+  const cp = kc.iCache.getSync('cp:_id:' + req.body.uid);
+  if (!cp) {
+    re.code = 1;
+    re.data = '用户不存在';
+    return resp.send(re);
+  }
+  const data = req.body.data;
+  const permission = {};
+  for (let i = 0, len = data.length; i < len; i++) {
+    permission[data[i]] = 1;
+  }
+  // console.log('save permission%j', permission);
+  db.c(prop.tb, dbConfName).updateOne({ '_id': db.idObj(req.body.uid) }, { '$set': { 'permission': permission } }, (err) => {
+    if (err) {
+      vlog.eo(err, 'authSave', req.body);
+      resp.send({ 'code': 2, 'data': '服务器保存失败,请联系管理员!' });
+      return;
+    }
+    resp.send(re);
+    refreshCache(req.body.uid);
+  });
+};
+
 // ======>注: 除tb,fields字段必填, 其余均为选填
 const prop = {
   'tb': 'cp', //表名, 必填
-  'tbName': '账号', //表名显示, 不填则为tb
+  'tbName': '账号管理', //表名显示, 不填则为tb
   'db': db, //在使用不同数据库时与dbConf共同指定, 一般使用默认mongo即可省略此项配置
   'dbConf': dbConfName, //配合db参数使用
   'fields': [ //必填
     //字段
     { 'col': 'name', 'name': '账号名', 'type': 'string', 'search': 'string', 'validator': ['strLen', [2, 30]], },
-    { 'col': 'loginName', 'name': '登录名', 'type': 'string', 'search': 'string', 'validator': ['strLen', [2, 30]], },
-    { 'col': 'loginPwd', 'name': '密码', 'type': 'pwd', 'hide': 'add|list', 'input': { 'type': 'pwd' }, 'validator': ['@strLen', [6, 30]], },
+    {
+      'col': 'loginName',
+      'name': '登录名',
+      'type': 'string',
+      'search': 'string',
+      'validator': ['strLen', [2, 30]],
+    },
+    {
+      'col': 'loginPwd',
+      'name': '密码',
+      'type': 'pwd',
+      'hide': 'add|list',
+      'input': { 'type': 'pwd' },
+      'validator': ['@strLen', [6, 30]],
+    },
     { 'col': 'level', 'name': '等级', 'type': 'int', 'input': { 'type': 'int' } },
 
     //拼音首字母检索用
@@ -52,7 +128,11 @@ const prop = {
   },
   'onOne': function(req, oneData, callback) {
     oneData.loginPwd = ''; //置空密码不返回
-    callback(null, oneData);
+    let paras = null;
+    if (kc.auth.auth(req, 'cp/authMap')) {
+      paras = { 'authMap': 1 }; //这里用paras加入参数控制权限配置是否显示
+    }
+    callback(null, oneData, paras);
   },
   onUpdate(req, reqData, callback) {
     if (!reqData.loginPwd) {
@@ -82,11 +162,25 @@ const prop = {
   },
 
   'authPath': 'cp', //权限路径,如不配置则仅按level判定权限(仍然要登录), 若配置则需要登录且登录账号具备此路径权限才可返回数据
-};
-
-const mkPwd = function(pwdStr, createTime) {
-  const newPwd = pwdStr.trim() + ',' + createTime;
-  return ktool.sha1(newPwd);
+  //补充的api
+  'iiConf': {
+    'act': {
+      'authMap': {
+        'showLevel': 0,
+        'resp': authMap,
+        'authName': '-权限配置显示',
+      },
+      'authSave': {
+        'showLevel': 0,
+        'resp': authSave,
+        'authName': '-权限修改',
+      },
+    }
+  },
+  //以下参数用于mkCurdVue使用
+  'listSlot':'',
+  'oneSlot':'<el-button v-if="oneParas.authMap" type="danger" @click="$router.push(\'/permission/\'+oneId)">权限配置</el-button>',
+  'addSlot':'',
 };
 
 const ci = curd.instance(prop);
@@ -95,9 +189,52 @@ exports.router = function() {
   return ci.router;
 };
 
+
+//如果引入全表缓存,则在数据变动时更新缓存数据
+const refreshCache = function(pid, isDel) {
+  if (!pid) {
+    vlog.error('refreshCache no pid:%j', pid);
+    return;
+  }
+  process.nextTick(function() {
+    // vlog.log('refreshCache:%s',pid);
+    if (isDel) {
+      //清除对应缓存
+      const cKey = prop.tb + ':_id:' + pid;
+      const orgCache = kc.iCache.getSync(cKey);
+      if (orgCache) {
+        kc.iCache.set('mem', cKey, null);
+      }
+      return;
+    }
+
+    kc.iCache.cacheTable('mem', 'mongo', prop.tb, '_id', {
+      _id: db.idObj(pid)
+    }, { 'dbConfigName': dbConfName }, function(err) { //dbConfigName指定非默认mongo,一般可不带此参数
+      if (err) {
+        vlog.error(err.stack);
+        return;
+      }
+    });
+  });
+};
+
+//curd事件: addOK, updateOK, hardDelOK
+ci.on('addOK', function(reqBody, uId, uLevel, dbObj) {
+  refreshCache('' + dbObj._id);
+});
+ci.on('updateOK', function(reqBody, uId, uLevel) { // eslint-disable-line
+  refreshCache(reqBody.req._id);
+});
+ci.on('hardDelOK', function(reqBody, uId, uLevel) { // eslint-disable-line
+  refreshCache(reqBody.req._id, true);
+});
+
 db.checkIndex(prop.tb, {
   'createTime_-1': { 'createTime': -1 },
   'name_-1': { 'name': -1 },
+  'loginName_-1': { 'loginName': -1 },
+  'level_-1': { 'level': -1 },
   'state_-1': { 'state': -1 },
 }, false, dbConfName);
 

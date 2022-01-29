@@ -1,5 +1,5 @@
 /*
-test api
+api示例
  */
 'use strict';
 const kc = require('../../lib/kc');

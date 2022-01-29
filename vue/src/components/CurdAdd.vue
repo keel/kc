@@ -29,6 +29,7 @@
         </el-form-item>
       </el-form>
       <div style="padding-left: 100px;">
+        <slot></slot>
         <el-button type="info" @click="addNew()">新增</el-button>
         <el-button type="primary" @click="showList()">返回列表</el-button>
       </div>
@@ -71,13 +72,8 @@ export default {
       this.$emit('showList',isRefresh);
     },
     addNew(){
-      this.$kc.apiReq('/' + this.tbName + '/add', this.updateObj, (err, reData) => {
+      this.$kc.apiReq(this,' /' + this.tbName + '/add', this.updateObj, (err, reData) => {
         if (err) {
-          this.$kc.lerr('addERR:' + err);
-          if (('' + err).indexOf('403') >= 0) {
-            this.$router.push('/login');
-            return;
-          }
           this.$alert('新增数据处理失败', '数据错误');
           return;
         }

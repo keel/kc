@@ -73,15 +73,20 @@ const showUpdate = function(req, resp, next) { // eslint-disable-line
 
 const iiConfig = {
   'auth': true,
+  'authPath':'profile',
+  'authName':'账号信息',
   'act': {
     'update': {
       'showLevel': showLevel,
       'validator': {},
-      'resp': update
+      'resp': update,
+      'authName':'-更新',
     },
     'show': {
       'showLevel': showLevel,
-      'resp': showUpdate
+      'resp': showUpdate,
+      'authName':'-显示',
+      'authPath': 'profile/list', //用list标记显示权限
     }
   }
 };

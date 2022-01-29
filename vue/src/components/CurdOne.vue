@@ -77,14 +77,9 @@ export default {
       }
       this.tableTitles = tableTitles;
       this.doOneLoading = true;
-      this.$kc.kPost('/' + this.tbName + '/one', { id }, (err, reData) => {
+      this.$kc.kPost(this,' /' + this.tbName + '/one', { id }, (err, reData) => {
         this.doOneLoading = false;
         if (err) {
-          this.$kc.lerr('oneERR:' + err);
-          if (('' + err).indexOf('403') >= 0) {
-            this.$router.push('/login');
-            return;
-          }
           this.$alert('获取数据处理失败', '数据错误');
           return;
         }
@@ -110,6 +105,9 @@ export default {
         this.updateObj = this.$kc.mkUpdateObj(newOne,this.inputMap);
         this.isShowUpdate = reJson.showUpdate;
         this.isShowDel = reJson.showDel;
+        if (reJson.paras) {
+          this.$emit('setOneParas', reJson.paras);
+        }
       });
     },
     showList(isRefresh) {
@@ -121,14 +119,9 @@ export default {
     },
     doUpdate() {
       this.doUpdateLoading = true;
-      this.$kc.apiReq('/' + this.tbName + '/update', this.$kc.backUpdateObj(this.updateObj, this.inputMap), (err, reData) => {
+      this.$kc.apiReq(this,' /' + this.tbName + '/update', this.$kc.backUpdateObj(this.updateObj, this.inputMap), (err, reData) => {
         this.doUpdateLoading = false;
         if (err) {
-          this.$kc.lerr('updateERR:' + err);
-          if (('' + err).indexOf('403') >= 0) {
-            this.$router.push('/login');
-            return;
-          }
           this.$alert('更新数据处理失败', '数据错误');
           return;
         }
@@ -150,14 +143,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$kc.apiReq('/' + this.tbName + '/del', { '_id': '' + this.updateObj._id }, (err, reData) => {
+        this.$kc.apiReq(this,' /' + this.tbName + '/del', { '_id': '' + this.updateObj._id }, (err, reData) => {
           this.doDelLoading = false;
           if (err) {
-            this.$kc.lerr('delERR:' + err);
-            if (('' + err).indexOf('403') >= 0) {
-              this.$router.push('/login');
-              return;
-            }
             this.$alert('删除数据处理失败', '数据错误');
             return;
           }

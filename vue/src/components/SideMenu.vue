@@ -4,7 +4,6 @@
       <router-link :to="{name:'Home'}" style="color: #FFF; text-decoration: none;"><i class="el-icon-menu"></i> {{(isCollapse)?'':'控制台'}}</router-link>
     </div>
     <el-menu :collapse-transition="false" :router="true" class="menu-vertical" :collapse="isCollapse">
-
       <template v-for="mItem in menuArr">
         <template v-if="mItem.subs">
           <el-submenu :index="mItem.link" :key="mItem.link">
@@ -35,7 +34,7 @@ export default {
     }
   },
   mounted() {
-    this.$kc.kPost('/sideMenu/showMenu','{}',(err, reData) => {
+    this.$kc.kPost(this,' /sideMenu/showMenu','{}',(err, reData) => {
       if (err) {
         this.$kc.lerr(err);
         return;

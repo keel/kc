@@ -11,6 +11,7 @@ const vlog = require('vlog').instance(__filename);
 //配置需要使用字母检索功能的表
 const tableArr = [
   { 'tbName': 'product', 'letterLimit': 2, 'projection': { '_id': 1, 'name': 1 } },
+  { 'tbName': 'cp', 'letterLimit': 2, 'projection': { '_id': 1, 'name': 1 } },
 ];
 
 //用于显示预先选择好的select对象

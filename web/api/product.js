@@ -64,7 +64,6 @@ const prop = {
     { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
     { 'col': 'py', 'type': 'string', 'hide': 'all' }, //拼音首字母,检索用,所有界面均不显示
   ],
-  'downCsv': true, //是否支持CSV导出,此参数只影响模板生成
   'listSort': {
     'createTime': -1,
   },
@@ -103,6 +102,13 @@ const prop = {
   'authPath': 'product', //权限路径,若配置则需要登录且登录账号具备此路径权限才可返回数据
   // 'authName':'产品', //权限名,不配置则为tbName
   'curdLevel': [1, 1, 1, 1, 9], //level级别的权限, 默认均为0, 数组依次为:c,u,r,d,m(审批权限,暂无用)
+
+
+  //以下参数用于mkCurdVue使用
+  'listSlot':'',
+  'oneSlot':'',
+  'addSlot':'',
+  'downCsv': true, //是否支持CSV导出
 };
 
 

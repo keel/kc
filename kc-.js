@@ -18,7 +18,7 @@ app.on('dbsInitOK', function(err) {
   }
   const cacheTables = [
     'product#_id,name#{"state":{"$gte":0}}#{}',
-    'cp#_id,name#{"state":{"$gte":0}}#{}',
+    'cp#_id#{"state":{"$gte":0}}#{}',
   ];
   // kc.iCache.cacheMake('mem', 'mongo', cacheTables, function(err) {
   kc.iCache.cacheMakeWithConf('mem', 'mongo', cacheTables, 'test2', function(err) { //这里使用了非默认mongo配置test2,一般使用cacheMake即可

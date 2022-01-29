@@ -1,5 +1,5 @@
 /*
-sideMenu, 除level在99及以上的管理员, 其他按permission配置显示菜单, 除"首页"外的菜单项目通过menuArr定义
+vue前端使用的sideMenu, 除level在adminLevel及以上的管理员, 其他按permission配置显示菜单, 除"首页"外的菜单项目通过menuArr定义
  */
 'use strict';
 const kc = require('../../lib/kc');
@@ -12,10 +12,11 @@ const adminLevel = 10;
 const isTest = true;
 
 const homeLink = { 'name': '首页', 'link': '/', 'icon': 'el-icon-s-home' };
+const logoutLink = { 'name': '退出系统', 'link': '/logout', 'icon': 'el-icon-s-opportunity' };
 const menuArr = [
   {
     'name': '项目',
-    'link': 'projectTitle',
+    'link': '/proj_p/list',
     'icon': 'el-icon-s-order',
     'subs': [
       { 'name': '项目列表', 'link': '/proj_p' },
@@ -30,18 +31,13 @@ const menuArr = [
   },
   {
     'name': '关于信息',
-    'link': '/about',
+    'link': '/profile',
     'icon': 'el-icon-document',
   },
   {
     'name': '账号管理',
     'link': '/cp',
     'icon': 'el-icon-user-solid',
-  },
-  {
-    'name': '退出系统',
-    'link': '/logout',
-    'icon': 'el-icon-s-opportunity',
   },
 
 ];
@@ -50,7 +46,8 @@ const menuArr = [
 const addByPermission = function(navArr, subs, permission) {
   for (let i = 0, len = subs.length; i < len; i++) {
     const one = subs[i];
-    if (permission[one.link + '/list'] || permission[one.link]) {
+    const path = one.link.substring(1);
+    if (permission[path + '/list'] || permission[path]) {
       navArr.push(one);
       if (one.subs) {
         const tmpArr = [];
@@ -71,19 +68,19 @@ const showMenu = function(req, resp, callback) {
     menu.push(homeLink);
   }
   //管理员直接返回所有菜单
-  if (userLv >= adminLevel || isTest) {
-    return callback(null, { 'code': 0, 'data': menu.concat(menuArr) });
-  }
+  // if (userLv >= adminLevel || isTest) {
+  //   return callback(null, { 'code': 0, 'data': menu.concat(menuArr) });
+  // }
   const permission = req.sessionValue ? req.sessionValue.userPermission : {};
-
+  // console.log('req.sessionValue',req.sessionValue);
   addByPermission(menu, menuArr, permission);
-
+  menu.push(logoutLink);
   callback(null, { 'code': 0, 'data': menu });
 };
 
 
 const iiConfig = {
-  'auth': false,
+  'auth': true,
   'act': {
     'showMenu': {
       'resp': showMenu

@@ -5,7 +5,7 @@
 export default {
   'name': 'Logout',
   mounted() {
-    this.$kc.kPost('/logout', '{}', () => {
+    this.$kc.kPost(this,' /logout', '{}', () => {
       this.$router.push('/login');
     });
   },

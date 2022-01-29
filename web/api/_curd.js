@@ -225,18 +225,20 @@ function instance(prop) {
             re[f] = me.formatter[f](re[f]);
           }
         }
-        me.onOne(req, re, (err, reData) => {
+        me.onOne(req, re, (err, reData, paras) => {
           if (err) {
             vlog.eo(err, 'showId.onOne', me.tb + '/' + req.body.id);
             return callback(null, error.json('curdOne'));
           }
-
           const respObj = {
             'code': 0,
             'data': reData,
             showUpdate,
             showDel,
           };
+          if (paras) {
+            respObj['paras'] = paras;
+          }
 
           return callback(null, respObj);
         });
@@ -701,13 +703,13 @@ function instance(prop) {
         'resp': update,
         'authName': '-修改',
       },
-      'updateOne': {
-        'showLevel': me.uLevel,
-        'validator': me.validatorUpdate,
-        // 'isXssFilter': true,
-        'resp': updateOne,
-        'authName': '-单项修改',
-      },
+      // 'updateOne': { //单项修改用于在列表的表格中双击某单元格直接修改,这里暂不实现
+      //   'showLevel': me.uLevel,
+      //   'validator': me.validatorUpdate,
+      //   // 'isXssFilter': true,
+      //   'resp': updateOne,
+      //   'authName': '-单项修改',
+      // },
       'del': {
         'showLevel': me.dLevel,
         // 'validator': me.validatorDel,
@@ -734,6 +736,10 @@ function instance(prop) {
       },
     }
   };
+
+  if (me.iiConf) {
+    ktool.merge(iiConfig, me.iiConf);
+  }
 
   //由以上配置生成router
   const router = iApi.getRouter(iiConfig);

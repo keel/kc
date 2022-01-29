@@ -13,8 +13,8 @@ const routes = [{
       { 'path': '', 'component': Home },
       { 'name': 'Home', 'path': 'home', 'component': Home },
       { 'name': 'Nothing', 'path': 'nothing', component: () => import( /* webpackChunkName: "about" */ '../views/Nothing.vue') },
-      { 'name': 'About', 'path': 'about', component: () => import( /* webpackChunkName: "about" */ '../views/About.vue') },
-      { 'name': 'permission', 'path': 'permission', component: () => import( '../views/permission.vue') },
+      { 'name': 'Profile', 'path': 'profile', component: () => import( /* webpackChunkName: "about" */ '../views/Profile.vue') },
+      { 'name': 'permission', 'path': 'permission/:uid', component: () => import( '../views/permission.vue') },
     ],
   },
   {

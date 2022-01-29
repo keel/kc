@@ -61,14 +61,9 @@ export default {
   'methods': {
     showOneProp() {
       this.doOneLoading = true;
-      this.$kc.kPost('/profile/show', '{}', (err, reData) => {
+      this.$kc.kPost(this,' /profile/show', '{}', (err, reData) => {
         this.doOneLoading = false;
         if (err) {
-          this.$kc.lerr('oneERR:' + err);
-          if (('' + err).indexOf('403') >= 0) {
-            this.$router.push('/login');
-            return;
-          }
           this.$alert('获取数据处理失败', '数据错误');
           return;
         }
@@ -86,14 +81,9 @@ export default {
     },
     doUpdate() {
       this.doUpdateLoading = true;
-      this.$kc.apiReq('/profile/update', this.updateObj, (err, reData) => {
+      this.$kc.apiReq(this,' /profile/update', this.updateObj, (err, reData) => {
         this.doUpdateLoading = false;
         if (err) {
-          this.$kc.lerr('updateERR:' + err);
-          if (('' + err).indexOf('403') >= 0) {
-            this.$router.push('/login');
-            return;
-          }
           this.$alert('更新数据处理失败', '数据错误');
           return;
         }
