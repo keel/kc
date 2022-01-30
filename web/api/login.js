@@ -60,7 +60,8 @@ const login = function(req, resp, callback) {
   //用于首次创建用户登录使用,具备所有权限
   if (firstUser && firstUser.isFirst) {
     if (reqData.loginName === firstUser.loginName && pwdStr === firstUser.loginPwd) {
-      sessionAuth.setAuthedWithParas(req, resp, firstUser._id, firstUser.level, { 'userName': firstUser.loginName, 'userPermission': kc.auth.getAuthMap() }, function(err, re) {
+      const permission = kc.auth.getAuthMap();
+      sessionAuth.setAuthedWithParas(req, resp, firstUser._id, firstUser.level, { 'userName': firstUser.loginName, 'userPermission': permission }, function(err, re) {
         if (err) {
           return callback(vlog.ee(err, 'login:setAuthed', reqData), re, 500, 'cache');
         }

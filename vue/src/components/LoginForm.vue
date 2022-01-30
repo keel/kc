@@ -38,7 +38,10 @@ export default {
     this.rules = {
       'loginPwd': [{
         'validator': (rule, value, callback) => {
-          if (!value || value.length < 6) {
+          if (value === '') {
+            return callback();
+          }
+          if (value.length < 6) {
             callback(new Error('请正确输入密码'));
           } else {
             if (this.oneForm.loginName !== '') {
@@ -51,7 +54,10 @@ export default {
       }],
       'loginName': [{
         'validator': (rule, value, callback) => {
-          if (!value || value.length < 4) {
+          if (value === '') {
+            return callback();
+          }
+          if (value.length < 4) {
             callback(new Error('用户名长度不够'));
           } else {
             callback();
@@ -64,21 +70,19 @@ export default {
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
-        if (!valid) {
-          // console.log('error valid!!');
+        if (!valid || !this.oneForm.loginPwd || !this.oneForm.loginName) {
+          this.$alert('请检查输入', '登录失败');
           return false;
         }
-        this.$kc.apiReq(this,' /login', { 'loginName': this.oneForm.loginName, 'loginPwd': this.$kc.codeTool().b64(Date.now() + '@' + this.oneForm.loginPwd) }, (err, reData) => {
+        this.$kc.apiReq(this,'/login', { 'loginName': this.oneForm.loginName, 'loginPwd': this.$kc.codeTool().b64(Date.now() + '@' + this.oneForm.loginPwd) }, (err, reData) => {
           if (err) {
-            console.error('login Fail1:' + reData);
             this.$alert((reData ? reData : '请检查输入'), '登录失败');
             return;
           }
           const reJson = JSON.parse('' + reData);
           if ('' + reJson.code === '0') {
-            this.$router.push('/home');
+            this.$router.push('/');
           } else {
-            console.error('login Fail2:' + reJson.data);
             this.$alert(reJson.data || '请检查输入', '登录失败');
           }
         });
@@ -91,10 +95,5 @@ export default {
 }
 </script>
 
-<style>
-  .el-form-item__label {
-      color: #9595b5;
-  }
-</style>
 
 

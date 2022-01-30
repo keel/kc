@@ -119,7 +119,7 @@ export default {
     },
     doUpdate() {
       this.doUpdateLoading = true;
-      this.$kc.apiReq(this,' /' + this.tbName + '/update', this.$kc.backUpdateObj(this.updateObj, this.inputMap), (err, reData) => {
+      this.$kc.apiReq(this,'/' + this.tbName + '/update', this.$kc.backUpdateObj(this.updateObj, this.inputMap), (err, reData) => {
         this.doUpdateLoading = false;
         if (err) {
           this.$alert('更新数据处理失败', '数据错误');
@@ -143,7 +143,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$kc.apiReq(this,' /' + this.tbName + '/del', { '_id': '' + this.updateObj._id }, (err, reData) => {
+        this.$kc.apiReq(this,'/' + this.tbName + '/del', { '_id': '' + this.updateObj._id }, (err, reData) => {
           this.doDelLoading = false;
           if (err) {
             this.$alert('删除数据处理失败', '数据错误');

@@ -81,7 +81,7 @@ export default {
     },
     doUpdate() {
       this.doUpdateLoading = true;
-      this.$kc.apiReq(this,' /profile/update', this.updateObj, (err, reData) => {
+      this.$kc.apiReq(this,'/profile/update', this.updateObj, (err, reData) => {
         this.doUpdateLoading = false;
         if (err) {
           this.$alert('更新数据处理失败', '数据错误');

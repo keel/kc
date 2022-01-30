@@ -72,7 +72,7 @@ export default {
       this.$emit('showList',isRefresh);
     },
     addNew(){
-      this.$kc.apiReq(this,' /' + this.tbName + '/add', this.updateObj, (err, reData) => {
+      this.$kc.apiReq(this,'/' + this.tbName + '/add', this.updateObj, (err, reData) => {
         if (err) {
           this.$alert('新增数据处理失败', '数据错误');
           return;
