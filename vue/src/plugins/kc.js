@@ -151,6 +151,8 @@ const showValMap = {
   'pwd': () => { return '******'; },
   'rmb': (val) => { return priceIntShow(val); },
   'datetime': (val) => { return timeFormat(val); },
+  'array':(val)=>{return JSON.stringify(val);},
+  'json':(val)=>{return JSON.stringify(val);},
 };
 
 const showValue = function(val, inputObj) {

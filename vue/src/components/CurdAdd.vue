@@ -16,6 +16,25 @@
             <template v-else-if="(item.input.type == 'radio')">
               <el-radio v-for="radioItem in item.input.options" :key="radioItem.key" v-model="updateObj[item.prop]" :label="radioItem.val">{{radioItem.key}}</el-radio>
             </template>
+            <template v-else-if="(item.input.type == 'select2')">
+              <el-select :id="item.prop"
+                  v-model="updateObj[item.prop]"
+                  multiple
+                  filterable
+                  remote
+                  reserve-keyword
+                  placeholder="请输入关键词"
+                  @focus="arrInput = [];"
+                  :remote-method="select2(item.prop)"
+                  >
+                  <el-option
+                    v-for="item in arrInput"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+            </template>
             <template v-else>
               <el-input v-model="updateObj[item.prop]"></el-input>
             </template>
@@ -51,6 +70,8 @@ export default {
       'oneTbTxt': this.tbTxt,
       'updateObj':{},
       'rules':{},
+      'inputMap':{},//为更多的input参数预留使用
+      'arrInput':[],
     };
   },
   'methods': {
@@ -65,6 +86,9 @@ export default {
           continue;
         }
         arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'input': titleOne.input});
+        if (titleOne.input) {
+          this.inputMap[titleOne.prop] = titleOne.input;
+        }
       }
       this.oneArr = arr;
     },
@@ -85,7 +109,33 @@ export default {
         this.$msgok('新增成功!');
         this.showList(true);
       });
-    }
+    },
+    mounted(){
+      // for(const i in inputMap){
+      //   if(inputMap[i].initUrl){
+      //     this.$kc.kPost(inputMap[i].initUrl,{'_id':})
+      //   }
+      // }
+    },
+    select2(s2prop){
+      const vm = this;
+      return function(query) {
+        if (query.length < vm.inputMap[s2prop].lessLetter) {
+          return;
+        }
+        vm.$kc.kGet(vm,vm.inputMap[s2prop].url + query, (err, reData) => {
+          if (err) {
+            vm.$message.error('检索数据处理失败');
+            return;
+          }
+          const reArr = JSON.parse('' + reData);
+          vm.arrInput = [];
+          for (let i = 0,len = reArr.length; i < len; i++) {
+            vm.arrInput.push({'label':reArr[i].name,'value':reArr[i]._id});
+          }
+        });
+      }
+    },
   },
 }
 </script>

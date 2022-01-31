@@ -3,11 +3,15 @@
 const kc = require('./lib/kc');
 const kconfig = kc.kconfig;
 const vlog = require('vlog').instance(__filename);
+// const path = require('path');
+
+//为方便本地测试, 这里使用测试配置文件替代原default.json
+kconfig.setDefaultConf('test2.json');
+kconfig.reInit(true);
 
 //生成项目express主进程
 const app = kc.createApp(__dirname);
 // const app = kc.createApp(__dirname, pageMiddleWare);
-
 
 //附加有dbsInitOK事件会在redis,mongo.mysql初始化完成后触发
 //载入全表缓存
@@ -20,8 +24,8 @@ app.on('dbsInitOK', function(err) {
     'product#_id,name#{"state":{"$gte":0}}#{}',
     'cp#_id#{"state":{"$gte":0}}#{}',
   ];
-  // kc.iCache.cacheMake('mem', 'mongo', cacheTables, function(err) {
-  kc.iCache.cacheMakeWithConf('mem', 'mongo', cacheTables, 'test2', function(err) { //这里使用了非默认mongo配置test2,一般使用cacheMake即可
+  kc.iCache.cacheMake('mem', 'mongo', cacheTables, function(err) {
+  // kc.iCache.cacheMakeWithConf('mem', 'mongo', cacheTables, dbConfName, function(err) { //这里使用了非默认mongo配置test2,一般使用cacheMake即可
     if (err) {
       vlog.eo(err, 'cacheMake', cacheTables);
       return;

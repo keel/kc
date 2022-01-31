@@ -3,25 +3,20 @@ CURD配置,完整示例
  */
 'use strict';
 const cck = require('cck');
-const path = require('path');
 const kc = require('../../lib/kc');
 const Pinyin = require('../../lib/pinyin'); //引入拼音首字母便于快速检索
 const vlog = require('vlog').instance(__filename);
 const curd = require('./_curd');
 
-// const db = kc.mongo.init();
-//这里使用非默认mongo库, 仅在同时连接多个数据库时使用, 一般使用上面一句即可
-const dbConfName = 'test2';
-kc.kconfig.reInit(false, path.join(__dirname, '../../config/test2.json'), null, dbConfName);
-const db = kc.mongo.reInit(false, dbConfName);
+const db = kc.mongo.init();
 
 
 // ======>注: 除tb,fields字段必填, 其余均为选填
 const prop = {
   'tb': 'product', //表名, 必填
   'tbName': '产品', //表名显示, 不填则为tb
-  'db': db, //在使用不同数据库时与dbConf共同指定, 使用默认mongo可省略此项配置
-  'dbConf': dbConfName, //配合db参数使用
+  // 'db': db, //在使用不同数据库时与dbConf共同指定, 使用默认mongo可省略此项配置
+  // 'dbConf': dbConfName, //配合db参数使用
   // 'apiKey': kc.kconfig.get('s$_apiKey'), //标准API协议所用到的key,可根据情况从配置文件,数据库或其他位置获取,不填则为kconfig.get('s$_apiKey')
   // 'defaultSearch': 'name',//默认搜索字段, 不填则为"name"
   'fields': [ //必填
@@ -57,6 +52,31 @@ const prop = {
       },
       'validator': ['strLen', [1, 30]],
       'search': 'string',
+    },
+    {
+      'col': 'cpid',
+      'name': '产品管理员',
+      'type': 'array',
+      'default': [],
+      'input': {
+        'type': 'select2',
+        'url': '/s2api/cp?q=',
+        'initUrl':'s2api/oldData/',
+        'lessLetter': 2,
+        'single': false,
+      }
+    },
+    {
+      'col': 'cpid2',
+      'name': '管理员2',
+      'type': 'array',
+      'default': [],
+      'input': {
+        'type': 'select2',
+        'url': '/s2api/cp?q=',
+        'lessLetter': 2,
+        'single': false,
+      }
     },
     { 'col': 'feeCut', 'name': '分成比例', 'type': 'int', 'info': '(>=0且<=100的整数,表示百分比)', 'default': 100, 'validator': 'strInt' },
     { 'col': 'creatorId', 'type': 'string', 'hide': 'all' }, //创建人id
@@ -105,9 +125,9 @@ const prop = {
 
 
   //以下参数用于mkCurdVue使用
-  'listSlot':'',
-  'oneSlot':'',
-  'addSlot':'',
+  'listSlot': '',
+  'oneSlot': '',
+  'addSlot': '',
   'downCsv': true, //是否支持CSV导出
 };
 
@@ -137,7 +157,7 @@ const refreshCache = function(pid, isDel) {
 
     kc.iCache.cacheTable('mem', 'mongo', prop.tb, '_id,name', {
       _id: db.idObj(pid)
-    }, { 'dbConfigName': dbConfName }, function(err) { //dbConfigName指定非默认mongo,一般可不带此参数
+    }, null, function(err) {
       if (err) {
         vlog.error(err.stack);
         return;
@@ -168,7 +188,7 @@ setTimeout(function() {
     'createTime_-1': { 'createTime': -1 },
     'name_-1': { 'name': -1 },
     'state_-1': { 'state': -1 },
-  }, false, dbConfName);
+  });
 }, 1000);
 
 

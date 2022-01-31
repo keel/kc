@@ -2,7 +2,6 @@
 CURD配置典型示例,账号管理
  */
 'use strict';
-const path = require('path');
 const ktool = require('ktool');
 const kc = require('../../lib/kc');
 const vlog = require('vlog').instance(__filename);
@@ -10,11 +9,7 @@ const Pinyin = require('../../lib/pinyin'); //引入拼音首字母便于快速�
 const curd = require('./_curd');
 
 
-// const db = kc.mongo.init();
-//这里使用非默认mongo库, 仅在同时连接多个数据库时使用, 一般使用上面一句即可
-const dbConfName = 'test2';
-kc.kconfig.reInit(false, path.join(__dirname, '../../config/test2.json'), null, dbConfName);
-const db = kc.mongo.reInit(false, dbConfName);
+const db = kc.mongo.init();
 
 
 const adminLevel = 10; //可进行权限配置的level等级
@@ -69,7 +64,7 @@ const authSave = function(req, resp, callback) {
     permission[data[i]] = 1;
   }
   // console.log('save permission%j', permission);
-  db.c(prop.tb, dbConfName).updateOne({ '_id': db.idObj(req.body.uid) }, { '$set': { 'permission': permission } }, (err) => {
+  db.c(prop.tb).updateOne({ '_id': db.idObj(req.body.uid) }, { '$set': { 'permission': permission } }, (err) => {
     if (err) {
       vlog.eo(err, 'authSave', req.body);
       resp.send({ 'code': 2, 'data': '服务器保存失败,请联系管理员!' });
@@ -84,8 +79,8 @@ const authSave = function(req, resp, callback) {
 const prop = {
   'tb': 'cp', //表名, 必填
   'tbName': '账号管理', //表名显示, 不填则为tb
-  'db': db, //在使用不同数据库时与dbConf共同指定, 一般使用默认mongo即可省略此项配置
-  'dbConf': dbConfName, //配合db参数使用
+  // 'db': db, //在使用不同数据库时与dbConf共同指定, 一般使用默认mongo即可省略此项配置
+  // 'dbConf': dbConfName, //配合db参数使用
   'fields': [ //必填
     //字段
     { 'col': 'name', 'name': '账号名', 'type': 'string', 'search': 'string', 'validator': ['strLen', [2, 30]], },
@@ -145,7 +140,7 @@ const prop = {
       callback(null, reqData);
     } else {
       //没有缓存则从表中查找
-      db.c(prop.tb, dbConfName).findOne({ '_id': db.idObj(reqData._id) }, (err, fineOne) => {
+      db.c(prop.tb).findOne({ '_id': db.idObj(reqData._id) }, (err, fineOne) => {
         if (err) {
           return callback(vlog.ee(err, ''));
         }
@@ -210,7 +205,7 @@ const refreshCache = function(pid, isDel) {
 
     kc.iCache.cacheTable('mem', 'mongo', prop.tb, '_id', {
       _id: db.idObj(pid)
-    }, { 'dbConfigName': dbConfName }, function(err) { //dbConfigName指定非默认mongo,一般可不带此参数
+    }, null, function(err) {
       if (err) {
         vlog.error(err.stack);
         return;
@@ -236,7 +231,7 @@ db.checkIndex(prop.tb, {
   'loginName_-1': { 'loginName': -1 },
   'level_-1': { 'level': -1 },
   'state_-1': { 'state': -1 },
-}, false, dbConfName);
+});
 
 // const mk = require('../../lib/mkCurdVue.js');
 // mk.make(prop);

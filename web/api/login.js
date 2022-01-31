@@ -2,13 +2,13 @@
 登录的api
  */
 'use strict';
-const cck = require('cck');
+// const cck = require('cck');
 const ktool = require('ktool');
 const kc = require('../../lib/kc');
 const fail2ban = kc.fail2ban;
 const iApi = kc.iApi;
-const render = kc.render();
-const db = kc.mongo.reInit(false, 'test2'); //kc.mongo.init();
+// const render = kc.render();
+const db = kc.mongo.init();
 const error = require('../../lib/error');
 const sessionAuth = kc.sessionAuth;
 const vlog = require('vlog').instance(__filename);

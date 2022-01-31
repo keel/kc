@@ -2,25 +2,16 @@
 CURD配置典型示例,简略示例
  */
 'use strict';
-const path = require('path');
-const kc = require('../../lib/kc');
 const Pinyin = require('../../lib/pinyin'); //引入拼音首字母便于快速检索
 const curd = require('./_curd');
-
-
-// const db = kc.mongo.init();
-//这里使用非默认mongo库, 仅在同时连接多个数据库时使用, 一般使用上面一句即可
-const dbConfName = 'test2';
-kc.kconfig.reInit(false, path.join(__dirname, '../../config/test2.json'), null, dbConfName);
-const db = kc.mongo.reInit(false, dbConfName);
 
 
 // ======>注: 除tb,fields字段必填, 其余均为选填
 const prop = {
   'tb': 'proj_p', //表名, 必填
   'tbName': '项目', //表名显示, 不填则为tb
-  'db': db, //在使用不同数据库时与dbConf共同指定, 一般使用默认mongo即可省略此项配置
-  'dbConf': dbConfName, //配合db参数使用
+  // 'db': db, //在使用不同数据库时与dbConf共同指定, 一般使用默认mongo即可省略此项配置
+  // 'dbConf': dbConfName, //配合db参数使用
   'fields': [ //必填
     //字段
     { 'col': 'name', 'name': '项目名', 'type': 'string', 'search': 'string', 'validator': ['strLen', [2, 30]], },
