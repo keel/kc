@@ -91,6 +91,7 @@ export default {
         }
       }
       this.oneArr = arr;
+
     },
     showList(isRefresh) {
       this.$emit('showList',isRefresh);
@@ -109,32 +110,6 @@ export default {
         this.$msgok('新增成功!');
         this.showList(true);
       });
-    },
-    mounted(){
-      // for(const i in inputMap){
-      //   if(inputMap[i].initUrl){
-      //     this.$kc.kPost(inputMap[i].initUrl,{'_id':})
-      //   }
-      // }
-    },
-    select2(s2prop){
-      const vm = this;
-      return function(query) {
-        if (query.length < vm.inputMap[s2prop].lessLetter) {
-          return;
-        }
-        vm.$kc.kGet(vm,vm.inputMap[s2prop].url + query, (err, reData) => {
-          if (err) {
-            vm.$message.error('检索数据处理失败');
-            return;
-          }
-          const reArr = JSON.parse('' + reData);
-          vm.arrInput = [];
-          for (let i = 0,len = reArr.length; i < len; i++) {
-            vm.arrInput.push({'label':reArr[i].name,'value':reArr[i]._id});
-          }
-        });
-      }
     },
   },
 }

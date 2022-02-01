@@ -151,11 +151,37 @@ const showValMap = {
   'pwd': () => { return '******'; },
   'rmb': (val) => { return priceIntShow(val); },
   'datetime': (val) => { return timeFormat(val); },
-  'array':(val)=>{return JSON.stringify(val);},
-  'json':(val)=>{return JSON.stringify(val);},
+  'array': (val) => { return JSON.stringify(val); },
+  'json': (val) => { return JSON.stringify(val); },
+  'select2': function(val, inputObj, prop, vm) {
+    if (!val || val.length === 0) {
+      return '';
+    }
+    if (!prop || !vm) {
+      return JSON.stringify(val);
+    }
+    if (inputObj && inputObj.oldData) {
+      return JSON.stringify(inputObj.oldData);
+    }
+    kPost(vm, inputObj.initUrl, val, (err, reData) => {
+      if (err) {
+        lerr(err);
+        return;
+      }
+      const reJson = JSON.parse('' + reData);
+      let out = '';
+      for (let i = 0, len = reJson.length; i < len; i++) {
+        out += ', ' + reJson[i].text;
+      }
+      inputObj.oldData = out.substring(1);
+      $('col_' + prop).innerHTML = inputObj.oldData;
+    });
+
+    return JSON.stringify(val);
+  },
 };
 
-const showValue = function(val, inputObj) {
+const showValue = function(val, inputObj, prop, vm) {
   if (!inputObj) {
     return val;
   }
@@ -163,7 +189,7 @@ const showValue = function(val, inputObj) {
   if (!fn) {
     return val;
   }
-  return fn(val, inputObj);
+  return fn(val, inputObj, prop, vm);
 };
 
 const inputFormatMap = {
@@ -560,7 +586,7 @@ var kHttp = function(that, url, httpType, data, headers, callback) {
 var kPost = function(v, url, data, headers, callback) {
   kHttp(v, url, 'POST', data, headers, callback);
 };
-var kGet = function(v,url, headers, callback) {
+var kGet = function(v, url, headers, callback) {
   kHttp(v, url, 'GET', null, headers, callback);
 };
 var pushToArr = function(data, pArr) {

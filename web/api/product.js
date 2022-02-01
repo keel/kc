@@ -61,22 +61,11 @@ const prop = {
       'input': {
         'type': 'select2',
         'url': '/s2api/cp?q=',
-        'initUrl':'s2api/oldData/',
+        'initUrl':'/s2api/cp/oldData/',
         'lessLetter': 2,
         'single': false,
-      }
-    },
-    {
-      'col': 'cpid2',
-      'name': '管理员2',
-      'type': 'array',
-      'default': [],
-      'input': {
-        'type': 'select2',
-        'url': '/s2api/cp?q=',
-        'lessLetter': 2,
-        'single': false,
-      }
+      },
+      'hide':'list',
     },
     { 'col': 'feeCut', 'name': '分成比例', 'type': 'int', 'info': '(>=0且<=100的整数,表示百分比)', 'default': 100, 'validator': 'strInt' },
     { 'col': 'creatorId', 'type': 'string', 'hide': 'all' }, //创建人id

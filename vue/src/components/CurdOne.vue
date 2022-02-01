@@ -7,7 +7,7 @@
       <el-form  v-loading="doOneLoading" :model="updateObj" status-icon :rules="rules" label-width="100px">
         <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label">
           <template v-if="(!item.hide || item.hide.indexOf('one')<0)">
-            <span v-show="!isUpdate">{{$kc.showValue(item.val, item.input)}}</span>
+            <span v-show="!isUpdate" :id="'col_'+item.prop">{{$kc.showValue(item.val, item.input,item.prop,vm)}}</span>
           </template>
           <template v-if="(!item.hide || item.hide.indexOf('update')<0)">
             <!-- 这里处理input样式,逐个匹配input.type,暂未找到更合适的方法 -->
@@ -20,6 +20,25 @@
               </template>
               <template v-else-if="(item.input.type == 'pwd')">
                 <el-input v-show="isUpdate" @input="$forceUpdate()" placeholder="请输入密码" v-model="updateObj[item.prop]" show-password></el-input>
+              </template>
+              <template v-else-if="(item.input.type == 'select2')">
+                <el-select v-show="isUpdate" :id="item.prop"
+                    v-model="updateObj[item.prop]"
+                    multiple
+                    filterable
+                    remote
+                    reserve-keyword
+                    placeholder="请输入关键词"
+                    @focus="arrInput = [];"
+                    :remote-method="select2(item.prop)"
+                    >
+                    <el-option
+                      v-for="item in arrInput"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
               </template>
               <template v-else>
                 <el-input v-show="isUpdate" @input="$forceUpdate()" v-model="updateObj[item.prop]"></el-input>
@@ -68,6 +87,8 @@ export default {
       'needRefreshList':false,
       'isShowUpdate':false,
       'isShowDel':false,
+      'arrInput':[],
+      'vm':this,
     };
   },
   'methods': {
@@ -108,6 +129,28 @@ export default {
         if (reJson.paras) {
           this.$emit('setOneParas', reJson.paras);
         }
+
+        //显示已有的select2值
+        // for(const i in this.inputMap){
+        //   const _inputObj = this.inputMap[i];
+        //   if(_inputObj.initUrl){
+        //     console.log('_inputObj',_inputObj,this.updateObj);
+        //     this.$kc.kPost(this,_inputObj.initUrl,this.updateObj[i],(err, reData)=>{
+        //       if (err) {
+        //         this.$kc.lerr(err);
+        //         return;
+        //       }
+        //       const reJson = JSON.parse('' + reData);
+        //       if (reJson.code !== 0) {
+        //         this.$lerr('获取数据失败 ' + (reJson.data || ''), '获取数据失败');
+        //         return;
+        //       }
+        //       this.inputMap[i].oldData = reJson;
+        //     });
+        //   }
+        // }
+
+
       });
     },
     showList(isRefresh) {
@@ -169,6 +212,25 @@ export default {
     },
     cancelUpdate() {
       this.isUpdate = false;
+    },
+    select2(s2prop){
+      const vm = this;
+      return function(query) {
+        if (query.length < vm.inputMap[s2prop].lessLetter) {
+          return;
+        }
+        vm.$kc.kGet(vm,vm.inputMap[s2prop].url + query, (err, reData) => {
+          if (err) {
+            vm.$message.error('检索数据处理失败');
+            return;
+          }
+          const reArr = JSON.parse('' + reData);
+          vm.arrInput = [];
+          for (let i = 0,len = reArr.length; i < len; i++) {
+            vm.arrInput.push({'label':reArr[i].name,'value':reArr[i]._id});
+          }
+        });
+      }
     },
   }
 }
