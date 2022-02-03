@@ -4,7 +4,7 @@ CURD配置,完整示例
 'use strict';
 const cck = require('cck');
 const kc = require('../../lib/kc');
-const Pinyin = require('../../lib/pinyin'); //引入拼音首字母便于快速检索
+const Pinyin = kc.pinyin; //引入拼音首字母便于快速检索
 const vlog = require('vlog').instance(__filename);
 const curd = require('./_curd');
 
@@ -201,6 +201,6 @@ setTimeout(function() {
   });
 }, 1000);
 
-
+// 以下注释打开执行,即可生成前端页面
 // const mk = require('../../lib/mkCurdVue.js');
 // mk.make(prop);

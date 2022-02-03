@@ -28,32 +28,5 @@
     "s$_mongoDbName": "[#projectName]",
     "s$_mongoUrl": "mongodb://user:pwd@127.0.0.1:27017/[#projectName]"
   },
-  "mysql": {
-    "init": false,
-    "s$_isCluster":false,
-    "server": {
-      "connectionLimit": 60,
-      "s$_host": "127.0.0.1",
-      "s$_user": "user",
-      "s$_password": "pwd",
-      "s$_database": "[#projectName]"
-    },
-    "servers": {
-      "master1": {
-        "connectionLimit": 60,
-        "s$_host": "127.0.0.1",
-        "s$_user": "user",
-        "s$_password": "pwd",
-        "s$_database": "[#projectName]"
-      },
-      "slave1": {
-        "connectionLimit": 60,
-        "s$_host": "127.0.0.1",
-        "s$_user": "user",
-        "s$_password": "pwd",
-        "s$_database": "[#projectName]"
-      }
-    }
-  },
   "startPort": [#port]
 }

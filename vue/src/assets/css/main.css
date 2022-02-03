@@ -25,6 +25,11 @@ display:none !important;
     color: #9595b5;
 }
 
+.el-tooltip__popper.is-dark{
+    background: #fff;
+    color: #1B1C3B;
+}
+
 .el-card {
   margin-top: 10px;
   background-color: #2a2a4a;

@@ -1,6 +1,6 @@
 {
   "name": "[#projectName]",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "scripts": {
     "deploy-clear":"rm -rf deploy && mkdir deploy",
     "deploy-tar":"tar -zcf deploy/deploy.tar.gz --exclude={deploy,test,'.git'} ./",
@@ -10,7 +10,7 @@
     "lint": "eslint lib/*.js web/api/*.js"
   },
   "dependencies": {
-    "kc": "^3.0.1",
+    "kc": "^3.0.2",
     "aes-cross": "^1.0.9",
     "vlog": "^0.2.12",
     "cck": "^1.0.34",

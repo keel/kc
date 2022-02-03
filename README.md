@@ -2,30 +2,25 @@
 web项目骨架, 集成ktool,vlog工具库,集成express,集成dot模板引擎, 集成对redis、mongodb、mysql的直接使用
 
 v3版本说明:
-为更方便使用, 引入vue2(vue2.6,暂不使用v3版本)和element-ui组合形成基础的单页前端以实现一个基础的管理后台, 使之开箱可用, 原dot模板生成页面的逻辑转为可选.
+为更方便使用, 引入vue2(vue2.6,暂不使用v3版本)和element-ui组合形成基础的单页前端以实现一个基础的管理后台, 使之开箱可用.原dot模板生成页面的逻辑转为可选.
 可能缺失了原来的灵活性(绑定了vue和element-ui), 但使用上更为便捷, 也可以在初始化时控制参数去掉引入前端组件(只使用核心lib部分).
 vue的部分加入了自定义的插件, 以实现类jquery和ajax相关的功能, 非管理后台的web项目也可以使用.
 受限于vue2.6和element-ui, npm安装时会产生一些vulnerabilities, 暂时只能忽略.
 
-## UPDATE:
-* v3.0.1 加入vue和element-ui结合的前端实现
+前端vue开发:
+1. 进入vue目录, npm i 安装所需要的库, 在此目录下执行npm run serve进行调试(可先启动主进程至15001端口作为后端服务);
+2. 使用npm run build编译到web/public中;
+3. 默认会自动生成web/api/product.js(完整示例), cp, proj_p典型的curd表管理样例, 可根据情况修改或使用;
 
-* v2.0.72 mongo去除reconnectTries参数
-* v2.0.71 iCache也增加convert相关方法
-* v2.0.70 修正初始化时dbsInitOK事件
-* v2.0.69 mongo增加useUnifiedTopology默认参数
-* v2.0.68 dot支持对pre的strip排除,mongo.idObj增加catch
-* v2.0.65 kc导出内部doT引用
-* v2.0.64 iApi可自定义sign方法
-* v2.0.57: validator中可以配置respFn定制req参数错误时的返回,修订readme
-* v2.0.54: kc.mongo增加pQuery/pLogToDb/pAggr以方便async/await操作，mongo驱动升级到3.0版本,增加aggr方法保持返回array，更新ktool使用其新特性(如使用ktool.promi可转callback为promise)
-* v2.0.49: 去掉对dotJs原版的依赖(原版始终不接受!号过滤的string保证)，内置其改版
+## UPDATE:
+* v3.0.2 加入vue和element-ui结合的前端实现
+
+
 ## 特性:
-* 与jenkins,pm2配合，集成开发，生产等各种环境的加密配置发布
-* 与jenkins,pm2配合，集成自动化部署新版，快速回退到任何版本
+* 与jenkins,pm2配合，集成开发，生产等各种环境的加密配置发布, 可集成自动化部署新版，快速回退到任何版本
 * 快速json api生成(/web/api直接写api,注:_开头的文件会忽略)
 * 快速jst模板页面生成(/web/tpls直接写jst,注:p_或pa_开头的文件自动生成页面,其中pa_为验证session页面)
-* 集成各类数据库驱动(redis,mongodb,mysql)，超简易的使用(运用proxy封装)
+* 集成各类数据库驱动(redis,mongodb,mysql,influx等)，超简易的使用(运用proxy封装)
 * 自带登录与验证体系，并可定制，支持fail2ban配置
 * 自带内存或redis缓存功能(iCache, showFilter)
 * 自主实现的session,支持存放于redis,支持强安全配置
@@ -97,41 +92,38 @@ mysql.c().query('select * from tt1 limit 3', (e, re) => {console.log('re:%j', re
 ```
 
 ## 使用方法
-1. 安装nodejs
-2. 安装kc库
+1. 安装nodejs;
+2. 安装kc库;
 
   ```
   npm install kc -g
   ```
 
-3. kc init指令:生成项目结构
+3. kc init指令:生成项目结构;
 
   ```
   kc init [projectName] [port]
   npm i
-  git init
-  git add .
-  git commit -m 'init'
   ```
 
-4. config/default.json配置(暂缺说明)
-4. kc config指令:生成远端加密配置文件
+4. config/default.json修改本地配置(配置可参考config/test.json),正式参数可放入product.json(命名随意);
+5. kc config指令:生成远端加密配置文件
 
   ```
   kc config product.json
   ```
   product.json放置在config目录下,为标准JSON格式,生成的配置文件密文为config/项目名.js,通过jenkins发布到指定服务端,git上不保存product.json等非default.json文件
 
-4. package.json配置(暂缺说明)
-4. process.json配置(暂缺说明)
+6. 前端vue开发, 进入vue目录, npm i 安装所需要的库, 在此目录下执行npm run serve进行调试(可先启动主进程至15001端口,将作为后端服务), 使用npm run build编译到web/public中.
+7. process.json配置进程
 
-4. 启动项目,如使用deploy的方式启动,需要pm2新版本
+8. 启动项目,如使用deploy的方式启动,需要pm2新版本
 
   ```
   pm2 startOrRestart process.json
   ```
 
-5. kc api指令:增加接口 && api目录说明
+9. kc api指令:增加接口 && api目录说明
 
   ```
   kc api apiName
@@ -139,7 +131,7 @@ mysql.c().query('select * from tt1 limit 3', (e, re) => {console.log('re:%j', re
 
   可自动生成新api的框架代码在web/api/apiName.js中
 
-6. 增加页面 && tpls目录(暂缺说明)
+10. 增加页面 && tpls目录(暂缺说明)
 
 ## api说明(见IAPI.md)
 

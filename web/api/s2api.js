@@ -4,7 +4,7 @@
 'use strict';
 const kc = require('../../lib/kc');
 const iCache = kc.iCache;
-const Pinyin = require('../../lib/pinyin');
+const Pinyin = kc.pinyin;
 const iApi = kc.iApi;
 const vlog = require('vlog').instance(__filename);
 

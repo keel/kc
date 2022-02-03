@@ -6,8 +6,10 @@ const vlog = require('vlog').instance(__filename);
 // const path = require('path');
 
 //为方便本地测试, 这里使用测试配置文件替代原default.json
+//[#{comm]
 kconfig.setDefaultConf('test2.json');
 kconfig.reInit(true);
+//[#}comm]
 
 //生成项目express主进程
 const app = kc.createApp(__dirname);

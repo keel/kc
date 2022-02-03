@@ -2,7 +2,8 @@
 CURD配置典型示例,简略示例
  */
 'use strict';
-const Pinyin = require('../../lib/pinyin'); //引入拼音首字母便于快速检索
+const kc = require('../../lib/kc');
+const Pinyin = kc.pinyin; //引入拼音首字母便于快速检索
 const curd = require('./_curd');
 
 

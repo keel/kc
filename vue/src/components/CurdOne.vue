@@ -130,28 +130,6 @@ export default {
         if (reJson.paras) {
           this.$emit('setOneParas', reJson.paras);
         }
-
-        //显示已有的select2值
-        // for(const i in this.inputMap){
-        //   const _inputObj = this.inputMap[i];
-        //   if(_inputObj.initUrl){
-        //     console.log('_inputObj',_inputObj,this.updateObj);
-        //     this.$kc.kPost(this,_inputObj.initUrl,this.updateObj[i],(err, reData)=>{
-        //       if (err) {
-        //         this.$kc.lerr(err);
-        //         return;
-        //       }
-        //       const reJson = JSON.parse('' + reData);
-        //       if (reJson.code !== 0) {
-        //         this.$lerr('获取数据失败 ' + (reJson.data || ''), '获取数据失败');
-        //         return;
-        //       }
-        //       this.inputMap[i].oldData = reJson;
-        //     });
-        //   }
-        // }
-
-
       });
     },
     showList(isRefresh) {

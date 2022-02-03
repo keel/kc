@@ -5,7 +5,7 @@ CURD配置典型示例,账号管理
 const ktool = require('ktool');
 const kc = require('../../lib/kc');
 const vlog = require('vlog').instance(__filename);
-const Pinyin = require('../../lib/pinyin'); //引入拼音首字母便于快速检索
+const Pinyin = kc.pinyin; //引入拼音首字母便于快速检索
 const curd = require('./_curd');
 
 
