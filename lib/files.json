@@ -1,5 +1,6 @@
 {
   "test": "dir",
+  "vue": "dir",
   "web/api": "dir",
   "web/public/css": "dir",
   "web/public/js": "dir",

@@ -69,7 +69,7 @@ const prop = {
     },
     {
       'col': 'cpid2', //演示多个select2并存时的情况
-      'name': '二级产品管理员',
+      'name': '二级管理员',
       'type': 'array',
       'default': [],
       'input': {
