@@ -34,7 +34,7 @@ app.on('dbsInitOK', function(err) {
     }
     vlog.log('===> cacheTables done.');
     //打印所有权限
-    vlog.log('===> authMap:%j',kc.auth.getAuthMap());
+    // vlog.log('===> authMap:%j',kc.auth.getAuthMap());
   });
 });
 

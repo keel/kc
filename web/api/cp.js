@@ -28,8 +28,9 @@ const authMap = function(req, resp, callback) {
   }
   const authMap = kc.auth.getAuthMap();
   const cp = kc.iCache.getSync('cp:_id:' + req.body.uid);
+  const showUpdate = (kc.auth.auth(req, 'cp/authSave')) ? 1 : 0;
   if (!cp || !cp.permission) {
-    return resp.send(JSON.stringify(authMap));
+    return resp.send(JSON.stringify({ 'code': 0, 'data': authMap, showUpdate }));
   }
   if (cp.permission) {
     const permission = JSON.parse(cp.permission);
@@ -42,7 +43,6 @@ const authMap = function(req, resp, callback) {
       // console.log('authMap i:%j, p:%j',i,permission[i],authMap[i]);
     }
   }
-  const showUpdate = (kc.auth.auth(req, 'cp/authSave')) ? 1 : 0;
   resp.send(JSON.stringify({ 'code': 0, 'data': authMap, showUpdate }));
 };
 
