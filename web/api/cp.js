@@ -95,9 +95,9 @@ const prop = {
       'col': 'loginPwd',
       'name': '密码',
       'type': 'pwd',
-      'hide': 'add|list',
+      'hide': 'list',
       'input': { 'type': 'pwd' },
-      'validator': ['@strLen', [6, 30]],
+      'validator': { 'optional': 'all', 'validator': ['strLen', [4, 30]] },
     },
     { 'col': 'level', 'name': '等级', 'type': 'int', 'input': { 'type': 'int' } },
 
@@ -105,7 +105,7 @@ const prop = {
     { 'col': 'py', 'type': 'string', 'hide': 'all' },
 
     //以下字段建议所有表都保留
-    { 'col': 'state', 'name': '状态', 'type': 'int', 'hide': 'add', 'validator': '@strInt', 'input': { 'type': 'int' } },
+    { 'col': 'state', 'name': '状态', 'type': 'int', 'hide': 'add', 'validator': { 'optional': 'all', 'validator': 'strInt' }, 'input': { 'type': 'int' } },
     { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
     { 'col': 'creatorId', 'type': 'string', 'hide': 'all' },
   ],
@@ -173,9 +173,9 @@ const prop = {
     }
   },
   //以下参数用于mkCurdVue使用
-  'listSlot':'',
-  'oneSlot':'<el-button v-if="oneParas.authMap" type="danger" @click="$router.push(\'/permission/\'+oneId)">权限配置</el-button>',
-  'addSlot':'',
+  'listSlot': '',
+  'oneSlot': '<el-button v-if="oneParas.authMap" type="danger" @click="$router.push(\'/permission/\'+oneId)">权限配置</el-button>',
+  'addSlot': '',
 };
 
 const ci = curd.instance(prop);

@@ -7,7 +7,7 @@
       <el-form  v-loading="doOneLoading" :model="updateObj" status-icon :rules="rules" label-width="100px">
         <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label">
           <template v-if="(!item.hide || item.hide.indexOf('one')<0)">
-            <span v-show="!isUpdate" :id="'col_'+item.prop">{{$kc.showValue(item.val, item.input,item.prop,vm)}}</span>
+            <span v-show="!isUpdate" :id="'col_'+item.prop">{{$kc.showValue(item.val, item.input, vm)}}</span>
           </template>
           <template v-if="(!item.hide || item.hide.indexOf('update')<0)">
             <!-- 这里处理input样式,逐个匹配input.type,暂未找到更合适的方法 -->
@@ -22,21 +22,19 @@
                 <el-input v-show="isUpdate" @input="$forceUpdate()" placeholder="请输入密码" v-model="updateObj[item.prop]" show-password></el-input>
               </template>
               <template v-else-if="(item.input.type == 'select2')">
-                <el-select v-show="isUpdate" :id="item.prop"
+                <el-select :disabled="!isUpdate" :id="item.prop"
                     v-model="updateObj[item.prop]"
-                    multiple
+                    :multiple="!item.input.single"
                     filterable
                     remote
-                    reserve-keyword
-                    placeholder="请输入关键词"
-                    @focus="arrInput = [];"
+                    :placeholder="(isUpdate)?'请输入拼音首字母':'无'"
                     :remote-method="select2(item.prop)"
                     >
                     <el-option
-                      v-for="item in arrInput"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
+                      v-for="a_item in arrMap[item.prop]"
+                      :key="a_item.value"
+                      :label="a_item.label"
+                      :value="a_item.value">
                     </el-option>
                   </el-select>
               </template>
@@ -87,7 +85,7 @@ export default {
       'needRefreshList':false,
       'isShowUpdate':false,
       'isShowDel':false,
-      'arrInput':[],
+      'arrMap':{},
       'vm':this,
     };
   },
@@ -119,11 +117,14 @@ export default {
           }
           arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'val': newOne[titleOne.prop], 'input': titleOne.input, 'hide': titleOne.hide });
           if (titleOne.input) {
+            titleOne.input.vm = this;
+            titleOne.input.prop = titleOne.prop;
+            this.arrMap[titleOne.prop] = [];
             this.inputMap[titleOne.prop] = titleOne.input;
           }
         }
         this.oneArr = arr;
-        this.updateObj = this.$kc.mkUpdateObj(newOne,this.inputMap);
+        this.updateObj = this.$kc.mkUpdateObj(newOne,this.inputMap,this);
         this.isShowUpdate = reJson.showUpdate;
         this.isShowDel = reJson.showDel;
         if (reJson.paras) {
@@ -216,19 +217,21 @@ export default {
     select2(s2prop){
       const vm = this;
       return function(query) {
-        if (query.length < vm.inputMap[s2prop].lessLetter) {
+        const inputObj = vm.inputMap[s2prop];
+        if (query.length < inputObj.lessLetter) {
           return;
         }
-        vm.$kc.kGet(vm,vm.inputMap[s2prop].url + query, (err, reData) => {
+        vm.$kc.kGet(vm,inputObj.url + query, (err, reData) => {
           if (err) {
             vm.$message.error('检索数据处理失败');
             return;
           }
           const reArr = JSON.parse('' + reData);
-          vm.arrInput = [];
+          vm.arrMap[inputObj.prop] = [];
           for (let i = 0,len = reArr.length; i < len; i++) {
-            vm.arrInput.push({'label':reArr[i].name,'value':reArr[i]._id});
+            vm.arrMap[inputObj.prop].push({'label':reArr[i].name,'value':reArr[i]._id});
           }
+          vm.$forceUpdate();
         });
       }
     },

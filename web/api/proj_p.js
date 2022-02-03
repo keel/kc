@@ -34,7 +34,7 @@ const prop = {
     { 'col': 'py', 'type': 'string', 'hide': 'all' },
 
     //以下字段建议所有表都保留
-    { 'col': 'state', 'name': '状态', 'type': 'int', 'hide': 'add', 'validator': '@strInt', 'input': { 'type': 'int' } },
+    { 'col': 'state', 'name': '状态', 'type': 'int', 'hide': 'add', 'validator': { 'optional': 'all', 'validator': 'strInt' }, 'input': { 'type': 'int' } },
     { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
     { 'col': 'creatorId', 'type': 'string', 'hide': 'all' },
   ],

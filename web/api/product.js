@@ -60,16 +60,37 @@ const prop = {
       'default': [],
       'input': {
         'type': 'select2',
+        'url': '/s2api/cp?q=', //显示通过字母查找的选项
+        'initUrl': '/s2api/cp/oldData/', //为显示原有数据填充选项
+        'lessLetter': 2, //触发检索最少字母数
+        'single': false, //是否单选
+      },
+      'hide': 'list',
+    },
+    {
+      'col': 'cpid2', //演示多个select2并存时的情况
+      'name': '二级产品管理员',
+      'type': 'array',
+      'default': [],
+      'input': {
+        'type': 'select2',
         'url': '/s2api/cp?q=',
-        'initUrl':'/s2api/cp/oldData/',
-        'lessLetter': 2,
+        'initUrl': '/s2api/cp/oldData/',
+        'lessLetter': 3,
         'single': false,
       },
-      'hide':'list',
+      'hide': 'list',
     },
     { 'col': 'feeCut', 'name': '分成比例', 'type': 'int', 'info': '(>=0且<=100的整数,表示百分比)', 'default': 100, 'validator': 'strInt' },
     { 'col': 'creatorId', 'type': 'string', 'hide': 'all' }, //创建人id
-    { 'col': 'state', 'name': '状态', 'type': 'int', 'hide': 'add|list', 'validator': '@strInt', 'input': { 'type': 'int' } }, //validator用@开头表示仅在有数据时校验
+    {
+      'col': 'state',
+      'name': '状态',
+      'type': 'int',
+      'hide': 'add|list',
+      'validator': { 'optional': 'all', 'validator': 'strInt' },//validator用optional表示可选状态的校验(可配置为all或add,update始终为可选)
+      'input': { 'type': 'int' }
+    },
     { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
     { 'col': 'py', 'type': 'string', 'hide': 'all' }, //拼音首字母,检索用,所有界面均不显示
   ],

@@ -36,11 +36,13 @@ const processProp = function(prop) {
     }
 
     if (item.validator) {
-      if (typeof item.validator === 'string' && item.validator.charAt(0) === '@') {
-        const valKey = item.col;
-        const valiVal = item.validator.substring(1);
-        validatorAdd['@' + valKey] = valiVal;
-        validatorUpdate['@' + valKey] = valiVal;
+      if (item.validator.optional) {
+        if (item.validator.optional.indexOf('add') >= 0 || item.validator.optional === 'all') {
+          validatorAdd['@' + item.col] = item.validator.validator;
+        } else {
+          validatorAdd[item.col] = item.validator.validator;
+        }
+        validatorUpdate['@' + item.col] = item.validator.validator;
       } else {
         validatorAdd[item.col] = item.validator;
         validatorUpdate['@' + item.col] = item.validator;

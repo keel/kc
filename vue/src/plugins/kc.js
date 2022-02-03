@@ -147,41 +147,69 @@ const priceStrParse = function(priceStr) {
   return out;
 };
 
+// const getS2Label = function(arrData) {
+//   console.log('getS2Label',arrData);
+//   let out = '';
+//   for (let i = 0,len = arrData.length; i < len; i++) {
+//     out += ', ' + arrData[i].label;
+//   }
+//   if (out.length <= 0) {
+//     return '';
+//   }
+//   return '[' +out.substring(2)+']';
+// };
+// const updateS2Val = function(arrData, updateArr) {
+//   console.log('updateS2Val',arrData, updateArr);
+//   // if (!updateObj[prop]) {
+//   //   updateObj[prop] = [];
+//   // }
+//   updateArr.splice(0,updateArr.length);
+//   for (let i = 0,len = arrData.length; i < len; i++) {
+//     updateArr.push(arrData[i].value);
+//   }
+//   return updateArr;
+// };
 const showValMap = {
   'pwd': () => { return '******'; },
   'rmb': (val) => { return priceIntShow(val); },
-  'datetime': (val) => { return timeFormat(val); },
+  'datetime': (val) => {return timeFormat(val); },
   'array': (val) => { return JSON.stringify(val); },
   'json': (val) => { return JSON.stringify(val); },
-  'select2': function(val, inputObj, prop, vm) {
-    if (!val || val.length === 0) {
+  'select2': function(val, inputObj, vm) {
+    if (!val || val.length === 0 || !inputObj.prop || !vm ) {
+      inputObj.shownId = vm.updateObj._id;
       return '';
     }
-    if (!prop || !vm) {
-      return JSON.stringify(val);
+    // console.log('showValue', val, inputObj.shownMap, new Date());
+    if (inputObj.shownMap && inputObj.shownMap[inputObj.prop] && inputObj.shownId === vm.updateObj._id) {
+      // console.log('______id',vm.updateObj._id);
+      return '';
     }
-    if (inputObj && inputObj.oldData) {
-      return JSON.stringify(inputObj.oldData);
+    if (!inputObj.shownMap) {
+      inputObj.shownMap = {};
     }
+    inputObj.shownId = vm.updateObj._id;
+    // console.log('=====>go oldData', inputObj.prop, val); //这里获取s2原数据用于选项显示
     kPost(vm, inputObj.initUrl, val, (err, reData) => {
       if (err) {
         lerr(err);
         return;
       }
       const reJson = JSON.parse('' + reData);
-      let out = '';
-      for (let i = 0, len = reJson.length; i < len; i++) {
-        out += ', ' + reJson[i].text;
-      }
-      inputObj.oldData = out.substring(1);
-      $('col_' + prop).innerHTML = inputObj.oldData;
+      // console.log(getS2Label(reJson));
+      // $('col_' + inputObj.prop).innerHTML = getS2Label(reJson);
+
+      inputObj.shownMap[inputObj.prop] = 1;
+
+      vm.arrMap[inputObj.prop] = reJson;
+      vm.$forceUpdate();
     });
 
-    return JSON.stringify(val);
+    return '';
   },
 };
 
-const showValue = function(val, inputObj, prop, vm) {
+const showValue = function(val, inputObj, vm) {
   if (!inputObj) {
     return val;
   }
@@ -189,8 +217,9 @@ const showValue = function(val, inputObj, prop, vm) {
   if (!fn) {
     return val;
   }
-  return fn(val, inputObj, prop, vm);
+  return fn(val, inputObj, vm);
 };
+
 
 const inputFormatMap = {
   'rmb': (val) => {
@@ -209,24 +238,24 @@ const inputFormatBackMap = {
   },
 };
 
-const inputFormat = function(val, type) {
-  if (!type) {
+const inputFormat = function(val, inputObj) {
+  if (!inputObj || !inputObj.type) {
     return val;
   }
-  const inputFormater = inputFormatMap[type];
+  const inputFormater = inputFormatMap[inputObj.type];
   if (inputFormater) {
-    return inputFormater(val);
+    return inputFormater(val, inputObj);
   }
   return val;
 };
 
-const inputFormatBack = function(val, type) {
-  if (!type) {
+const inputFormatBack = function(val, inputObj) {
+  if (!inputObj || !inputObj.type) {
     return val;
   }
-  const inputFormater = inputFormatBackMap[type];
+  const inputFormater = inputFormatBackMap[inputObj.type];
   if (inputFormater) {
-    return inputFormater(val);
+    return inputFormater(val, inputObj);
   }
   return val;
 };
@@ -235,7 +264,7 @@ const mkUpdateObj = function(newOne, inputMap) {
   const out = {};
   for (const i in newOne) {
     const thisOne = newOne[i];
-    out[i] = inputFormat(thisOne, (inputMap[i] ? inputMap[i].type : null));
+    out[i] = inputFormat(thisOne, inputMap[i]);
   }
   return out;
 };
@@ -243,7 +272,7 @@ const backUpdateObj = function(updateObj, inputMap) {
   const out = {};
   for (const i in updateObj) {
     const thisOne = updateObj[i];
-    out[i] = inputFormatBack(thisOne, (inputMap[i] ? inputMap[i].type : null));
+    out[i] = inputFormatBack(thisOne, inputMap[i]);
   }
   return out;
 };

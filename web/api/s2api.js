@@ -27,7 +27,7 @@ const oldData = (cachePre, txtKey = 'name', idKey = '_id') => (req, resp, callba
       // const cObj = iCache.getSync('ht_box:_id:' + valArr[i]);
       const cObj = iCache.getSync(cachePre + valArr[i]);
       if (cObj) {
-        out.push({ 'text': cObj[txtKey], 'id': '' + cObj[idKey] });
+        out.push({ 'label': cObj[txtKey], 'value': '' + cObj[idKey] });
       }
     }
     callback(null, out);
