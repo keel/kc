@@ -131,7 +131,7 @@ const prop = {
   'creatorFilter': 'creatorId', //用于判断当前登录用户是否是自己,此值为当前表中包含的对应用户ID的字段,管理员不需要
   'authPath': 'product', //权限路径,若配置则需要登录且登录账号具备此路径权限才可返回数据
   // 'authName':'产品', //权限名,不配置则为tbName
-  'curdLevel': [1, 1, 1, 1, 9], //level级别的权限, 默认均为0, 数组依次为:c,u,r,d,m(审批权限,暂无用)
+  'curdLevel': [0, 0, 0, 0, 9], //level级别的权限, 默认均为0, 数组依次为:c,u,r,d,m(审批权限,暂无用)
 
 
   //以下参数用于mkCurdVue使用
@@ -198,6 +198,7 @@ setTimeout(function() {
     'createTime_-1': { 'createTime': -1 },
     'name_-1': { 'name': -1 },
     'state_-1': { 'state': -1 },
+    'py_-1': { 'py': -1 },
   });
 }, 1000);
 

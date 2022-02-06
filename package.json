@@ -1,6 +1,6 @@
 {
   "name": "kc",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "kc",
   "main": "lib/kc.js",
   "preferGlobal": "true",
@@ -26,6 +26,7 @@
   "dependencies": {
     "aes-cross": "^1.0.9",
     "cck": "^1.0.34",
+    "connect-history-api-fallback": "^1.6.0",
     "express": "^4.17.2",
     "ktool": "^1.0.101",
     "mongodb": "^3.7.3",

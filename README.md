@@ -8,7 +8,7 @@ vue的部分加入了自定义的插件, 以实现类jquery和ajax相关的功�
 受限于vue2.6和element-ui, npm安装时会产生一些vulnerabilities, 暂时只能忽略.
 
 前端vue开发:
-1. 进入vue目录, npm i 安装所需要的库, 在此目录下执行npm run serve进行调试(可先启动主进程至15001端口作为后端服务);
+1. 进入vue目录, npm i 安装所需要的库, 在此目录下执行npm run serve进行调试(可先启动主进程至15001端口作为后端服务), 访问http://localhost:8080/即可;
 2. 使用npm run build编译到web/public中;
 3. 默认会自动生成web/api/product.js(完整示例), cp, proj_p典型的curd表管理样例, 可根据情况修改或使用;
 

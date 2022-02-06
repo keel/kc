@@ -3,7 +3,7 @@ import Vue from 'vue';
 import * as echarts from 'echarts/core';
 import 'echarts-gl';
 // 引入柱状图图表，图表后缀都为 Chart
-import { BarChart } from 'echarts/charts';
+import { BarChart, LineChart } from 'echarts/charts';
 // 引入提示框，标题，直角坐标系，数据集，内置数据转换器组件，组件后缀都为 Component
 import {
   TitleComponent,
@@ -12,6 +12,7 @@ import {
   DatasetComponent,
   TransformComponent,
   VisualMapComponent,
+  LegendComponent,
 } from 'echarts/components';
 // 标签自动布局，全局过渡动画等特性
 import { LabelLayout, UniversalTransition } from 'echarts/features';
@@ -26,10 +27,15 @@ echarts.use([
   DatasetComponent,
   TransformComponent,
   BarChart,
+  LineChart,
   LabelLayout,
   UniversalTransition,
   CanvasRenderer,
   VisualMapComponent,
+  LegendComponent,
 ]);
 
+//引入新主题,通过echarts在线主题制作工具制作
+const newDarkTheme = require('@/assets/new-dark.json');
+echarts.registerTheme('new-dark', newDarkTheme);
 Vue.prototype.$echarts = echarts;

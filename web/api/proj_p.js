@@ -63,7 +63,13 @@ exports.router = function() {
   return ci.router;
 };
 
-
+const db = kc.mongo.init();
+db.checkIndex(prop.tb, {
+  'createTime_-1': { 'createTime': -1 },
+  'name_-1': { 'name': -1 },
+  'state_-1': { 'state': -1 },
+  'py_-1': { 'py': -1 },
+});
 
 
 // const mk = require('../../lib/mkCurdVue.js');

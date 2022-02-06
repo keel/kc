@@ -10,11 +10,12 @@
     "lint": "eslint lib/*.js web/api/*.js"
   },
   "dependencies": {
-    "kc": "^3.0.3",
+    "kc": "^3.0.4",
     "aes-cross": "^1.0.9",
     "vlog": "^0.2.12",
     "cck": "^1.0.34",
     "ktool": "^1.0.101",
+    "connect-history-api-fallback": "^1.6.0",
     "mongodb": "^3.7.3",
     "redis": "^3.1.2"
   },

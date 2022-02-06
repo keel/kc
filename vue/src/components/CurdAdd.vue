@@ -6,8 +6,6 @@
       </div>
       <el-form :model="updateObj" status-icon :rules="rules" label-width="100px">
         <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label">
-
-
           <!-- 这里处理input样式,逐个匹配input.type,暂未找到更合适的方法 -->
           <template v-if="item.input">
             <template v-if="(item.input.type == 'datetime')">
@@ -19,19 +17,17 @@
             <template v-else-if="(item.input.type == 'select2')">
               <el-select :id="item.prop"
                   v-model="updateObj[item.prop]"
-                  multiple
+                  :multiple="!item.input.single"
                   filterable
                   remote
-                  reserve-keyword
-                  placeholder="请输入关键词"
-                  @focus="arrInput = [];"
+                  :placeholder="请输入拼音首字母"
                   :remote-method="select2(item.prop)"
                   >
                   <el-option
-                    v-for="item in arrInput"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    v-for="a_item in arrMap[item.prop]"
+                    :key="a_item.value"
+                    :label="a_item.label"
+                    :value="a_item.value">
                   </el-option>
                 </el-select>
             </template>
@@ -59,7 +55,6 @@
 export default {
   'name': 'CurdAdd',
   'props': {
-    'oneTitle': '',
     'tbName': '',
     'tbTxt': '',
   },
@@ -71,7 +66,8 @@ export default {
       'updateObj':{},
       'rules':{},
       'inputMap':{},//为更多的input参数预留使用
-      'arrInput':[],
+      'arrMap':{},
+      'vm':this,
     };
   },
   'methods': {
@@ -87,6 +83,9 @@ export default {
         }
         arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'input': titleOne.input});
         if (titleOne.input) {
+          titleOne.input.vm = this;
+          titleOne.input.prop = titleOne.prop;
+          this.arrMap[titleOne.prop] = [];
           this.inputMap[titleOne.prop] = titleOne.input;
         }
       }
@@ -110,6 +109,27 @@ export default {
         this.$msgok('新增成功!');
         this.showList(true);
       });
+    },
+    select2(s2prop){
+      const vm = this;
+      return function(query) {
+        const inputObj = vm.inputMap[s2prop];
+        if (query.length < inputObj.lessLetter) {
+          return;
+        }
+        vm.$kc.kGet(vm,inputObj.url + query, (err, reData) => {
+          if (err) {
+            vm.$message.error('检索数据处理失败');
+            return;
+          }
+          const reArr = JSON.parse('' + reData);
+          vm.arrMap[inputObj.prop] = [];
+          for (let i = 0,len = reArr.length; i < len; i++) {
+            vm.arrMap[inputObj.prop].push({'label':reArr[i].name,'value':reArr[i]._id});
+          }
+          vm.$forceUpdate();
+        });
+      }
     },
   },
 }

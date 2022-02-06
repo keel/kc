@@ -118,6 +118,7 @@ const prop = {
     reqData.state = 0;
     reqData.createTime = Date.now();
     reqData.creatorId = req.userId;
+    reqData.loginPwd = mkPwd(reqData.loginPwd, reqData.createTime);
     reqData.py = (reqData.name) ? Pinyin.getPY(reqData.name) : ''; //拼音首字母检索用
     callback(null, reqData);
   },
