@@ -31,7 +31,13 @@ display:none !important;
   border-radius: 6px;
   border: none;
 }
-
+#loginForm .el-input__inner {
+  background-color: #eeeeff;
+  color: #2a2a4a;
+}
+.el-form-item__error{
+  position: relative;
+}
 
 .el-picker-panel, .el-date-table th,.el-date-picker__header-label,.el-picker-panel__icon-btn,.el-time-spinner__item,.el-time-spinner__item.active:not(.disabled) {
   color: #4c4c9e;
