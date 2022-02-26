@@ -72,5 +72,5 @@ db.checkIndex(prop.tb, {
 });
 
 
-// const mk = require('../../lib/mkCurdVue.js');
-// mk.make(prop);
+// const mk = kc.mkCurdVue;
+// mk.make(prop, __dirname);

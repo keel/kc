@@ -203,5 +203,5 @@ setTimeout(function() {
 }, 1000);
 
 // 以下注释打开执行,即可生成前端页面
-// const mk = require('../../lib/mkCurdVue.js');
-// mk.make(prop);
+// const mk = kc.mkCurdVue;
+// mk.make(prop, __dirname);

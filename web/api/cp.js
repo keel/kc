@@ -234,5 +234,5 @@ db.checkIndex(prop.tb, {
   'state_-1': { 'state': -1 },
 });
 
-// const mk = require('../../lib/mkCurdVue.js');
-// mk.make(prop);
+// const mk = kc.mkCurdVue;
+// mk.make(prop, __dirname);
