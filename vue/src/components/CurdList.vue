@@ -7,8 +7,8 @@
       <el-table v-loading="listLoading" :data="tableData" :row-style="rowStyle" :header-row-style="headerRowStyle" style="width: 100%">
         <el-table-column v-for="item in tableTitles" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width">
           <template slot-scope="scope">
-            <template v-if="(item.prop == 'name')" >
-              <el-link style="color:#dedefd;" @click="showOne(scope.row._id)">{{scope.row.name}}</el-link>
+            <template v-if="isLinkOne(item)" >
+              <el-link style="color:#dedefd;" @click="showOne(scope.row)">{{scope.row[link_col]}}</el-link>
             </template>
             <template v-else>{{$kc.showValue(scope.row[item.prop], item.input)}}</template>
           </template>
@@ -59,14 +59,20 @@ export default {
       'recordsFiltered':0,
       'inputMap':{},
       'listLoading':false,
+      'searchObj':null,
+      'col_id':'_id',
+      'link_col':'name',
     }
   },
   mounted() {
     this.showList();
   },
   'methods': {
-    showOne(id){
-      this.$emit('showOne',id);
+    showOne(row){
+      this.$emit('showOne',row[this.col_id]);
+    },
+    isLinkOne(item){
+      return item.prop === this.link_col;
     },
     mkListReq(searchObj){
       this.start = (this.pageNum - 1) * this.pageSize;
@@ -85,10 +91,10 @@ export default {
       if(!callback){
         callback = ()=>{};
       }
+      this.searchObj = searchObj;
       this.$kc.kPost(this,' /' + this.tb + '/list', this.mkListReq(searchObj), (err, reData) => {
         this.listLoading = false;
         if (err) {
-          console.log('list',this);
           this.$alert('列表数据获取处理失败', '数据错误');
           return callback();
         }
@@ -99,6 +105,8 @@ export default {
         }
         this.tableTitles = [];
         this.recordsTotal = reJson.recordsTotal;
+        this.col_id = reJson.col_id;
+        this.link_col = reJson.link_col;
         this.recordsFiltered = reJson.recordsFiltered;
         this.tableData = reJson.data;
         this.$emit('setTableTitles', reJson.tableTitles);
@@ -117,11 +125,11 @@ export default {
     },
     handleSizeChange(val) {
       this.pageSize = val;
-      this.showList();
+      this.showList(this.searchObj);
     },
     handleCurrentChange(val) {
       this.pageNum = val;
-      this.showList();
+      this.showList(this.searchObj);
     }
   }
 }

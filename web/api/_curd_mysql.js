@@ -1,5 +1,6 @@
 /*
-curd,默认与vue前端配合,示例见最下方注释
+curd(mysql版本),默认与vue前端配合,示例见最下方注释
+暂未实现dbConf支持多个mysql源
  */
 'use strict';
 const kc = require('../../lib/kc');
@@ -10,7 +11,6 @@ const vlog = require('vlog').instance(__filename);
 // const manager = require('./_curdManager');
 
 
-
 const bigintToStr = function(strVal) {
   const len = strVal.length;
   if (len < 15) {
@@ -18,6 +18,109 @@ const bigintToStr = function(strVal) {
   }
   const pre = '' + parseInt(strVal.substring(0, 15));
   return pre + bigintToStr(strVal.substring(15));
+};
+
+
+const sql_type_map = {
+  'string': {
+    'sql_compare_val': function(sKey, sVal, compareType = '=') {
+      return '`' + sKey + '`' + compareType + '"' + sVal + '" ';
+    },
+    'getVal': function(sKey, sVal) {
+      return '"' + kc.mysql.escape(sVal) + '"';
+    },
+  },
+  'bigint': {
+    'sql_compare_val': function(sKey, sVal, compareType = '=') {
+      return '`' + sKey + '`' + compareType + sVal + ' ';
+    },
+    'getVal': function(sKey, sVal) {
+      return bigintToStr(sVal);
+    },
+  },
+  'int': {
+    'sql_compare_val': function(sKey, sVal, compareType = '=') {
+      return '`' + sKey + '`' + compareType + sVal + ' ';
+    },
+    'getVal': function(sKey, sVal) {
+      return '' + parseInt(sVal);
+    },
+  },
+  'float': {
+    'sql_compare_val': function(sKey, sVal, compareType = '=') {
+      return '`' + sKey + '`' + compareType + sVal + ' ';
+    },
+    'getVal': function(sKey, sVal) {
+      return '' + parseFloat(sVal);
+    },
+  },
+};
+const sql_compare = function(sKey, sVal, compareType = '=', sType = 'string') {
+  return sql_type_map[sType]['sql_compare_val'](sKey, kc.mysql.escape(sVal), compareType);
+};
+
+const sql_get_val = function(me, sKey, sVal, knownType) {
+  const sType = knownType || me.checkTypeMap[sKey];
+  // console.log('sql_get_val sType:%j, sVal:%j', sType, sVal);
+  if (!sql_type_map[sType]) {
+    return kc.mysql.escape(sVal);
+  }
+  const out = sql_type_map[sType].getVal(sKey, sVal);
+  // console.log('=======', out);
+  return out;
+};
+
+
+const sql_where = function(queryObj) {
+  if (!queryObj) {
+    return '';
+  }
+  let append = '';
+  for (const i in queryObj) {
+    append += ' and `' + i + '` ' + queryObj[i] + ' ';
+  }
+  if (append === '') {
+    return '';
+  }
+  return ' where ' + append.substring(4);
+};
+
+const sql_select = function(tb, queryObj, opt = {}) {
+  let cols = '*';
+  if (opt.projection) {
+    cols = '';
+    for (const i in opt.projection) {
+      cols += ',' + i;
+    }
+    if (cols === '') {
+      cols = '*';
+    } else {
+      cols = cols.substring(1);
+    }
+  }
+
+  let out = 'select ' + cols + ' from `' + tb + '` ';
+  out += sql_where(queryObj);
+  if (opt.sort) {
+    out += ' order by ' + opt.sort;
+  }
+  if (opt.limit) {
+    out += ' limit ' + (opt.skip || '0') + ',' + opt.limit;
+  }
+  return out;
+};
+
+const sql_update = function(tb, update, queryObj) {
+  let out = 'update `' + tb + '` set ';
+  let udpateAppend = '';
+  for (const i in update) {
+    udpateAppend += ' ,' + i + '=' + update[i];
+  }
+  if (udpateAppend !== '') {
+    udpateAppend = udpateAppend.substring(2);
+  }
+  out += udpateAppend + sql_where(queryObj);
+  return out;
 };
 
 //prop加工处理
@@ -43,9 +146,6 @@ const processProp = function(prop) {
       }
       if (item.input) {
         titleObj.input = item.input;
-      }
-      if (item.col === prop.linkToOneColName) {
-        titleObj.toOne = 1;
       }
       tableTitles.push(titleObj);
     }
@@ -94,18 +194,14 @@ const processProp = function(prop) {
     prop.listAllState = false;
   }
   if (!prop.db || !prop.dbConf) {
-    prop.db = kc.mongo.init();
-    prop.dbConf = 'default';
+    prop.db = kc.mysql.init();
   }
   if (!prop.col_id) {
-    prop.col_id = '_id';
+    prop.col_id = 'id';
   }
   if (!prop.col_id_create) {
-    prop.col_id_create = (newId) => {
-      if (newId) {
-        return prop.db.idObj(newId);
-      }
-      return prop.db.newObjectId();
+    prop.col_id_create = () => {
+      return Date.now() + ktool.randomStr(7);
     };
   }
   if (!prop.onAdd) {
@@ -140,16 +236,16 @@ const processProp = function(prop) {
 const updateSetMap = {
   'int': (data) => { return parseInt(data); },
   'bigint': (data) => { return bigintToStr(data); },
-  'string': (data) => { return '' + data; },
+  'string': (data) => { return '"' + data + '"'; },
   'float': (data) => { return parseFloat(data); },
-  'array': (data) => { return (typeof data === 'string') ? ktool.strToArr(data) : data; },
-  'json': (data) => { return JSON.parse(data); },
-  'inc': (data) => {
+  // 'array': (data) => { return (typeof data === 'string') ? ktool.strToArr(data) : data; },
+  // 'json': (data) => { return JSON.parse(data); },
+  'inc': (data, reqObj, i) => {
     let incNum = 1;
     if (data) {
       incNum = parseInt(data);
     }
-    return incNum;
+    return '' + i + '+' + incNum;
   },
   'pwd': (data, reqObj, i) => {
     // const newPwd = (reqObj.createTime) ? data + ',' + reqObj.createTime : data;
@@ -165,10 +261,8 @@ function instance(prop) {
     me.events[event] = fn;
   };
 
-
   me.setUpdate = function(reqObj) {
     const _set = {};
-    let _inc = null;
     const checkObj = me.checkTypeMap;
     for (const i in checkObj) {
       if (i === me.col_id) {
@@ -178,25 +272,14 @@ function instance(prop) {
         const typeName = checkObj[i];
         const typeFn = updateSetMap[typeName];
         if (typeFn) {
-          if (typeName === 'inc') {
-            if (!_inc) {
-              _inc = {};
-            }
-            _inc[i] = typeFn(reqObj[i], reqObj, i);
-          } else {
-            _set[i] = typeFn(reqObj[i], reqObj, i);
-          }
+          _set[i] = typeFn(reqObj[i], reqObj, i);
         } else {
           _set[i] = reqObj[i];
         }
       }
     }
-    const out = { '$set': _set };
-    if (_inc) {
-      out['$inc'] = _inc;
-    }
     // vlog.log('_curd setUpdate:%j',out);
-    return out;
+    return _set;
   };
 
   const reDataTables = function(showNew, showOne, draw, recordsTotal, recordsFiltered, data) {
@@ -227,11 +310,6 @@ function instance(prop) {
   };
 
 
-  const mkQueryById = function(newId) {
-    const query = {};
-    query[me.col_id] = me.col_id_create(newId);
-    return query;
-  };
 
   const showId = function(req, resp, callback) {
     if (parseInt(req.userLevel) < me.rLevel && req.body.id !== req.userId) {
@@ -253,14 +331,17 @@ function instance(prop) {
         showUpdate = false;
       }
     }
-    me.db.c(me.tb, me.dbConf).findOne(mkQueryById(req.body.id), function(err, re) {
+    const sql = `select * from  ${me.tb} where ${sql_compare(me.col_id, req.body.id, '=', me.checkTypeMap[me.col_id])} limit 1`;
+    // console.log('showId sql', sql);
+    me.db.c().query(sql, function(err, reArr) {
       if (err) {
         vlog.eo(err, 'showId', me.tb + '/' + req.body.id);
         return callback(null, error.json('curdOne'));
       }
-      if (!re) {
+      if (reArr.length <= 0) {
         return callback(null, { 'code': 0, 'data': [], showUpdate, showDel });
       }
+      const re = reArr[0];
       if (me.formatter) {
         for (const f in me.formatter) {
           re[f] = me.formatter[f](re[f]);
@@ -280,7 +361,6 @@ function instance(prop) {
         if (paras) {
           respObj['paras'] = paras;
         }
-
         return callback(null, respObj);
       });
 
@@ -296,63 +376,17 @@ function instance(prop) {
     }
     for (const key in search) {
       const keyType = me.checkTypeMap[key];
-      const val = search[key];
+      const val = kc.mysql.escape(search[key]);
       if (keyType) {
         if (keyType === 'int' || keyType === 'inc') {
-          query[key] = parseInt(val);
-        } else if (keyType === 'array') {
-          query[key] = { '$all': ktool.strToArr(val) };
+          query[key] = '=' + parseInt(val);
+        } else if (keyType === 'string') {
+          query[key] = 'like "%' + val + '%"';
         } else {
-          query[key] = {
-            '$regex': val
-          };
+          query[key] = '=' + val;
         }
       }
     }
-
-
-    // let po;
-    // try {
-    //   po = JSON.parse(search);
-    // } catch (e) {
-    //   po = search;
-    // }
-    // if (typeof po == 'object') {
-    //   for (const key in po) {
-    //     const keyType = me.checkTypeMap(key);
-    //     const val = po[key];
-    //     if (keyType) {
-    //       // vlog.log('search value:%s',val);
-    //       if (keyType === 'int' || keyType === 'inc') {
-    //         query[key] = parseInt(val);
-    //       } else if (keyType === 'array') {
-    //         query[key] = { '$all': ktool.strToArr(val) };
-    //       } else {
-    //         query[key] = {
-    //           '$regex': val
-    //         };
-    //       }
-    //     }
-    //   }
-    // } else {
-    //   const po = search.indexOf(':');
-    //   const key = (po < 0) ? me.defaultSearch : search.substring(0, po).trim();
-    //   const val = (po < 0) ? search.trim() : search.substring(po + 1).trim();
-    //   // vlog.log('search key:%s',key);
-    //   const keyType = me.checkTypeMap(key);
-    //   if (keyType) {
-    //     // vlog.log('search value:%s',val);
-    //     if (keyType === 'int' || keyType === 'inc') {
-    //       query[key] = parseInt(val);
-    //     } else if (keyType === 'array') {
-    //       query[key] = { '$all': ktool.strToArr(val) };
-    //     } else {
-    //       query[key] = {
-    //         '$regex': val
-    //       };
-    //     }
-    //   }
-    // }
   };
 
 
@@ -362,43 +396,47 @@ function instance(prop) {
 
     const start = parseInt(req.body.start);
     const length = parseInt(req.body.length);
-
-    me.db.getColl(me.tb, me.dbConf, function(err, coll) {
+    const sql_count = 'SELECT COUNT(*) AS count FROM ' + me.tb + sql_where(query);
+    // console.log('=====sql_count:',sql_count);
+    me.db.c().query(sql_count, (err, countRe) => {
       if (err) {
-        return callback(vlog.ee(err, 'count checkColl'));
+        return callback(vlog.ee(err, ''));
       }
-      coll.countDocuments(query, {}, function(err, allCount) {
+      const allCount = countRe[0].count;
+
+      const opt = {
+        'projection': me.listProjection,
+        'skip': start,
+        'limit': length,
+      };
+      if (me.listSort) {
+        opt.sort = me.listSort;
+      }
+      const sql = sql_select(me.tb, query, opt);
+      // console.log('doList sql', sql);
+      me.db.c().query(sql, function(err, docs) {
         if (err) {
-          return callback(vlog.ee(err, 'count'));
+          vlog.error(err.stack);
+          callback(null, { allCount });
+          return;
         }
-        const opt = {
-          'projection': me.listProjection,
-          'skip': start,
-          'limit': length,
-        };
-        if (me.listSort) {
-          opt.sort = me.listSort;
+        // vlog.log('docs:%j',docs);
+        if (docs && docs.length > 0) {
+          me.onList(req, docs, (err, respData) => {
+            if (err) {
+              return vlog.eo(err, '');
+            }
+            callback(null, { allCount, 'list': respData });
+          });
+        } else {
+          callback(null, { allCount, 'list': [] });
         }
-        me.db.c(me.tb, me.dbConf).query(query, opt, function(err, docs) {
-          if (err) {
-            vlog.error(err.stack);
-            callback(null, { allCount });
-            return;
-          }
-          // vlog.log('docs:%j',docs);
-          if (docs && docs.length > 0) {
-            me.onList(req, docs, (err, respData) => {
-              if (err) {
-                return vlog.eo(err, '');
-              }
-              callback(null, { allCount, 'list': respData });
-            });
-          } else {
-            callback(null, { allCount, 'list': [] });
-          }
-        });
       });
+
+
     });
+
+
   };
 
   const list = function(req, resp, callback) {
@@ -421,9 +459,7 @@ function instance(prop) {
       return;
     }
     let query = (me.listAllState) ? {} : {
-      'state': {
-        '$gte': 0
-      }
+      'state': '>=0 ',
     };
     me.beforeList(req, query, function(err, queryRe) {
       if (err) {
@@ -431,9 +467,9 @@ function instance(prop) {
       }
       query = queryRe;
       if (req.userLevel < me.listAllLevel && me.creatorFilter) {
-        query[me.creatorFilter] = req.userId;
+        query[me.creatorFilter] = '="' + req.userId + '"';
       }
-      // console.log('query:%j',query);
+      // console.log('list query:%j\n%s', query);
       me.doList(req, resp, query, (err, doListRe) => {
         if (err) {
           return callback(vlog.ee(err, 'doList'));
@@ -462,14 +498,15 @@ function instance(prop) {
       if (err) {
         return error.apiErr(err, callback, 'curdOnUpdate');
       }
-      const query = mkQueryById(reqData[me.col_id]);
+      const query = {};
+      query[me.col_id] = '=' + sql_get_val(me, me.col_id, reqData[me.col_id]);
       const update = me.setUpdate(reqData);
       if (update === null) {
         resp.send(error.json('params'));
         return;
       }
-      // vlog.log('curd update: %j,query:%j',update,query);
-      me.db.c(me.tb, me.dbConf).updateOne(query, update, { 'upsert': false }, function(err) {
+      // console.log('curd update: %j,query:%j\n%s', update, query, sql_update(me.tb, update, query));
+      me.db.c().query(sql_update(me.tb, update, query), function(err) {
         if (err) {
           return error.apiErr(err, callback, 'curdUpdate');
         }
@@ -495,9 +532,9 @@ function instance(prop) {
     }
     const reqData = reqDataArr[1];
     // vlog.log('del reqData:%j',reqData);
-    const query = mkQueryById(reqData.id);
-    // vlog.log('curd del: %j',query);
-    me.db.c(me.tb, me.dbConf).deleteOne(query, null, function(err, re) {
+    const sql = 'delete from `' + me.tb + '` where `' + me.col_id + '` = ' + sql_get_val(me, me.col_id, reqData.id);
+    // console.log('curd del: %j', sql);
+    me.db.c().query(sql, function(err, re) {
       if (err) {
         return error.apiErr(err, callback, 'curdDel');
       }
@@ -539,7 +576,22 @@ function instance(prop) {
         dbObj[me.col_id] = me.col_id_create();
       }
       // vlog.log('dbObj:%j',dbObj);
-      me.db.c(me.tb, me.dbConf).insertOne(dbObj, function(err, re) {
+      let sql = 'insert into ' + me.tb + ' (';
+      let keyAppend = '';
+      let valAppend = '';
+      for (const i in dbObj) {
+        keyAppend += ',' + i;
+        valAppend += ',' + sql_get_val(me, i, dbObj[i]);
+      }
+      if (keyAppend !== '') {
+        keyAppend = keyAppend.substring(1);
+      }
+      if (valAppend !== '') {
+        valAppend = valAppend.substring(1);
+      }
+      sql += keyAppend + ') values (' + valAppend + ')';
+      // console.log('add sql:', sql);
+      me.db.c().query(sql, function(err, re) {
         if (err) {
           return error.apiErr(err, callback, 'curdAdd');
         }
@@ -553,84 +605,6 @@ function instance(prop) {
     });
   };
 
-
-  const updateOne = function(req, resp, callback) {
-    // if (me.authPath) { //iApi会自动检测权限
-    //   if (!kc.auth.auth(req, me.authPath + '/updateOne')) {
-    //     return callback(null, error.json('auth'));
-    //   }
-    // }
-    const reqDataArr = iApi.parseApiReq(req.body, me.apiKey);
-    if (reqDataArr[0] !== 0) {
-      return error.apiErr('iApi updateOne', callback, '' + reqDataArr[0]);
-    }
-    const reqData = reqDataArr[1];
-    const editType = reqData.type;
-    const editCol = reqData.col;
-    const editVal = reqData.val;
-    const listFiles = me.listProjection;
-    const listKeys = Object.keys(listFiles);
-    const editKey = listKeys[editCol];
-    reqData.editKey = editKey;
-    reqData[editKey] = editVal;
-
-    me.onUpdateOne(req, reqData, (err) => {
-      if (err) {
-        return error.apiErr(err, callback, 'curdOnUpdateOne');
-      }
-      // vlog.log('curd updateOne reqData:%j', reqData);
-      const query = mkQueryById(reqData[me.col_id]);
-
-      const update = me.setUpdate(reqData);
-      if (update === null) {
-        callback(null, error.json('params'));
-        return;
-      }
-
-      if (editType === 'del') {
-        //直接删除!!
-        me.db.c(me.tb, me.dbConf).deleteOne(query, function(err) {
-          if (err) {
-            return error.apiErr(err, callback, 'curdUpdateOne');
-          }
-          const respObj = iApi.makeApiResp(0, { 'code': 'ok' }, me.apiKey);
-
-          callback(null, respObj);
-        });
-        // me.db.c(me.tb, me.dbConf).updateOne(query, { '$set': { 'state': -1 } }, { 'upsert': false }, function(err) {
-        //   if (err) {
-        //     return error.apiErr(err, callback, 'onUpdateOne');
-        //   }
-        //   const respObj = iApi.makeApiResp(0, { 'code': 'ok' }, me.apiKey);
-        //   //返回
-        //   callback(null, respObj);
-        // });
-        return;
-      }
-      // vlog.log('curd updateOne: %j,query:%j', update, query);
-      me.db.c(me.tb, me.dbConf).updateOne(query, update, { 'upsert': false }, function(err, re) {
-        if (err) {
-          return error.apiErr(err, callback, 'curdUpdateOne');
-        }
-        const changeIndexs = [4, 13, 14];
-        const listFiles = me.listProjection;
-        const listKeys = Object.keys(listFiles);
-
-        const result = {};
-        for (const i in changeIndexs) {
-          result[changeIndexs[i]] = update['$set'][listKeys[changeIndexs[i]]];
-        }
-
-        const respObj = iApi.makeApiResp(0, result, me.apiKey);
-        //返回
-        callback(null, respObj);
-        if (me.events['updateOK']) {
-          me.events['updateOK'](req.body, req.userId, req.userLevel);
-        }
-
-      });
-    });
-  };
 
 
   /**
@@ -677,9 +651,7 @@ function instance(prop) {
 
   const downloadCsv = function(req, resp, callback) {
     let query = (me.listAllState) ? {} : {
-      'state': {
-        '$gte': 0
-      }
+      'state': '>=0'
     };
     // console.log('csv ==> req.params:%j',req.params);
     // console.log('csv ==> req.body:%j',req.body);
@@ -788,5 +760,15 @@ function instance(prop) {
   return me;
 }
 exports.instance = instance;
+
+
+// const db = kc.mysql.init();
+// db.c().query('SELECT COUNT(*) AS count FROM base_jczinfo', (err, countRe) => {
+//   if (err) {
+//     return vlog.eo(err, '');
+//   }
+//   console.log('%j', countRe);
+
+// });
 
 //

@@ -19,6 +19,14 @@ const prop = {
   // 'dbConf': dbConfName, //配合db参数使用
   // 'apiKey': kc.kconfig.get('s$_apiKey'), //标准API协议所用到的key,可根据情况从配置文件,数据库或其他位置获取,不填则为kconfig.get('s$_apiKey')
   // 'defaultSearch': 'name',//默认搜索字段, 不填则为"name"
+  'col_id': '_id', //主键id字段名称
+  'linkToOneColName': 'name', //可点击导航到详情页的字段
+  // 'col_id_create': (newId) => { //创建id的方法
+  //   if (newId) {
+  //     return prop.db.idObj(newId);
+  //   }
+  //   return prop.db.newObjectId();
+  // },
   'fields': [ //必填
     //字段
     {
@@ -88,7 +96,7 @@ const prop = {
       'name': '状态',
       'type': 'int',
       'hide': 'add|list',
-      'validator': { 'optional': 'all', 'validator': 'strInt' },//validator用optional表示可选状态的校验(可配置为all或add,update始终为可选)
+      'validator': { 'optional': 'all', 'validator': 'strInt' }, //validator用optional表示可选状态的校验(可配置为all或add,update始终为可选)
       'input': { 'type': 'int' }
     },
     { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
@@ -104,7 +112,9 @@ const prop = {
       'name': reqData.name.trim(),
       'feeType': reqData.feeType.trim(),
       'fee': cck.priceStrParse('' + reqData.fee),
-      'feeCut': parseInt(reqData.feeCut.trim()),
+      'feeCut': parseInt(reqData.feeCut),
+      'cpid': reqData.cpid || [],
+      'cpid2': reqData.cpid2 || [],
       'state': 0,
       'createTime': now,
       'creatorId': req.userId,
@@ -132,7 +142,7 @@ const prop = {
   'authPath': 'product', //权限路径,若配置则需要登录且登录账号具备此路径权限才可返回数据
   // 'authName':'产品', //权限名,不配置则为tbName
   'curdLevel': [0, 0, 0, 0, 9], //level级别的权限, 默认均为0, 数组依次为:c,u,r,d,m(审批权限,暂无用)
-
+  // 'listAllState':false, //是否在list中显示所有state，默认为false, 只显示state>=0的对象
 
   //以下参数用于mkCurdVue使用
   'listSlot': '',
@@ -184,7 +194,7 @@ ci.on('updateOK', function(reqBody, uId, uLevel) { // eslint-disable-line
   refreshCache(reqBody.req._id);
 });
 ci.on('hardDelOK', function(reqBody, uId, uLevel) { // eslint-disable-line
-  refreshCache(reqBody.req._id, true);
+  refreshCache(reqBody.req.id, true);
 });
 
 exports.router = function() {

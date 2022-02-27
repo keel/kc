@@ -4,43 +4,30 @@
       <div slot="header" class="clearfix">
         <div style="width: 100%;color:#dedefd;">新增{{oneTbTxt}}</div>
       </div>
-      <el-form :model="updateObj" status-icon :rules="rules" label-width="100px">
-        <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label">
+      <el-form :model="updateObj" status-icon :rules="rules" label-width="190px">
+        <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label+item.info">
           <!-- 这里处理input样式,逐个匹配input.type,暂未找到更合适的方法 -->
           <template v-if="item.input">
             <template v-if="(item.input.type == 'datetime')">
-              <el-date-picker v-model="updateObj[item.prop]" type="datetime" value-format="timestamp" placeholder="选择日期时间"></el-date-picker>
+              <el-date-picker @input="$forceUpdate()" v-model="updateObj[item.prop]" type="datetime" value-format="timestamp" placeholder="选择日期时间"></el-date-picker>
             </template>
             <template v-else-if="(item.input.type == 'radio')">
-              <el-radio v-for="radioItem in item.input.options" :key="radioItem.key" v-model="updateObj[item.prop]" :label="radioItem.val">{{radioItem.key}}</el-radio>
+              <el-radio @input="$forceUpdate()" v-for="radioItem in item.input.options" :key="radioItem.key" v-model="updateObj[item.prop]" :label="radioItem.val">{{radioItem.key}}</el-radio>
             </template>
             <template v-else-if="(item.input.type == 'select2')">
-              <el-select :id="item.prop"
-                  v-model="updateObj[item.prop]"
-                  :multiple="!item.input.single"
-                  filterable
-                  remote
-                  :placeholder="请输入拼音首字母"
-                  :remote-method="select2(item.prop)"
-                  >
-                  <el-option
-                    v-for="a_item in arrMap[item.prop]"
-                    :key="a_item.value"
-                    :label="a_item.label"
-                    :value="a_item.value">
-                  </el-option>
-                </el-select>
+              <el-select @input="$forceUpdate()" :id="item.prop" v-model="updateObj[item.prop]" :multiple="!item.input.single" filterable remote placeholder="请输入拼音首字母" :remote-method="select2(item.prop)">
+                <el-option v-for="a_item in arrMap[item.prop]" :key="a_item.value" :label="a_item.label" :value="a_item.value">
+                </el-option>
+              </el-select>
             </template>
             <template v-else>
-              <el-input v-model="updateObj[item.prop]"></el-input>
+              <el-input @input="$forceUpdate()" v-model="updateObj[item.prop]"></el-input>
             </template>
           </template>
           <template v-else>
-            <el-input v-model="updateObj[item.prop]"></el-input>
+            <el-input @input="$forceUpdate()" v-model="updateObj[item.prop]"></el-input>
           </template>
           <!-- 处理input样式结束  -->
-
-
         </el-form-item>
       </el-form>
       <div style="padding-left: 100px;">
@@ -63,11 +50,11 @@ export default {
       'oneArr': [],
       'oneTbName': this.tbName,
       'oneTbTxt': this.tbTxt,
-      'updateObj':{},
-      'rules':{},
-      'inputMap':{},//为更多的input参数预留使用
-      'arrMap':{},
-      'vm':this,
+      'updateObj': {},
+      'rules': {},
+      'inputMap': {}, //为更多的input参数预留使用
+      'arrMap': {},
+      'vm': this,
     };
   },
   'methods': {
@@ -81,22 +68,25 @@ export default {
         if (titleOne.hide && titleOne.hide.indexOf('add') >= 0) {
           continue;
         }
-        arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'input': titleOne.input});
+        arr.push({ 'prop': titleOne.prop, 'label': titleOne.label, 'input': titleOne.input, 'info': (titleOne.info || '') });
         if (titleOne.input) {
           titleOne.input.vm = this;
           titleOne.input.prop = titleOne.prop;
           this.arrMap[titleOne.prop] = [];
           this.inputMap[titleOne.prop] = titleOne.input;
         }
+        if (titleOne.default !== undefined) {
+          this.updateObj[titleOne.prop] = titleOne.default;
+        }
       }
       this.oneArr = arr;
 
     },
     showList(isRefresh) {
-      this.$emit('showList',isRefresh);
+      this.$emit('showList', isRefresh);
     },
-    addNew(){
-      this.$kc.apiReq(this,'/' + this.tbName + '/add', this.updateObj, (err, reData) => {
+    addNew() {
+      this.$kc.apiReq(this, '/' + this.tbName + '/add', this.updateObj, (err, reData) => {
         if (err) {
           this.$alert('新增数据处理失败', '数据错误');
           return;
@@ -110,22 +100,22 @@ export default {
         this.showList(true);
       });
     },
-    select2(s2prop){
+    select2(s2prop) {
       const vm = this;
       return function(query) {
         const inputObj = vm.inputMap[s2prop];
         if (query.length < inputObj.lessLetter) {
           return;
         }
-        vm.$kc.kGet(vm,inputObj.url + query, (err, reData) => {
+        vm.$kc.kGet(vm, inputObj.url + query, (err, reData) => {
           if (err) {
             vm.$message.error('检索数据处理失败');
             return;
           }
           const reArr = JSON.parse('' + reData);
           vm.arrMap[inputObj.prop] = [];
-          for (let i = 0,len = reArr.length; i < len; i++) {
-            vm.arrMap[inputObj.prop].push({'label':reArr[i].name,'value':reArr[i]._id});
+          for (let i = 0, len = reArr.length; i < len; i++) {
+            vm.arrMap[inputObj.prop].push({ 'label': reArr[i].name, 'value': reArr[i]._id });
           }
           vm.$forceUpdate();
         });

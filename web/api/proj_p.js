@@ -64,6 +64,8 @@ exports.router = function() {
 };
 
 const db = kc.mongo.init();
+
+//服务启动时检查表索引
 db.checkIndex(prop.tb, {
   'createTime_-1': { 'createTime': -1 },
   'name_-1': { 'name': -1 },

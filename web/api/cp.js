@@ -223,7 +223,7 @@ ci.on('updateOK', function(reqBody, uId, uLevel) { // eslint-disable-line
   refreshCache(reqBody.req._id);
 });
 ci.on('hardDelOK', function(reqBody, uId, uLevel) { // eslint-disable-line
-  refreshCache(reqBody.req._id, true);
+  refreshCache(reqBody.req.id, true);
 });
 
 db.checkIndex(prop.tb, {
@@ -232,6 +232,7 @@ db.checkIndex(prop.tb, {
   'loginName_-1': { 'loginName': -1 },
   'level_-1': { 'level': -1 },
   'state_-1': { 'state': -1 },
+  'py_-1': { 'py': -1 },
 });
 
 // const mk = kc.mkCurdVue;

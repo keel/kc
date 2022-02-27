@@ -5,7 +5,7 @@
         <div slot="header" class="clearfix">
           <div style="text-align:center;width: 100%;">登录</div>
         </div>
-        <el-form :model="oneForm" status-icon :rules="rules" ref="oneForm" label-width="100px">
+        <el-form id="loginForm" :model="oneForm" status-icon :rules="rules" ref="oneForm" label-width="100px">
           <el-form-item label="用户名" prop="loginName">
             <el-input v-model="oneForm.loginName" autocomplete="off"></el-input>
           </el-form-item>
@@ -94,6 +94,4 @@ export default {
   }
 }
 </script>
-
-
 

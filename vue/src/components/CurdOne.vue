@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <div style="width: 100%;color:#dedefd;">{{oneTbTxt}}详情</div>
       </div>
-      <el-form  v-loading="doOneLoading" :model="updateObj" status-icon :rules="rules" label-width="100px">
+      <el-form  v-loading="doOneLoading" :model="updateObj" status-icon :rules="rules" label-width="190px">
         <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label">
           <template v-if="(!item.hide || item.hide.indexOf('one')<0)">
             <span v-show="!isUpdate" :id="'col_'+item.prop">{{$kc.showValue(item.val, item.input, vm)}}</span>
@@ -52,9 +52,9 @@
       <div style="padding-left: 100px;">
         <slot></slot>
         <el-button v-show="isShowUpdate && (!isUpdate)" type="info" @click="showUpdate()">修改</el-button>
-        <el-button v-show="isShowDel" type="danger" @click="doDel()" :loading="doDelLoading">删除</el-button>
         <el-button v-show="isUpdate" type="info" @click="doUpdate()" :loading="doUpdateLoading">执行修改</el-button>
         <el-button v-show="isUpdate" type="info" @click="cancelUpdate()">取消</el-button>
+        <el-button v-show="isShowDel" type="danger" @click="doDel()" :loading="doDelLoading">删除</el-button>
         <el-button type="primary" @click="showList()">返回列表</el-button>
       </div>
     </el-card>
@@ -86,6 +86,7 @@ export default {
       'isShowUpdate':false,
       'isShowDel':false,
       'arrMap':{},
+      'id':null,
       'vm':this,
     };
   },
@@ -94,6 +95,7 @@ export default {
       if (!id || !tableTitles) {
         return;
       }
+      this.id = id;
       this.tableTitles = tableTitles;
       this.doOneLoading = true;
       this.$kc.kPost(this,' /' + this.tbName + '/one', { id }, (err, reData) => {
@@ -153,7 +155,7 @@ export default {
           return;
         }
         this.$alert('更新成功!');
-        this.showOneProp(this.updateObj._id,this.tableTitles);
+        this.showOneProp(this.id,this.tableTitles);
         this.isUpdate = false;
         this.needRefreshList = true;
       });
@@ -165,7 +167,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$kc.apiReq(this,'/' + this.tbName + '/del', { '_id': '' + this.updateObj._id }, (err, reData) => {
+        this.$kc.apiReq(this,'/' + this.tbName + '/del', { 'id': '' + this.id }, (err, reData) => {
           this.doDelLoading = false;
           if (err) {
             this.$alert('删除数据处理失败', '数据错误');
@@ -207,7 +209,7 @@ export default {
           const reArr = JSON.parse('' + reData);
           vm.arrMap[inputObj.prop] = [];
           for (let i = 0,len = reArr.length; i < len; i++) {
-            vm.arrMap[inputObj.prop].push({'label':reArr[i].name,'value':reArr[i]._id});
+            vm.arrMap[inputObj.prop].push({'label':reArr[i].name,'value':reArr[i]._id}); //_id需要api中对应,这里默认按mongo方式处理
           }
           vm.$forceUpdate();
         });

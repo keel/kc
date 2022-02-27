@@ -18,7 +18,35 @@ var lerr = function() {
   }
   console.error.apply(window, args);
 };
+const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+/**
+ * create a random string
+ * @param  {int} len     需要的随机string长度
+ * @param  {char array|string} charArr char范围
+ * @return {string}
+ */
+function randomStr(len, charArr) {
+  const charTable = charArr || chars;
+  const charTableLen = charTable.length;
+  const randomBytes = crypto.randomBytes(len);
+  const result = new Array(len);
+  let cursor = 0;
+  for (let i = 0; i < len; i++) {
+    cursor += randomBytes[i];
+    result[i] = charTable[cursor % charTableLen];
+  }
+  return result.join('');
+}
 
+/**
+ * 指定范围内随机int, lowerValue <= value <= upperValue
+ * @param  {int} lowerValue
+ * @param  {int} upperValue
+ * @return {int}            随机值value
+ */
+function randomInt(lowerValue, upperValue) {
+  return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);
+}
 const clone = function(json) {
   if (Array.isArray(json)) {
     const target = [];
@@ -37,7 +65,30 @@ const clone = function(json) {
   return json;
 };
 
-
+function randomChoose(arr, num) {
+  if (!num || num === 1) {
+    return [arr[Math.floor((Math.random() * arr.length))]];
+  }
+  //方法1
+  // const shuffledArr = shuffle(arr.slice(0));
+  // return shuffledArr.slice(0, num);
+  //方法2
+  const shuffled = arr.slice(0);
+  if (num > arr.length) {
+    return shuffled;
+  }
+  let temp = 0;
+  let index = 0;
+  let i = arr.length;
+  const min = i - num;
+  while (i-- > min) {
+    index = Math.floor((i + 1) * Math.random());
+    temp = shuffled[index];
+    shuffled[index] = shuffled[i];
+    shuffled[i] = temp;
+  }
+  return shuffled.slice(min);
+}
 const twoInt = function(int) {
   return (int < 10) ? '0' + int : int;
 };
@@ -702,4 +753,7 @@ Vue.prototype.$kc = {
   inputFormat,
   inputFormatBack,
   postDownFile,
+  randomStr,
+  randomInt,
+  randomChoose,
 };
