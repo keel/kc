@@ -35,7 +35,7 @@ const sql_type_map = {
       return '`' + sKey + '`' + compareType + sVal + ' ';
     },
     'getVal': function(sKey, sVal) {
-      return bigintToStr(sVal);
+      return bigintToStr('' + sVal);
     },
   },
   'int': {
