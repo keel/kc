@@ -141,7 +141,8 @@ const iiConfig = {
 exports.router = function() {
   const router = iApi.getRouter(iiConfig);
   router.get('*', function(req, resp, next) { // eslint-disable-line
-    resp.send('404');
+    vlog.error('===== Run "cd vue && npm run serve" and visite locahost:8080');
+    resp.send('404 - this is not login page');
   });
 
   return router;

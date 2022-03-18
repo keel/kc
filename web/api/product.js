@@ -89,6 +89,17 @@ const prop = {
       },
       'hide': 'list',
     },
+    {
+      'col': 'area',
+      'name': '授权区域',
+      'type': 'array',
+      'default': [],
+      'input': {
+        'type': 'multiSelect',
+        'parasKey': 'area', //选项{name,val}通过onOne注入到reJson.paras中
+      },
+      'hide': 'list',
+    },
     { 'col': 'feeCut', 'name': '分成比例', 'type': 'int', 'info': '(>=0且<=100的整数,表示百分比)', 'default': 100, 'validator': 'strInt' },
     { 'col': 'creatorId', 'type': 'string', 'hide': 'all' }, //创建人id
     {
@@ -137,7 +148,16 @@ const prop = {
   // 'beforeList' : function(req, query, callback) { callback(null, query); }; //执行list的query之前
   // 'onList':function(req, listArr, callback) { callback(null, listArr); }, //执行list数据输出之前
   // 'onDel':function(req, id, callback) { callback(null, id); },
-  // 'onOne':function(req, oneData, callback) { callback(null, oneData); },
+
+  'onOne': function(req, oneData, callback) {
+    oneData.loginPwd = ''; //置空密码不返回
+    const paras = {};
+    if (kc.auth.auth(req, 'cp/authMap')) {
+      paras.authMap = 1; //这里可用paras加入参数控制某个权限是否显示
+    }
+    paras.area = [{ 'name': '江苏', 'val': 'js' }, { 'name': '广东', 'val': 'gd' }, { 'name': '上海', 'val': 'sh' }]; // 这里实现area多选列表项目
+    callback(null, oneData, paras);
+  },
   'creatorFilter': 'creatorId', //用于判断当前登录用户是否是自己,此值为当前表中包含的对应用户ID的字段,管理员不需要
   'authPath': 'product', //权限路径,若配置则需要登录且登录账号具备此路径权限才可返回数据
   // 'authName':'产品', //权限名,不配置则为tbName

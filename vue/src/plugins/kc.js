@@ -132,6 +132,38 @@ const timeFormat = function(millSec, formatStr) {
   return formatStr;
 };
 
+
+const timeFormatParse = function(timeStr, formatStr) {
+  if (timeStr.length != formatStr.length) {
+    throw new Error('[ERR]timeFormatParse timeStr:' + timeStr + '|formatStr:' + formatStr + ';');
+  }
+  const d = new Date(0);
+  d.setHours(0);
+  const df = {
+    'YYYY': (t) => d.setFullYear(parseInt(t)),
+    'yyyy': (t) => d.setFullYear(parseInt(t)),
+    'MM': (t) => d.setMonth(parseInt(t) - 1),
+    'dd': (t) => d.setDate(parseInt(t)),
+    'HH': (t) => d.setHours(parseInt(t)),
+    'mm': (t) => d.setMinutes(parseInt(t)),
+    'ss': (t) => d.setSeconds(parseInt(t)),
+    'SSS': (t) => d.setMilliseconds(parseInt(t)),
+  };
+
+  for (const i in df) {
+    const tIndex = formatStr.indexOf(i);
+    // console.log('tIndex', tIndex, i, '[' + formatStr + ']', '[' + timeStr + ']', i.length);
+    if (tIndex >= 0) {
+      const t = timeStr.substring(tIndex, tIndex + i.length);
+      // console.log('t', t);
+      df[i](t);
+      timeStr = timeStr.substring(0, tIndex) + timeStr.substring(tIndex + i.length);
+      formatStr = formatStr.substring(0, tIndex) + formatStr.substring(tIndex + i.length);
+    }
+  }
+  return d;
+};
+
 const priceIntShow = function(priceInt, isDeciForce) {
   let negativeTag = '';
   if (priceInt < 0) {
@@ -223,11 +255,31 @@ const priceStrParse = function(priceStr) {
 const showValMap = {
   'pwd': () => { return '******'; },
   'rmb': (val) => { return priceIntShow(val); },
-  'datetime': (val) => {return timeFormat(val); },
+  'datetime': (val) => { return timeFormat(val); },
   'array': (val) => { return JSON.stringify(val); },
   'json': (val) => { return JSON.stringify(val); },
+  'multiSelect': function(val, inputObj, vm) {
+    if (!val) {
+      return '';
+    }
+    if (!inputObj || !inputObj.parasKey || !vm.paras || !vm.paras[inputObj.parasKey]) {
+      return JSON.stringify(val);
+    }
+    const valMap = {};
+    const out = [];
+    for (let i = 0, len = val.length; i < len; i++) {
+      valMap[val[i]] = 1;
+    }
+    const sArr = vm.paras[inputObj.parasKey];
+    for (let i = 0, len = sArr.length; i < len; i++) {
+      if (valMap[sArr[i].val]) {
+        out.push(sArr[i].name + '(' + sArr[i].val + ')');
+      }
+    }
+    return out.join(',');
+  },
   'select2': function(val, inputObj, vm) {
-    if (!val || val.length === 0 || !inputObj.prop || !vm ) {
+    if (!val || val.length === 0 || !inputObj.prop || !vm) {
       inputObj.shownId = vm.updateObj._id;
       return '';
     }
@@ -739,6 +791,7 @@ Vue.prototype.$kc = {
   twoInt,
   threeInt,
   timeFormat,
+  timeFormatParse,
   kHttp,
   kPost,
   kGet,

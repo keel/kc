@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <div style="width: 100%;color:#dedefd;">{{oneTbTxt}}详情</div>
       </div>
-      <el-form  v-loading="doOneLoading" :model="updateObj" status-icon :rules="rules" label-width="190px">
+      <el-form id="curdOne" v-loading="doOneLoading" :model="updateObj" status-icon :rules="rules" label-width="190px">
         <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label">
           <template v-if="(!item.hide || item.hide.indexOf('one')<0)">
             <span v-show="!isUpdate" :id="'col_'+item.prop">{{$kc.showValue(item.val, item.input, vm)}}</span>
@@ -20,6 +20,11 @@
               </template>
               <template v-else-if="(item.input.type == 'pwd')">
                 <el-input v-show="isUpdate" @input="$forceUpdate()" placeholder="请输入密码" v-model="updateObj[item.prop]" show-password></el-input>
+              </template>
+              <template v-else-if="(item.input.type == 'multiSelect')">
+                <el-select v-show="isUpdate" v-model="updateObj[item.prop]" multiple>
+                  <el-option v-for="item in paras[item.input.parasKey]" :key="item.val" :label="item.name" :value="item.val"></el-option>
+                </el-select>
               </template>
               <template v-else-if="(item.input.type == 'select2')">
                 <el-select :disabled="!isUpdate" :id="item.prop"
@@ -88,6 +93,7 @@ export default {
       'arrMap':{},
       'id':null,
       'vm':this,
+      'paras':null,
     };
   },
   'methods': {
@@ -131,6 +137,7 @@ export default {
         this.isShowDel = reJson.showDel;
         if (reJson.paras) {
           this.$emit('setOneParas', reJson.paras);
+          this.paras = reJson.paras;
         }
       });
     },

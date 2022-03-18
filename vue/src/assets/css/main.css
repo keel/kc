@@ -91,3 +91,7 @@ display:none !important;
   color: #6c5ffc;
   text-decoration: none;
 }
+
+#curdOne .el-select,#curdOne .el-select .el-input{
+    width: 100% !important;
+}
