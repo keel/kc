@@ -7,8 +7,6 @@ const ktool = require('ktool');
 const iApi = kc.iApi;
 const error = require('../../lib/error');
 const vlog = require('vlog').instance(__filename);
-// const manager = require('./_curdManager');
-
 
 
 const bigintToStr = function(strVal) {
@@ -709,6 +707,14 @@ function instance(prop) {
   };
 
 
+  const plusApi = function(req, resp, callback) {
+    if (me.plusApi) {
+      me.plusApi(req, resp, callback);
+      return;
+    }
+    callback(null, { 'code': 404 });
+  };
+
   const iiConfig = {
     'auth': true,
     'authPath': me.authPath,
@@ -755,6 +761,10 @@ function instance(prop) {
         'resp': showId,
         'authName': '-详情页',
       },
+      'plusApi': {
+        'skipAuth': true, //跳过auth
+        'resp': plusApi,
+      },
       'csv/:csvName': {
         'bodyParserType': 'urlencoded',
         'bodyParserTypeOption': { 'extended': true },
@@ -789,4 +799,3 @@ function instance(prop) {
 }
 exports.instance = instance;
 
-//

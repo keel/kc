@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <div style="width: 100%;color:#dedefd;">新增{{oneTbTxt}}</div>
       </div>
-      <el-form :model="updateObj" status-icon :rules="rules" label-width="190px">
+      <el-form id="curdAdd" :model="updateObj" status-icon :rules="rules" label-width="190px">
         <el-form-item v-for="item in oneArr" :key="item.prop" :label="item.label+item.info">
           <!-- 这里处理input样式,逐个匹配input.type,暂未找到更合适的方法 -->
           <template v-if="item.input">
@@ -13,6 +13,11 @@
             </template>
             <template v-else-if="(item.input.type == 'radio')">
               <el-radio @input="$forceUpdate()" v-for="radioItem in item.input.options" :key="radioItem.key" v-model="updateObj[item.prop]" :label="radioItem.val">{{radioItem.key}}</el-radio>
+            </template>
+            <template v-else-if="(item.input.type == 'multiSelect')">
+              <el-select @input="$forceUpdate()" v-model="updateObj[item.prop]" multiple>
+                <el-option v-for="item in (paras || {})[item.input.parasKey]" :key="item.val" :label="item.name" :value="item.val"></el-option>
+              </el-select>
             </template>
             <template v-else-if="(item.input.type == 'select2')">
               <el-select @input="$forceUpdate()" :id="item.prop" v-model="updateObj[item.prop]" :multiple="!item.input.single" filterable remote placeholder="请输入拼音首字母" :remote-method="select2(item.prop)">
@@ -55,13 +60,15 @@ export default {
       'inputMap': {}, //为更多的input参数预留使用
       'arrMap': {},
       'vm': this,
+      'paras': null,
     };
   },
   'methods': {
-    showAddProp(tableTitles) {
+    showAddProp(tableTitles, oneParas) {
       if (!tableTitles) {
         return;
       }
+      const needParas = {};
       const arr = [];
       for (let i = 0, len = tableTitles.length; i < len; i++) {
         const titleOne = tableTitles[i];
@@ -74,13 +81,43 @@ export default {
           titleOne.input.prop = titleOne.prop;
           this.arrMap[titleOne.prop] = [];
           this.inputMap[titleOne.prop] = titleOne.input;
+          if (titleOne.input.type === 'multiSelect' && titleOne.input.parasKey !== undefined) {
+            if (!needParas['multiSelect']) {
+              needParas.multiSelect = [];
+            }
+            needParas.multiSelect.push(titleOne.input.parasKey);
+          }
         }
         if (titleOne.default !== undefined) {
           this.updateObj[titleOne.prop] = titleOne.default;
         }
       }
       this.oneArr = arr;
-
+      if (!needParas || this.paras) {
+        return;
+      }
+      //下面补充multiSelect备选值
+      this.emp = function() {};
+      if (oneParas) {
+        const tmp = { 't': () => {} };
+        for (const i in oneParas) {
+          this.paras = oneParas;
+          tmp.t(i);
+          return;
+        }
+        this.$kc.kPost(this, ' /' + this.tbName + '/plusApi', { 'act': 'curdAdd', needParas }, (err, reData) => {
+          if (err) {
+            console.error('获取plusApi数据失败');
+            return;
+          }
+          const reJson = JSON.parse('' + reData);
+          if (reJson.code !== 0) {
+            console.error('获取plusApi数据失败', reJson);
+            return;
+          }
+          this.paras = reJson.data || {};
+        });
+      }
     },
     showList(isRefresh) {
       this.$emit('showList', isRefresh);

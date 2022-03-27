@@ -132,6 +132,7 @@ const prop = {
   },
   onUpdate(req, reqData, callback) {
     if (!reqData.loginPwd) {
+      delete reqData.loginPwd;
       return callback(null, reqData);
     }
     const oldOne = kc.iCache.getSync('cp:_id:' + reqData._id);

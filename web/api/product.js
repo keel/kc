@@ -158,6 +158,10 @@ const prop = {
     paras.area = [{ 'name': '江苏', 'val': 'js' }, { 'name': '广东', 'val': 'gd' }, { 'name': '上海', 'val': 'sh' }]; // 这里实现area多选列表项目
     callback(null, oneData, paras);
   },
+  'plusApi': function(req, resp, callback) {
+    //补充area的多选项目
+    callback(null, { 'code': 0, 'data': { 'area': [{ 'name': '江苏', 'val': 'js' }, { 'name': '广东', 'val': 'gd' }, { 'name': '上海', 'val': 'sh' }] } });
+  },
   'creatorFilter': 'creatorId', //用于判断当前登录用户是否是自己,此值为当前表中包含的对应用户ID的字段,管理员不需要
   'authPath': 'product', //权限路径,若配置则需要登录且登录账号具备此路径权限才可返回数据
   // 'authName':'产品', //权限名,不配置则为tbName

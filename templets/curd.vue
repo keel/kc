@@ -65,7 +65,7 @@ export default {
       }
     },
     showAdd() {
-      this.$refs.curdAdd.showAddProp(this.tableTitles);
+      this.$refs.curdAdd.showAddProp(this.tableTitles, this.oneParas);
       this.showContent = 'add';
     },
     mkSearchObj() {

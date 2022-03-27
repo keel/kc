@@ -92,6 +92,7 @@ display:none !important;
   text-decoration: none;
 }
 
-#curdOne .el-select,#curdOne .el-select .el-input{
+#curdOne .el-select,#curdOne .el-select .el-input,
+#curdAdd .el-select,#curdAdd .el-select .el-input{
     width: 100% !important;
 }
