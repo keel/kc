@@ -680,6 +680,14 @@ function instance(prop) {
     });
   };
 
+  const plusApi = function(req, resp, callback) {
+    if (me.plusApi) {
+      me.plusApi(req, resp, callback);
+      return;
+    }
+    callback(null, { 'code': 404 });
+  };
+
 
   const iiConfig = {
     'auth': true,
@@ -726,6 +734,10 @@ function instance(prop) {
         // 'isXssFilter': true,
         'resp': showId,
         'authName': '-详情页',
+      },
+      'plusApi': {
+        'skipAuth': true, //跳过auth
+        'resp': plusApi,
       },
       'csv/:csvName': {
         'bodyParserType': 'urlencoded',
