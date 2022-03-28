@@ -111,6 +111,7 @@ const prop = {
       'input': { 'type': 'int' }
     },
     { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
+    { 'col': 'expireTime', 'name': '有效期时间', 'type': 'string', 'hide': 'add|update', 'input': { 'type': 'datetime', 'format': 'yyyy-MM-dd' } }, //这里可通过format定义时间格式,完成string的填入
     { 'col': 'py', 'type': 'string', 'hide': 'all' }, //拼音首字母,检索用,所有界面均不显示
   ],
   'listSort': {
@@ -237,5 +238,5 @@ setTimeout(function() {
 }, 1000);
 
 // 以下注释打开执行,即可生成前端页面
-// const mk = kc.mkCurdVue;
-// mk.make(prop, __dirname);
+const mk = kc.mkCurdVue;
+mk.make(prop, __dirname);

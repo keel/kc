@@ -254,8 +254,8 @@ const priceStrParse = function(priceStr) {
 // };
 const showValMap = {
   'pwd': () => { return '******'; },
-  'rmb': (val) => { return priceIntShow(val); },
-  'datetime': (val) => { return timeFormat(val); },
+  'rmb': (val) => { return (val) ? priceIntShow(val) : ''; },
+  'datetime': (val, inputObj) => { return (val) ? timeFormat(val, (inputObj ? inputObj.format : null)) : ''; },
   'array': (val) => { return JSON.stringify(val); },
   'json': (val) => { return JSON.stringify(val); },
   'multiSelect': function(val, inputObj, vm) {
@@ -336,6 +336,12 @@ const inputFormatBackMap = {
   'pwd': (val) => {
     if (!val || (!val.trim())) {
       return null;
+    }
+    return val;
+  },
+  'datetime': (val, inputObj) => {
+    if (inputObj && inputObj.format) {
+      return timeFormat(val, inputObj.format);
     }
     return val;
   },
