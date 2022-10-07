@@ -101,6 +101,7 @@ const login = function(req, resp, callback) {
         return callback(vlog.ee(err, 'login:queryOneFromDb', reqData));
       }
       if (!re) {
+        fail2ban.failOne(reqData.loginName);
         return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 200);
       }
       //密码使用sha1保存
@@ -113,6 +114,7 @@ const login = function(req, resp, callback) {
           callback(null, { 'code': 0 });
         });
       } else {
+        fail2ban.failOne(reqData.loginName);
         return callback(null, error.json('auth', '用户名密码验证失败，请重试.'), 200);
       }
     });

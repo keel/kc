@@ -237,4 +237,4 @@ db.checkIndex(prop.tb, {
 });
 
 // const mk = kc.mkCurdVue;
-// mk.make(prop, __dirname);
+// mk.make(prop, __dirname + '/../../vue/src');
