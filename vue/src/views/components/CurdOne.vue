@@ -21,6 +21,15 @@
               <template v-else-if="(item.input.type == 'pwd')">
                 <el-input v-show="isUpdate" @input="$forceUpdate()" placeholder="请输入密码" v-model="updateObj[item.prop]" show-password></el-input>
               </template>
+              <template v-if="(item.input.type == 'array' || item.input.type == 'json')">
+                <el-input
+                  type="textarea"
+                  v-show="isUpdate"
+                  autosize
+                  @input="$forceUpdate()"
+                  placeholder=""
+                  v-model="updateObj[item.prop]"></el-input>
+              </template>
               <template v-else-if="(item.input.type == 'multiSelect')">
                 <el-select v-show="isUpdate" v-model="updateObj[item.prop]" multiple>
                   <el-option v-for="item in paras[item.input.parasKey]" :key="item.val" :label="item.name" :value="item.val"></el-option>

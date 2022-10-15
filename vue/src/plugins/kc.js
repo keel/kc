@@ -328,6 +328,12 @@ const inputFormatMap = {
   'rmb': (val) => {
     return priceIntShow(val);
   },
+  'array': (val) => {
+    return JSON.stringify(val);
+  },
+  'json': (val) => {
+    return JSON.stringify(val);
+  },
 };
 const inputFormatBackMap = {
   'rmb': (val) => {
