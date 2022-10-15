@@ -35,6 +35,11 @@
                   <el-option v-for="item in paras[item.input.parasKey]" :key="item.val" :label="item.name" :value="item.val"></el-option>
                 </el-select>
               </template>
+              <template v-else-if="(item.input.type == 'select')">
+                <el-select v-show="isUpdate" v-model="updateObj[item.prop]">
+                  <el-option v-for="item in paras[item.input.parasKey]" :key="item.val" :label="item.name" :value="item.val"></el-option>
+                </el-select>
+              </template>
               <template v-else-if="(item.input.type == 'select2')">
                 <el-select :disabled="!isUpdate" :id="item.prop"
                     v-model="updateObj[item.prop]"
