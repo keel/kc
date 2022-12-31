@@ -6,7 +6,7 @@
         <el-breadcrumb-item>{{ tbTxt }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-card v-show="(showContent === 'list')" class="box-card">
+    <el-card v-show="(showContent === 'list')" class="box-card search">
       <el-row :gutter="10">
         <el-col :span="12">
           <el-input size="small" placeholder="请输入查询内容" v-model="searchInput">

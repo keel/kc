@@ -13,6 +13,9 @@ display:none !important;
   background-color: #1B1C3B;
   border: none;
 }
+.search .el-input {
+    width: 100%;
+}
 
 
 .el-form-item__label {
