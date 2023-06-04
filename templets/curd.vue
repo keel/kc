@@ -79,7 +79,7 @@ export default {
     },
     [#{downCsv]
     downCsv() {
-      const postUrl = '/' + this.tbName + '/csv/' + this.tbTxt + '_' + (Date.now()) + '.csv';
+      const postUrl = this.tbName + '/csv/' + this.tbTxt + '_' + (Date.now()) + '.csv';
       this.$kc.postDownFile(this.$refs.curdList.mkListReq(this.mkSearchObj()), postUrl);
     },
     [#}downCsv]
