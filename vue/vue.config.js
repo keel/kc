@@ -4,4 +4,5 @@ module.exports = {
   'devServer': {
     'proxy': 'http://localhost:15001'
   },
+  'productionSourceMap':false
 };
