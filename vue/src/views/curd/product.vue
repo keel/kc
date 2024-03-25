@@ -6,21 +6,17 @@
         <el-breadcrumb-item>{{ tbTxt }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-card class="box-card">
-      <el-row :gutter="10">
-        <el-col :span="12">
-          <el-input size="small" placeholder="请输入查询内容" v-model="searchInput">
-            <el-select v-model="searchKey" slot="prepend" placeholder="查询字段">
-              <el-option v-for="searchItem in searchArr" :key="searchItem.key" :label="searchItem.label" :value="searchItem.key"></el-option>
-            </el-select>
-            <el-button :loading="searchLoading" slot="append" icon="el-icon-search" @click="doSearch()"></el-button>
-          </el-input>
-        </el-col>
-        <el-col :span="12">
-          <el-button size="small" type="danger" @click="showAdd()">新建</el-button>
-          <el-button size="small" type="info" @click="downCsv()">导出</el-button>
-        </el-col>
-      </el-row>
+    <el-card v-show="(showContent === 'list')" class="box-card">
+      <el-select v-model="searchKey" placeholder="查询字段">
+        <el-option v-for="searchItem in searchArr" :key="searchItem.key" :label="searchItem.label" :value="searchItem.key"></el-option>
+      </el-select>
+      <el-input placeholder="请输入查询内容" v-model="searchInput"></el-input>
+      
+      <el-date-picker v-model="input_time" placeholder="时间段" type="daterange" start-placeholder="开始日期" unlink-panels="unlink-panels" value-format="yyyy-MM-dd" end-placeholder="结束日期" style="width: 230px; margin-left: 20px"></el-date-picker>
+      
+      <el-button size="small" type="info" :loading="searchLoading" @click="doSearch()">查询</el-button>
+      <el-button size="small" type="danger" @click="showAdd()">新建</el-button>
+      <el-button size="small" type="info" @click="downCsv()">导出</el-button>
     </el-card>
     <CurdList v-show="(showContent === 'list')" ref="curdList" :tbName="tbName" :tbTxt="tbTxt" @showOne="showOne" @setTableTitles="setTableTitles"></CurdList>
     <CurdOne v-show="(showContent === 'one')" ref="curdOne" :tbName="tbName" :tbTxt="tbTxt" @setOneParas="setOneParas" @showList="showListNow"></CurdOne>
@@ -46,6 +42,7 @@ export default {
       'tableTitles': null,
       'searchInput': '',
       'searchKey': '',
+      'input_time': null,
       'searchArr': [],
       'searchLoading': false,
       'oneId':null,
@@ -70,23 +67,36 @@ export default {
     },
     mkSearchObj() {
       let searchObj = {};
+      let hasSearchVal = false;
       if (this.searchKey && this.searchInput) {
         searchObj[this.searchKey] = this.searchInput;
-      } else {
+        hasSearchVal = true;
+      }
+      
+      if (this.input_time) {
+        searchObj.createTime = this.input_time; //直接定key为createTime
+        hasSearchVal = true;
+      }
+      
+      if (!hasSearchVal) {
         searchObj = null;
       }
       return searchObj;
     },
     
     downCsv() {
-      const postUrl = '/' + this.tbName + '/csv/' + this.tbTxt + '_' + (Date.now()) + '.csv';
+      const postUrl = this.tbName + '/csv/' + this.tbTxt + '_' + (Date.now()) + '.csv';
       this.$kc.postDownFile(this.$refs.curdList.mkListReq(this.mkSearchObj()), postUrl);
     },
     
     doSearch() {
       this.showContent = 'list';
       this.searchLoading = true;
-      this.$refs.curdList.showList(this.mkSearchObj(), () => { this.searchLoading = false; });
+      const curSearchKey = this.searchKey;
+      this.$refs.curdList.showList(this.mkSearchObj(), () => {
+       this.searchLoading = false;
+       this.searchKey = curSearchKey;
+      });
     },
     setTableTitles(tableTitles) {
       this.tableTitles = tableTitles;
@@ -97,7 +107,7 @@ export default {
           this.searchArr.push({ 'label': one.label, 'key': one.prop, 'type': one.search });
         }
       }
-      if (this.searchArr.length > 0) {
+      if (!this.searchKey && this.searchArr.length > 0) {
         this.searchKey = this.searchArr[0].key;
       }
     },

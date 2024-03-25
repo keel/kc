@@ -174,6 +174,7 @@ const prop = {
   'oneSlot': '',
   'addSlot': '',
   'downCsv': true, //是否支持CSV导出
+  'inputTime': true, //是否支持createTime查询
 };
 
 
@@ -239,5 +240,5 @@ setTimeout(function() {
 
 
 // 以下注释打开执行,即可生成前端页面
-// const mk = kc.mkCurdVue;
-// mk.make(prop, __dirname + '/../../vue/src');
+const mk = kc.mkCurdVue;
+mk.make(prop, __dirname + '/../../vue/src');
