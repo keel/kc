@@ -86,6 +86,10 @@ export default {
       }
       return reqObj;
     },
+    searchList(searchObj, callback) {
+      this.pageNum = 1; //点查询必须从第1页开始
+      this.showList(searchObj, callback);
+    },
     showList(searchObj, callback) {
       this.listLoading = true;
       if(!callback){

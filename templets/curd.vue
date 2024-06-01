@@ -93,7 +93,7 @@ export default {
       this.showContent = 'list';
       this.searchLoading = true;
       const curSearchKey = this.searchKey;
-      this.$refs.curdList.showList(this.mkSearchObj(), () => {
+      this.$refs.curdList.searchList(this.mkSearchObj(), () => {
        this.searchLoading = false;
        this.searchKey = curSearchKey;
       });

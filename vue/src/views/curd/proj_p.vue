@@ -81,7 +81,7 @@ export default {
     doSearch() {
       this.showContent = 'list';
       this.searchLoading = true;
-      this.$refs.curdList.showList(this.mkSearchObj(), () => { this.searchLoading = false; });
+      this.$refs.curdList.searchList(this.mkSearchObj(), () => { this.searchLoading = false; });
     },
     setTableTitles(tableTitles) {
       this.tableTitles = tableTitles;
