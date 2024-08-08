@@ -163,6 +163,23 @@ function instance(prop) {
     me.events[event] = fn;
   };
 
+  //add时处理类型转换
+  me.setAdd = function (reqObj) {
+    const checkObj = me.checkTypeMap;
+    for (const i in checkObj) {
+      if (i === me.col_id) {
+        continue;
+      }
+      if (reqObj[i] !== undefined) {
+        const typeName = checkObj[i];
+        const typeFn = updateSetMap[typeName];
+        if (typeFn) {
+          reqObj[i] = typeFn(reqObj[i], reqObj, i);
+        }
+      }
+    }
+    return reqObj;
+  };
 
   me.setUpdate = function(reqObj) {
     const _set = {};
@@ -517,7 +534,7 @@ function instance(prop) {
     if (reqDataArr[0] !== 0) {
       return error.apiErr('iApi add', callback, '' + reqDataArr[0]);
     }
-    const reqData = reqDataArr[1];
+    const reqData = me.setAdd(reqDataArr[1]);
     // vlog.log('curd add req body:%j',req.body);
 
     me.onAdd(req, reqData, function(err, dbObj) {

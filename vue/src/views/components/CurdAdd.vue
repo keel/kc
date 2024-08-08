@@ -68,7 +68,7 @@ export default {
       if (!tableTitles) {
         return;
       }
-      const needParas = {};
+      const needParas = null;
       const arr = [];
       for (let i = 0, len = tableTitles.length; i < len; i++) {
         const titleOne = tableTitles[i];
@@ -82,6 +82,9 @@ export default {
           this.arrMap[titleOne.prop] = [];
           this.inputMap[titleOne.prop] = titleOne.input;
           if (titleOne.input.type === 'multiSelect' && titleOne.input.parasKey !== undefined) {
+            if (!needParas) {
+              needParas = {};
+            }
             if (!needParas['multiSelect']) {
               needParas.multiSelect = [];
             }
