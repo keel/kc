@@ -23,7 +23,7 @@ yarn-error.log*
 .npm
 
 # Dependency directories
-node_modules
+**/node_modules
 /jspm_packages
 /bower_components
 
@@ -70,8 +70,7 @@ modules.xml
 
 
 ### System Files ###
-.DS_Store
-*/.DS_Store
+**/.DS_Store
 
 # Windows thumbnail cache files
 Thumbs.db
