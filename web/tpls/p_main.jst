@@ -1,0 +1,48 @@
+{{#def.parts}}
+{{#def.header:{title:"主页"} }}
+{{#def.main:{title:"Console",userName:'admin'} }}
+<div class="ui-container">
+  <div class="ui-card" style="margin-bottom: 24px;">
+    <h3>公告</h3>
+    <p style="margin-top: 10px; color: var(--text-color-2);">欢迎使用管理系统</p>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+    <div class="ui-card">
+      <h3>测试</h3>
+      <div>
+        <button id="bt1" class="ui-button danger">按钮</button>
+        <button class="ui-button primary">按钮2</button>
+      </div>
+    </div>
+    <div class="ui-card">
+      <h3>测试</h3>
+      <div>
+        <!-- DatePicker 示例 -->
+        <div class="ui-form-item">
+          <label for="event-date">活动日期</label>
+          <!-- 只需添加 data-ui-datepicker 属性即可自动初始化 -->
+          <input type="text" id="event-date" class="ui-input" data-ui-datepicker placeholder="请选择日期">
+        </div>
+        <hr class="ui-divider-text"><span>Tree 控件示例</span></hr>
+        <!-- Tree 示例 -->
+        <div class="ui-form-item">
+          <label>分配权限 (带复选框)</label>
+          <!-- 这是树形控件的容器 -->
+          <div id="permission-tree" class="ui-card" style="padding: 10px; max-height: 250px; overflow-y: auto;">
+            <!-- Tree 将被JS渲染到这里 -->
+          </div>
+          <button id="get-checked-btn" class="ui-button primary" style="margin-top: 15px;">获取选中项</button>
+        </div>
+        <div class="ui-form-item">
+          <label>文件目录 (仅展示)</label>
+          <!-- 另一个树形控件容器 -->
+          <div id="file-tree" class="ui-card" style="padding: 10px; ">
+            <!-- Tree 将被JS渲染到这里 -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#def.footer:{scripts:'<script src="'+(it.rootPath || '')+'js/main.js"></script>'} }}

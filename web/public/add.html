@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新增</title>
+  <link rel="stylesheet" href="css/ui.css">
+</head>
+
+<body>
+  <div id="admin-layout">
+    <!-- 左侧边栏 -->
+    <aside id="admin-sidebar">
+      <div class="logo">
+        <a href="main.html"><span>Admin UI</span></a>
+      </div>
+      <div class="sidebar-menu-container">
+        <ul class="ui-menu" id="main-menu">
+          <!-- 菜单项将由JS动态生成 -->
+        </ul>
+      </div>
+    </aside>
+    <!-- 右侧主内容区 -->
+    <div id="admin-content">
+      <!-- 顶部栏 -->
+      <header id="admin-header">
+        <div id="admin-header-left">
+          <button id="menu-toggle" class="ui-button icon-button">
+            
+          </button>
+        </div>
+        <div id="admin-header-right">
+          <button id="theme-toggle" class="ui-button icon-button">
+            
+          </button>
+          <div class="ui-dropdown">
+            <a href="#" class="ui-dropdown-toggle user-info">
+              <div class="avatar" id="avatar">
+              </div>
+              <span>admin</span>
+            </a>
+            <div class="ui-dropdown-menu">
+              <a href="#">个人信息</a>
+              <div class="ui-dropdown-divider"></div>
+              <a href="login.html">退出登录</a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- 内容区域 -->
+      <main id="main-content">
+        <div class="ui-container">
+          <div class="ui-card">
+            <h3 id="page-title">新增用户</h3>
+            <hr class="ui-divider">
+            <form id="user-form">
+              <input type="hidden" id="user-id">
+              <div class="ui-form-item">
+                <label for="username">用户名</label>
+                <input type="text" id="username" class="ui-input" required>
+              </div>
+              <div class="ui-form-item">
+                <label for="email">邮箱</label>
+                <input type="email" id="email" class="ui-input" required>
+              </div>
+              <div class="ui-form-item">
+                <label>角色</label>
+                <select id="role" class="ui-input" data-ui-select>
+                  <!-- 选项将由JS动态生成 -->
+                </select>
+              </div>
+              <div class="ui-form-item">
+                <label>状态</label>
+                <div>
+                  <label class="ui-radio">
+                    <input type="radio" name="status" value="Active" checked>
+                    <span class="circle"></span> Active
+                  </label>
+                  <label class="ui-radio">
+                    <input type="radio" name="status" value="Inactive">
+                    <span class="circle"></span> Inactive
+                  </label>
+                </div>
+              </div>
+              <div class="ui-form-item">
+                <label>权限设置</label>
+                <div>
+                  <label class="ui-checkbox">
+                    <input type="checkbox" name="permissions" value="read">
+                    <span class="box"></span> 读取
+                  </label>
+                  <label class="ui-checkbox">
+                    <input type="checkbox" name="permissions" value="write" checked>
+                    <span class="box"></span> 写入
+                  </label>
+                  <label class="ui-checkbox">
+                    <input type="checkbox" name="permissions" value="delete">
+                    <span class="box"></span> 删除
+                  </label>
+                </div>
+              </div>
+              <div class="ui-form-item">
+                <label>接收通知</label>
+                <label class="ui-switch">
+                  <input type="checkbox" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="ui-divider"></div>
+              <div style="text-align: right;">
+                <a href="list.html" class="ui-button">返回列表</a>
+                <button type="submit" class="ui-button primary" id="submit-btn">确认新增</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/echarts.min.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    // 在引入ui.js之后
+    $(document).ready(function () {
+
+      // --- 动态生成菜单 ---
+      $('#main-menu').html(AdminUI.buildMenu(AdminUI.mockData.menuData, false));
+
+      AdminUI.icons.create('menu', '#menu-toggle').create('avatar', '#avatar').create('moon', '#theme-toggle').create('sun', '#theme-toggle');
+      AdminUI.theme.update();
+      // 动态生成角色选项
+      var roles = AdminUI.mockData.roles;
+      var roleOptions = '';
+      for (var i = 0; i < roles.length; i++) {
+        roleOptions += '<option value="' + roles[i].id + '">' + roles[i].name + '</option>';
+      }
+      $('#role').html(roleOptions);
+      AdminUI.select.update('#role');
+
+      // 检查是新增页还是详情页
+      var urlParams = new URLSearchParams(window.location.search);
+      var userId = urlParams.get('id');
+
+      if (userId) { // 详情/编辑模式
+        $('#page-title').text('编辑用户');
+        $('#submit-btn').text('保存修改');
+
+        // 模拟加载数据
+        var user = AdminUI.mockData.users.find(function (u) { return u.id == userId; });
+        if (user) {
+          $('#user-id').val(user.id);
+          $('#username').val(user.username).prop('disabled', true); // 用户名通常不可修改
+          $('#email').val(user.email);
+          $('#role').val(user.role);
+          $('input[name="status"][value="' + user.status + '"]').prop('checked', true);
+        } else {
+          AdminUI.popWin.alert('未找到用户数据！', '错误');
+        }
+      }
+
+      // 表单提交
+      $('#user-form').on('submit', function (e) {
+        e.preventDefault();
+        var formData = {
+          id: $('#user-id').val(),
+          username: $('#username').val(),
+          email: $('#email').val(),
+          role: $('#role').val(),
+          status: $('input[name="status"]:checked').val()
+        };
+
+        // 模拟AJAX提交
+        console.log('Submitting data:', formData);
+        var message = userId ? '修改成功！' : '新增成功！';
+
+        AdminUI.toast(message, 'success');
+
+        setTimeout(function () {
+          // 可以选择跳转到列表页或详情页
+          window.location.href = 'list.html';
+        }, 1500);
+      });
+    });
+  </script>
+</body>
+
+</html>

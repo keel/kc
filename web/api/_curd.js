@@ -324,50 +324,6 @@ function instance(prop) {
         }
       }
     }
-
-
-    // let po;
-    // try {
-    //   po = JSON.parse(search);
-    // } catch (e) {
-    //   po = search;
-    // }
-    // if (typeof po == 'object') {
-    //   for (const key in po) {
-    //     const keyType = me.checkTypeMap(key);
-    //     const val = po[key];
-    //     if (keyType) {
-    //       // vlog.log('search value:%s',val);
-    //       if (keyType === 'int' || keyType === 'inc') {
-    //         query[key] = parseInt(val);
-    //       } else if (keyType === 'array') {
-    //         query[key] = { '$all': ktool.strToArr(val) };
-    //       } else {
-    //         query[key] = {
-    //           '$regex': val
-    //         };
-    //       }
-    //     }
-    //   }
-    // } else {
-    //   const po = search.indexOf(':');
-    //   const key = (po < 0) ? me.defaultSearch : search.substring(0, po).trim();
-    //   const val = (po < 0) ? search.trim() : search.substring(po + 1).trim();
-    //   // vlog.log('search key:%s',key);
-    //   const keyType = me.checkTypeMap(key);
-    //   if (keyType) {
-    //     // vlog.log('search value:%s',val);
-    //     if (keyType === 'int' || keyType === 'inc') {
-    //       query[key] = parseInt(val);
-    //     } else if (keyType === 'array') {
-    //       query[key] = { '$all': ktool.strToArr(val) };
-    //     } else {
-    //       query[key] = {
-    //         '$regex': val
-    //       };
-    //     }
-    //   }
-    // }
   };
 
 
@@ -809,9 +765,9 @@ function instance(prop) {
   //   me.manager = mi;
   //   router.use('/manage', mi.router);
   // }
-  router.get('*', function(req, resp, next) {
-    resp.send(error.json('404'));
-  });
+  // router.get('*', function(req, resp, next) {
+  //   resp.send(error.json('404'));
+  // });
   return me;
 }
 exports.instance = instance;

@@ -5,7 +5,6 @@ config/*
 !config/tpl_default.json
 !config/tpl_test.json
 package-lock.json
-web/public
 
 
 

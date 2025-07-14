@@ -1,21 +1,69 @@
 {{##def.header:para:
-  <!DOCTYPE html>
-  <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <title>{{=para.title}}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="css/app.css" type="text/css" />
-    {{=para.css || ''}}
-    <script src="js/jquery.min.js"></script>
-    <script src="js/lyapp.src.js"></script>
-    {{=para.scripts || ''}}
-  </head>
-  <body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>{{=para.title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <link rel="stylesheet" href="{{=para.rootPath || ''}}css/ui.css" type="text/css" />
+  <link rel="stylesheet" href="{{=para.rootPath || ''}}css/app.css" type="text/css" />
+  {{=para.css || ''}}
+  <script src="{{=para.rootPath || ''}}js/jquery.min.js"></script>
+  <script src="{{=para.rootPath || ''}}js/kc.js"></script>
+  <script src="{{=para.rootPath || ''}}js/ui.js"></script>
+  {{=para.scripts || ''}}
+</head>
+<body>
 #}}
 
+{{##def.main:para:
+<div id="admin-layout">
+  <aside id="admin-sidebar">
+  <div class="logo">
+    <a href="{{=para.rootPath || ''}}main"><span>{{=para.title}}</span></a>
+  </div>
+  <div class="sidebar-menu-container">
+    <ul class="ui-menu" id="main-menu">
+    </ul>
+  </div>
+</aside>
+<!-- 右侧主内容区 -->
+<div id="admin-content">
+  <!-- 顶部栏 -->
+  <header id="admin-header">
+    <div id="admin-header-left">
+      <button id="menu-toggle" class="ui-button icon-button">
+      </button>
+    </div>
+    <div id="admin-header-right">
+      <button id="theme-toggle" class="ui-button icon-button">
+      </button>
+      <div class="ui-dropdown">
+        <a href="#" class="ui-dropdown-toggle user-info">
+          <div class="avatar" id="avatar">
+          </div>
+          <span id="userName">{{=para.userName}}</span>
+        </a>
+        <div class="ui-dropdown-menu">
+          <a href="#">个人信息</a>
+          <div class="ui-dropdown-divider"></div>
+          <a href="login">退出登录</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- 内容区域 -->
+  <main id="main-content">
+
+#}}
+
+
 {{##def.footer:para:
+    </main>
+  </div>
+  </div>
+  <script src="{{=para.rootPath || ''}}js/app.js"></script>
   {{=para.scripts || ''}}
-  </body>
-  </html>
+</body>
+</html>
 #}}

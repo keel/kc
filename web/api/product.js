@@ -4,7 +4,7 @@ CURD配置,完整示例
 'use strict';
 const cck = require('cck');
 const kc = require('../../lib/kc');
-const Pinyin = kc.pinyin; //引入拼音首字母便于快速检索
+// const Pinyin = kc.pinyin; //引入拼音首字母便于快速检索
 const vlog = require('vlog').instance(__filename);
 const curd = require('./_curd');
 
@@ -134,7 +134,7 @@ const prop = {
     if (kc.iCache.getSync('product:name:' + newObj.name)) {
       return callback('重复产品名称: ' + newObj.name);
     }
-    newObj.py = Pinyin.getPY(newObj.name);
+    // newObj.py = Pinyin.getPY(newObj.name);
     callback(null, newObj);
   },
   'onUpdate': function(req, reqData, callback) {
@@ -237,8 +237,3 @@ setTimeout(function() {
     'py_-1': { 'py': -1 },
   });
 }, 1000);
-
-
-// 以下注释打开执行,即可生成前端页面
-const mk = kc.mkCurdVue;
-mk.make(prop, __dirname + '/../../vue/src');

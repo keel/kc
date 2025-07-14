@@ -5,7 +5,7 @@ CURD配置典型示例,账号管理
 const ktool = require('ktool');
 const kc = require('../../lib/kc');
 const vlog = require('vlog').instance(__filename);
-const Pinyin = kc.pinyin; //引入拼音首字母便于快速检索
+// const Pinyin = kc.pinyin; //引入拼音首字母便于快速检索
 const curd = require('./_curd');
 
 
@@ -119,7 +119,7 @@ const prop = {
     reqData.createTime = Date.now();
     reqData.creatorId = req.userId;
     reqData.loginPwd = mkPwd(reqData.loginPwd, reqData.createTime);
-    reqData.py = (reqData.name) ? Pinyin.getPY(reqData.name) : ''; //拼音首字母检索用
+    // reqData.py = (reqData.name) ? Pinyin.getPY(reqData.name) : ''; //拼音首字母检索用
     callback(null, reqData);
   },
   'onOne': function(req, oneData, callback) {

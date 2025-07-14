@@ -1,69 +1,32 @@
 {
   "ver": 1,
   "project": "kc",
-  "h$_key":"envconfigbuildkey",
+  "h$_key":"OGEZUbsHSDvGLOmg",
   "ts": 0,
-  "s$_sessionKey": "sessionauthbythiskey",
+  "s$_sessionKey": "zz78HRXyrNhK5VTf",
   "sessionExpire": 1800,
-  "sessionType": "redis",
+  "sessionType": "mem",
   "failLoginRedirect": "/login",
-  "s$_apiKey": "[#apiKey]",
-  "ignoreIpCheck":false,
+  "s$_apiKey": "Bj8zOPcAjV2o3qIs",
   "fail2ban": 3600,
   "fail2banTimes": 5,
-  "redis": {
-    "init": true,
-    "s$_redisIP": "127.0.0.1",
-    "s$_redisPort": 6379,
-    "s$_pwd": false
-  },
   "firstUser":{
     "isFirst":true,
     "loginName":"admin",
-    "name":"firstUser",
     "loginPwd":"helloFirst",
     "level":10,
-    "state":0,
-    "_id":999
+    "_id":0
   },
-  "vlogRedisLevel":"log",
+  "redis": {
+    "init": false,
+    "s$_redisIP": "127.0.0.1",
+    "s$_redisPort": 6379
+  },
   "mongo": {
     "init": false,
-    "s$_mongoDbName": "dbName",
-    "s$_mongoUrl": "mongodb://user:pwd@127.0.0.1:27017/dbName"
+    "s$_mongoDbName": "lysms",
+    "s$_mongoUrl": "mongodb://user:pwd@127.0.0.1:27017/lysms"
   },
-  "mysql": {
-    "init": false,
-    "s$_isCluster":false,
-    "server": {
-      "connectionLimit": 60,
-      "s$_host": "127.0.0.1",
-      "s$_user": "user",
-      "s$_password": "pwd",
-      "s$_database": "aaa"
-    },
-    "servers": {
-      "master1": {
-        "connectionLimit": 60,
-        "s$_host": "127.0.0.1",
-        "s$_user": "user",
-        "s$_password": "pwd",
-        "s$_database": "aaa"
-      },
-      "slave1": {
-        "connectionLimit": 60,
-        "s$_host": "127.0.0.1",
-        "s$_user": "user",
-        "s$_password": "pwd",
-        "s$_database": "aaa"
-      }
-    }
-  },
-  "influx":{
-    "s$_token":"ZsaNPL***w==",
-    "url":"http://localhost:9999",
-    "org":"td",
-    "bucket":"t3"
-  },
+  "isTest": true,
   "startPort": 15001
 }

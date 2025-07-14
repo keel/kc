@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主页 - 后台管理系统</title>
+    <link rel="stylesheet" href="css/ui.css">
+</head>
+
+<body>
+
+    <div id="admin-layout">
+        <!-- 左侧边栏 -->
+        <aside id="admin-sidebar">
+            <div class="logo">
+                <a href="main.html"><span>Admin UI</span></a>
+            </div>
+            <div class="sidebar-menu-container">
+                <ul class="ui-menu" id="main-menu">
+                    <!-- 菜单项将由JS动态生成 -->
+                </ul>
+            </div>
+        </aside>
+
+        <!-- 右侧主内容区 -->
+        <div id="admin-content">
+            <!-- 顶部栏 -->
+            <header id="admin-header">
+                <div id="admin-header-left">
+                    <button id="menu-toggle" class="ui-button icon-button">
+                    </button>
+                </div>
+                <div id="admin-header-right">
+                    <button id="theme-toggle" class="ui-button icon-button">
+                    </button>
+                    <div class="ui-dropdown">
+                        <a href="#" class="ui-dropdown-toggle user-info">
+                            <div class="avatar" id="avatar">
+                            </div>
+                            <span>admin</span>
+                        </a>
+                        <div class="ui-dropdown-menu">
+                            <a href="#">个人信息</a>
+                            <div class="ui-dropdown-divider"></div>
+                            <a href="login.html">退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 内容区域 -->
+            <main id="main-content">
+                <div class="ui-container">
+                    <div class="ui-card" style="margin-bottom: 24px;">
+                        <h3>公告</h3>
+                        <p style="margin-top: 10px; color: var(--text-color-2);">欢迎使用管理系统</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+
+                        <div class="ui-card">
+                            <h3>测试</h3>
+                            <div>
+                                <button id="bt1" class="ui-button danger">按钮</button>
+                                <button class="ui-button primary">按钮2</button>
+                            </div>
+                        </div>
+                        <div class="ui-card">
+                            <h3>测试</h3>
+                            <div>
+                                <!-- DatePicker 示例 -->
+                                <div class="ui-form-item">
+                                    <label for="event-date">活动日期</label>
+                                    <!-- 只需添加 data-ui-datepicker 属性即可自动初始化 -->
+                                    <input type="text" id="event-date" class="ui-input" data-ui-datepicker
+                                        placeholder="请选择日期">
+                                </div>
+
+                                <hr class="ui-divider-text"><span>Tree 控件示例</span></hr>
+
+                                <!-- Tree 示例 -->
+                                <div class="ui-form-item">
+                                    <label>分配权限 (带复选框)</label>
+                                    <!-- 这是树形控件的容器 -->
+                                    <div id="permission-tree" class="ui-card"
+                                        style="padding: 10px; max-height: 250px; overflow-y: auto;">
+                                        <!-- Tree 将被JS渲染到这里 -->
+                                    </div>
+                                    <button id="get-checked-btn" class="ui-button primary"
+                                        style="margin-top: 15px;">获取选中项</button>
+                                </div>
+
+                                <div class="ui-form-item">
+                                    <label>文件目录 (仅展示)</label>
+                                    <!-- 另一个树形控件容器 -->
+                                    <div id="file-tree" class="ui-card" style="padding: 10px; ">
+                                        <!-- Tree 将被JS渲染到这里 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/ui.js"></script>
+    <script>
+        // 页面特定JS
+        $(document).ready(function () {
+
+            $('#bt1').click(() => {
+                AdminUI.toast('测试');
+            });
+            // AdminUI.tree.init();
+
+            AdminUI.icons.create('menu', '#menu-toggle').create('avatar', '#avatar').create('moon', '#theme-toggle').create('sun', '#theme-toggle');
+            AdminUI.theme.update();
+            // --- Tree 控件数据和初始化 ---
+            var permissionData = [
+                {
+                    id: 'system', label: '系统管理', checked: true, children: [
+                        {
+                            id: 'user', label: '用户管理', checked: true, children: [
+                                { id: 'user-add', label: '新增用户', checked: true },
+                                { id: 'user-edit', label: '编辑用户', checked: true },
+                                { id: 'user-delete', label: '删除用户', checked: false }
+                            ]
+                        },
+                        { id: 'role', label: '角色管理', checked: true }
+                    ]
+                },
+                {
+                    id: 'content', label: '内容管理', children: [
+                        { id: 'article', label: '文章管理' },
+                        { id: 'comment', label: '评论管理' }
+                    ]
+                }
+            ];
+
+            var fileData = [
+                {
+                    id: 'd1', label: 'Documents', children: [
+                        { id: 'f1', label: 'report.docx' },
+                        { id: 'f2', label: 'notes.txt' }
+                    ]
+                },
+                {
+                    id: 'd2', label: 'Images', children: [
+                        { id: 'p1', label: 'photo1.jpg' },
+                        { id: 'p2', label: 'logo.png' }
+                    ]
+                },
+                { id: 'f3', label: 'index.html' }
+            ];
+
+            // 初始化带复选框的树
+            AdminUI.tree.init('#permission-tree', permissionData, {
+                checkable: true,
+                cascadeCheck: true
+            });
+
+            // 初始化仅用于展示的树
+            AdminUI.tree.init('#file-tree', fileData, {
+                checkable: false
+            });
+
+            // 获取选中项按钮的点击事件
+            $('#get-checked-btn').on('click', function () {
+                var checkedIds = AdminUI.tree.getCheckedValues('#permission-tree');
+                AdminUI.popWin.alert('选中的权限ID: ' + checkedIds.join(', '));
+            });
+
+            // --- 动态生成菜单 ---
+            $('#main-menu').html(AdminUI.buildMenu(AdminUI.mockData.menuData, false));
+
+        });
+    </script>
+
+</body>
+
+</html>

@@ -4,7 +4,7 @@
 'use strict';
 const kc = require('../../lib/kc');
 const iCache = kc.iCache;
-const Pinyin = kc.pinyin;
+// const Pinyin = kc.pinyin;
 const iApi = kc.iApi;
 const vlog = require('vlog').instance(__filename);
 
@@ -45,12 +45,13 @@ const queryData = (tbName, newLetterLimit = 2, projection = { '_id': 1, 'name': 
     return;
   }
   const py = req.query.q.trim();
-  Pinyin.searchPY(py, tbName, projection, {}, (err, re) => {
-    if (err) {
-      return vlog.eo(err, '');
-    }
-    resp.send(JSON.stringify(re));
-  });
+  // Pinyin.searchPY(py, tbName, projection, {}, (err, re) => {
+  //   if (err) {
+  //     return vlog.eo(err, '');
+  //   }
+  //   resp.send(JSON.stringify(re));
+  // });
+  resp.send(JSON.stringify([]));
 };
 
 const iiConfig = {

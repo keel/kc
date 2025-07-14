@@ -10,18 +10,15 @@
     "lint": "eslint lib/*.js web/api/*.js"
   },
   "dependencies": {
+    "aes-cross": "^1.1.2",
+    "cck": "^1.0.36",
+    "express": "^4.21.2",
+    "formidable": "^3.5.4",
     "kc": "^3.0.25",
-    "aes-cross": "^1.0.9",
-    "vlog": "^0.2.12",
-    "cck": "^1.0.34",
-    "ktool": "^1.0.101",
-    "connect-history-api-fallback": "^1.6.0",
-    "mongodb": "^3.7.3",
-    "redis": "^3.1.2"
-  },
-  "devDependencies": {
-    "chai": "^4.3.6",
-    "mocha": "^9.1.3",
-    "pinyin-pro": "^3.8.2"
+    "ktool": "^1.0.109",
+    "mongodb": "^6.17.0",
+    "pinyin-pro": "^3.26.0",
+    "redis": "^5.5.6",
+    "vlog": "^0.2.12"
   }
 }

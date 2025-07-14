@@ -1,0 +1,18 @@
+  .login_wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+  }
+
+  .login-card {
+      width: 100%;
+      max-width: 400px;
+      padding: 30px;
+  }
+
+  .login-card h1 {
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 24px;
+  }

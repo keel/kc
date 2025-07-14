@@ -1,0 +1,1317 @@
+/* --- 基础和变量定义 --- */
+:root {
+    /* 主题色 */
+    --color-primary: #0070f3;
+    --color-primary-hover: #0056b3;
+    --color-danger: #e00;
+    --color-danger-hover: #b30000;
+    --color-success: #28a745;
+
+    /* 亮色主题 */
+    --bg-color: #f7f7f7;
+    --bg-color-2: #ffffff;
+    --bg-color-hover: #f0f0f0;
+    --text-color: #111;
+    --text-color-2: #666;
+    --border-color: #eaeaea;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --scrollbar-track-color: #f1f1f1;
+    --scrollbar-thumb-color: #ccc;
+    --scrollbar-thumb-hover-color: #999;
+}
+
+html[data-theme='dark'] {
+    --bg-color: #111;
+    --bg-color-2: #1c1c1c;
+    --bg-color-hover: #2d2d2d;
+    --text-color: #fafafa;
+    --text-color-2: #999;
+    --border-color: #333;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --scrollbar-track-color: #2c2c2c;
+    --scrollbar-thumb-color: #555;
+    --scrollbar-thumb-hover-color: #777;
+}
+
+/* --- 全局样式 --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 14px;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* --- 滚动条样式 --- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-color);
+}
+
+/* --- 布局容器 --- */
+.ui-container {
+    padding: 24px;
+}
+
+.ui-card {
+    background-color: var(--bg-color-2);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px var(--shadow-color);
+    padding: 20px;
+}
+
+/* --- UI模块: Button --- */
+.ui-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-color-2);
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.ui-button:hover {
+    border-color: #999;
+    background-color: var(--bg-color-hover);
+}
+
+.ui-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ui-button.primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+}
+
+.ui-button.primary:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+}
+
+.ui-button.danger {
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+    color: #fff;
+}
+
+.ui-button.danger:hover {
+    background-color: var(--color-danger-hover);
+    border-color: var(--color-danger-hover);
+}
+
+.ui-button.icon-button {
+    padding: 8px;
+    font-size: 0;
+}
+
+.ui-button .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+}
+
+.ui-button.icon-button .icon {
+    margin: 0;
+}
+.ui-button.loading {
+    position: relative;
+    pointer-events: none; /* 禁用点击事件 */
+    opacity: 0.8;
+}
+
+
+
+/* --- UI模块: Form (Input, Textarea) --- */
+.ui-form-item {
+    margin-bottom: 20px;
+}
+
+.ui-form-item label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-color-2);
+}
+
+.ui-input,
+.ui-textarea {
+    width: 100%;
+    padding: 8px 12px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-color);
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.ui-input:focus,
+.ui-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+}
+
+.ui-textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+.ui-input,.ui-select-toggle {
+    height: 35px;
+}
+/* --- UI模块: Toast --- */
+#ui-toast-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.ui-toast {
+    padding: 12px 20px;
+    background-color: var(--bg-color-2);
+    color: var(--text-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    animation: toast-in 0.5s ease;
+}
+
+.ui-toast.success {
+    background-color: var(--color-success);
+    color: #fff;
+    border: none;
+}
+
+@keyframes toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- UI模块: Dropdown --- */
+.ui-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.ui-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    min-width: 180px;
+    background-color: var(--bg-color-2);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 8px 16px var(--shadow-color);
+    padding: 8px 0;
+    z-index: 1000;
+    display: none;
+}
+
+.ui-dropdown-menu a {
+    display: block;
+    padding: 8px 16px;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.ui-dropdown-menu a:hover {
+    background-color: var(--bg-color-hover);
+}
+
+.ui-dropdown-divider {
+    height: 1px;
+    margin: 8px 0;
+    background-color: var(--border-color);
+}
+
+
+/* --- UI模块: PopWin --- */
+.ui-popwin-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.ui-popwin {
+    background-color: var(--bg-color-2);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    min-width: 320px;
+    max-width: 90%;
+    animation: popwin-in 0.3s ease-out;
+}
+
+.ui-popwin-header {
+    padding: 16px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ui-popwin-content {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.ui-popwin-content .ui-input {
+    margin-top: 10px;
+}
+
+.ui-popwin-footer {
+    padding: 12px 20px;
+    text-align: right;
+    border-top: 1px solid var(--border-color);
+}
+
+.ui-popwin-footer .ui-button {
+    margin-left: 10px;
+}
+
+@keyframes popwin-in {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- UI模块: Checkbox & Radio --- */
+.ui-checkbox,
+.ui-radio {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+.ui-checkbox input,
+.ui-radio input {
+    display: none;
+}
+
+.ui-checkbox .box,
+.ui-radio .circle {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.ui-radio .circle {
+    border-radius: 50%;
+}
+
+.ui-checkbox input:checked+.box,
+.ui-radio input:checked+.circle {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.ui-checkbox input:checked+.box::after {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 7px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.ui-radio input:checked+.circle::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+}
+/* --- START: Added for indeterminate state --- */
+.ui-checkbox.indeterminate .box {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.ui-checkbox.indeterminate .box::after {
+    content: '';
+    display: block;
+    width: 10px; /* 横线的宽度 */
+    height: 2px;  /* 横线的高度 */
+    background-color: white;
+    /* 重置“勾”的样式 */
+    border: none;
+    transform: none;
+}
+/* --- END: Added for indeterminate state --- */
+
+/* --- UI模块: Switch --- */
+.ui-switch {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.ui-switch input {
+    display: none;
+}
+
+.ui-switch .slider {
+    width: 44px;
+    height: 24px;
+    background-color: #ccc;
+    border-radius: 12px;
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+.ui-switch .slider::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.ui-switch input:checked+.slider {
+    background-color: var(--color-primary);
+}
+
+.ui-switch input:checked+.slider::before {
+    transform: translateX(20px);
+}
+
+/* --- UI模块: Table --- */
+.ui-table-container {
+    overflow-x: auto;
+}
+
+.ui-table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+.ui-table th,
+.ui-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ui-table th {
+    font-weight: 600;
+    color: var(--text-color-2);
+    background-color: var(--bg-color);
+}
+
+.ui-table tbody tr:hover {
+    background-color: var(--bg-color-hover);
+}
+
+.ui-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- UI模块: Menu (左侧导航) --- */
+.ui-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ui-menu>li>a , .ui-menu .submenu a{
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--text-color-2);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.ui-menu .icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.ui-menu .menu-text {
+    flex-grow: 1;
+    transition: opacity 0.2s;
+}
+
+.ui-menu .arrow {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s;
+}
+
+.ui-menu li.open>a .arrow {
+    transform: rotate(90deg);
+}
+
+.ui-menu>li>a:hover,.submenu>li>a:hover,
+.ui-menu>li.active>a {
+    color: var(--text-color);
+    background-color: var(--bg-color-hover);
+}
+
+.ui-menu .submenu {
+    list-style: none;
+    padding-left: 35px;
+    /* Icon width + padding */
+    display: none;
+}
+
+.ui-menu li.open>.submenu {
+    display: block;
+}
+
+.ui-menu .submenu a {
+    padding: 10px 20px;
+    padding-left: 20px;
+}
+
+
+/* --- UI模块: Badge --- */
+.ui-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    background-color: var(--color-danger);
+    border-radius: 10px;
+    line-height: 1;
+}
+
+.ui-badge.dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    min-width: 0;
+}
+
+.has-badge {
+    position: relative;
+}
+
+.has-badge .ui-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+}
+
+/* --- UI模块: Divider --- */
+.ui-divider {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 24px 0;
+    border: 0;
+}
+
+.ui-divider.dashed {
+    background: none;
+    border-top: 1px dashed var(--border-color);
+}
+
+.ui-divider-text {
+    display: flex;
+    align-items: center;
+    color: var(--text-color-2);
+    white-space: nowrap;
+}
+
+.ui-divider-text::before,
+.ui-divider-text::after {
+    content: '';
+    flex-grow: 1;
+    height: 1px;
+    background-color: var(--border-color);
+}
+
+.ui-divider-text::before {
+    margin-right: 1em;
+}
+
+.ui-divider-text::after {
+    margin-left: 1em;
+}
+
+/* --- UI模块: Loading --- */
+.ui-loading-container {
+    position: relative;
+    min-height: 150px;
+}
+
+.ui-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+html[data-theme='dark'] .ui-loading-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- (未完全实现, 仅占位) DatePicker, Select, Tree --- */
+/* 这些组件JS逻辑复杂, 这里仅提供基础样式 */
+.ui-datepicker-container {
+    /* for JS to create */
+    position: absolute;
+    z-index: 1000;
+}
+
+.ui-select-container {
+    /* for JS to create */
+    position: absolute;
+    z-index: 1000;
+}
+
+.ui-tree {
+    /* 树形结构 */
+    list-style: none;
+    padding-left: 20px;
+}
+
+.ui-tree-item {
+    position: relative;
+}
+
+.ui-tree-toggler {
+    cursor: pointer;
+    position: absolute;
+    left: -15px;
+}
+
+/* --- 后台主布局 --- */
+#admin-layout {
+    display: flex;
+    height: 100vh;
+}
+
+#admin-sidebar {
+    width: 260px;
+    background-color: var(--bg-color-2);
+    border-right: 1px solid var(--border-color);
+    flex-shrink: 0;
+    transition: width 0.3s ease, transform 0.3s ease;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#admin-sidebar .logo {
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+#admin-sidebar .sidebar-menu-container {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+#admin-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#admin-header {
+    height: 60px;
+    background-color: var(--bg-color-2);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    flex-shrink: 0;
+}
+
+#admin-header-left,
+#admin-header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+#main-content {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-info .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- 菜单收缩样式 --- */
+#admin-layout.menu-icon-only #admin-sidebar {
+    width: 80px;
+}
+
+#admin-layout.menu-icon-only #admin-sidebar .logo span {
+    display: none;
+}
+
+#admin-layout.menu-icon-only #admin-sidebar .menu-text,
+#admin-layout.menu-icon-only #admin-sidebar .arrow {
+    display: none;
+}
+
+#admin-layout.menu-icon-only #admin-sidebar .ui-menu>li>a {
+    justify-content: center;
+}
+
+#admin-layout.menu-icon-only #admin-sidebar .submenu {
+    /* 在icon-only模式下, 子菜单可以作为浮动层显示, 这里简化处理 */
+    display: none !important;
+}
+
+/* --- 响应式设计 (手机端) --- */
+@media (max-width: 768px) {
+    #admin-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+        z-index: 1100;
+        box-shadow: 4px 0 10px var(--shadow-color);
+    }
+
+    #admin-layout.menu-mobile-show #admin-sidebar {
+        transform: translateX(0);
+    }
+
+    #admin-layout.menu-mobile-show::after {
+        /* 遮罩层 */
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 1099;
+    }
+
+    .ui-container {
+        padding: 16px;
+    }
+
+    #admin-header {
+        padding: 0 16px;
+    }
+}
+
+
+/* --- UI模块: DatePicker --- */
+.ui-datepicker-input-container {
+    position: relative;
+    display: inline-block;
+}
+
+.ui-datepicker-input-container .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-color-2);
+    pointer-events: none;
+    /* 让点击穿透到输入框 */
+}
+
+.ui-datepicker-container {
+    position: absolute;
+    z-index: 1050;
+    width: 280px;
+    background-color: var(--bg-color-2);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    padding: 10px;
+    display: none;
+    /* 默认隐藏 */
+    user-select: none;
+}
+
+.ui-datepicker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0 15px;
+}
+
+.ui-datepicker-header .month-year {
+    font-weight: 600;
+    margin: 0 10px; /* 给中间的年月显示增加一些间距 */
+}
+
+.ui-datepicker-header .nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    line-height: 0;
+    color: var(--text-color);
+    flex-shrink: 0; /* 防止按钮被挤压 */
+}
+
+.ui-datepicker-header .nav-btn:hover {
+    background-color: var(--bg-color-hover);
+}
+
+.ui-datepicker-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.ui-datepicker-grid>span {
+    text-align: center;
+    padding: 8px 0;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.ui-datepicker-weekday {
+    font-weight: 500;
+    color: var(--text-color-2);
+    cursor: default !important;
+    font-size: 12px;
+}
+
+.ui-datepicker-day.other-month {
+    color: var(--text-color-2);
+    opacity: 0.5;
+}
+
+.ui-datepicker-day:not(.other-month):not(.disabled):hover {
+    background-color: var(--bg-color-hover);
+}
+
+.ui-datepicker-day.today {
+    border: 1px solid var(--color-primary);
+}
+
+.ui-datepicker-day.selected {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
+.ui-datepicker-day.disabled {
+    cursor: not-allowed;
+    text-decoration: line-through;
+    opacity: 0.3;
+}
+
+/* --- START: Added for DateRangePicker --- */
+.ui-datepicker-input-container input[data-ui-daterangepicker] {
+    min-width: 220px;
+}
+.ui-daterangepicker-container {
+    position: absolute;
+    z-index: 1050;
+    width: 420px; /* 容纳两个日历 */
+    background-color: var(--bg-color-2);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    padding: 15px;
+    display: none;
+    user-select: none;
+}
+
+.ui-daterangepicker-calendars {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.ui-daterangepicker-calendars .ui-datepicker-container {
+    position: static;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    width: auto;
+    display: block; /* 覆盖原来的 display:none */
+}
+
+.ui-datepicker-day.in-range {
+    background-color: rgba(0, 112, 243, 0.1);
+    border-radius: 0;
+}
+html[data-theme='dark'] .ui-datepicker-day.in-range {
+    background-color: rgba(0, 112, 243, 0.2);
+}
+
+.ui-datepicker-day.range-start,
+.ui-datepicker-day.range-end {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
+.ui-datepicker-day.range-start {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.ui-datepicker-day.range-end {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* 当起始和结束是同一天时 */
+.ui-datepicker-day.range-start.range-end {
+    border-radius: 4px;
+}
+
+.ui-daterangepicker-footer {
+    padding-top: 15px;
+    margin-top: 10px;
+    border-top: 1px solid var(--border-color);
+    text-align: right;
+}
+
+.ui-daterangepicker-footer .ui-button {
+    margin-left: 10px;
+}
+/* --- END: Added for DateRangePicker --- */
+
+/* --- UI模块: Tree --- */
+.ui-tree {
+    user-select: none;
+}
+
+.ui-tree,
+.ui-tree ul {
+    list-style: none;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.ui-tree-item {
+    padding: 4px 0;
+}
+
+.ui-tree-content {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 2px 0;
+}
+
+.ui-tree-toggler {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    color: var(--text-color-2);
+    transition: transform 0.2s ease-in-out;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.ui-tree .ui-checkbox {
+    margin: 1px 5px 0 0;
+    vertical-align: middle;
+}
+
+.ui-tree-item.is-leaf .ui-tree-toggler {
+    visibility: hidden;
+    /* 没有子节点则隐藏箭头 */
+}
+
+.ui-tree-item.collapsed>.ui-tree-content .ui-tree-toggler {
+    transform: rotate(-90deg);
+}
+
+.ui-tree-item.collapsed>ul {
+    display: none;
+}
+
+.ui-tree-label {
+    flex-grow: 1;
+}
+
+.ui-tree-content:hover .ui-tree-label {
+    color: var(--color-primary);
+}
+
+.ui-tree .ui-checkbox {
+    margin-right: 5px;
+}
+
+/* --- UI模块: Pagination --- */
+.ui-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.ui-pagination-info {
+    color: var(--text-color-2);
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.ui-pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ui-pagination-nav li a,
+.ui-pagination-nav li span {
+    display: block;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    line-height: 34px;
+    /* (height - border*2) */
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-color);
+    background-color: var(--bg-color-2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.ui-pagination-nav li a:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.ui-pagination-nav li a.active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+    cursor: default;
+}
+
+.ui-pagination-nav li a.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--bg-color);
+}
+
+.ui-pagination-nav li a.disabled:hover {
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.ui-pagination-nav li span.ellipsis {
+    border: none;
+    background: none;
+    cursor: default;
+}
+
+.ui-pagination-nav li span.active {
+    background: #007bff;
+    color: white;
+    cursor: default;
+}
+
+
+/* --- 响应式分页优化 --- */
+@media (max-width: 768px) {
+    .ui-pagination {
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .ui-pagination-nav li:not(.active):not(.ellipsis):not(:first-child):not(:last-child) {
+        display: none;
+    }
+
+    .ui-pagination-nav li.ellipsis {
+        display: inline-block;
+    }
+
+    .ui-pagination-nav li a,
+    .ui-pagination-nav li span {
+        min-width: 30px;
+        height: 30px;
+        padding: 0 8px;
+        font-size: 13px;
+    }
+
+
+    .ui-pagination-jump {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .ui-pagination-jump input {
+        width: 50px;
+        padding: 4px 8px;
+    }
+}
+
+/* --- detail.html Specific & Extensions --- */
+
+/* 页面顶部标题和按钮区域 */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px; /* 调整与下方分割线的间距 */
+    flex-wrap: wrap; /* 移动端换行 */
+    gap: 16px; /* 按钮组之间的间距 */
+}
+
+.page-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.page-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* 详情页表单布局 */
+.detail-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+/* 用于在非编辑状态下显示文本的样式 */
+.form-control-static {
+    padding: 8px 0; /* 模拟输入框的垂直内边距 */
+    min-height: 36px; /* 模拟输入框的高度，防止切换时跳动 */
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    word-break: break-all;
+}
+
+/* 视图/编辑模式切换逻辑 */
+/* 在视图模式下，隐藏编辑控件，显示静态文本 */
+.view-mode .form-control-edit {
+    display: none;
+}
+.view-mode .form-control-static {
+    display: flex;
+}
+
+/* 在编辑模式下，隐藏静态文本，显示编辑控件 */
+.edit-mode .form-control-edit {
+    display: block;
+}
+.edit-mode .form-control-static {
+    display: none;
+}
+
+/* 表单验证失败样式 */
+.ui-input.is-invalid,
+.ui-textarea.is-invalid {
+    border-color: var(--color-danger);
+    box-shadow: 0 0 0 2px rgba(224, 0, 0, 0.2);
+}
+
+.invalid-feedback {
+    width: 100%;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--color-danger);
+}
+
+.is-invalid + .invalid-feedback {
+    display: block; /* 当输入框有 is-invalid 类时显示错误信息 */
+}
+
+/* --- UI模块: Custom Select --- */
+.ui-select {
+    position: relative;
+    width: 100%;
+    user-select: none;
+}
+
+.ui-select-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 12px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ui-select.is-open .ui-select-toggle,
+.ui-select-toggle:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+}
+
+.ui-select-toggle .arrow {
+    transition: transform 0.2s ease;
+    color: var(--text-color-2);
+}
+
+.ui-select.is-open .ui-select-toggle .arrow {
+    transform: rotate(180deg);
+}
+
+.ui-select-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: var(--bg-color-2);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 8px 16px var(--shadow-color);
+    padding: 4px;
+    z-index: 1010;
+    list-style: none;
+    margin: 0;
+}
+
+.ui-select-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.ui-select-option:hover {
+    background-color: var(--bg-color-hover);
+}
+
+.ui-select-option.is-selected {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+

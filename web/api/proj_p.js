@@ -3,7 +3,8 @@ CURD配置典型示例,简略示例
  */
 'use strict';
 const kc = require('../../lib/kc');
-const Pinyin = kc.pinyin; //引入拼音首字母便于快速检索
+const render = kc.render();
+// const Pinyin = kc.pinyin; //引入拼音首字母便于快速检索
 const curd = require('./_curd');
 
 
@@ -48,7 +49,7 @@ const prop = {
     reqData.state = 0;
     reqData.createTime = Date.now();
     reqData.creatorId = req.userId;
-    reqData.py = (reqData.name) ? Pinyin.getPY(reqData.name) : ''; //拼音首字母检索用
+    // reqData.py = (reqData.name) ? Pinyin.getPY(reqData.name) : ''; //拼音首字母检索用
     callback(null, reqData);
   },
 
@@ -60,6 +61,15 @@ const prop = {
 const ci = curd.instance(prop);
 
 exports.router = function() {
+  // ci.router.get('/list', function(req, resp, next) { // eslint-disable-line
+  //   resp.send(render.list({ 'rootPath':'../','tb': prop.tb, 'tbName': prop.tbName }));
+  // });
+  ci.router.get('/detail/:id', function(req, resp, next) { // eslint-disable-line
+    resp.send(render.detail({'rootPath':'../../', 'tb': prop.tb, 'id': req.params.id, 'tbName': prop.tbName }));
+  });
+  ci.router.get('*', function(req, resp, next) { // eslint-disable-line
+    resp.send(render.list({ 'tb': prop.tb, 'tbName': prop.tbName }));
+  });
   return ci.router;
 };
 
@@ -72,7 +82,3 @@ db.checkIndex(prop.tb, {
   'state_-1': { 'state': -1 },
   'py_-1': { 'py': -1 },
 });
-
-
-// const mk = kc.mkCurdVue;
-// mk.make(prop, __dirname + '/../../vue/src');
