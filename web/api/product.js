@@ -4,6 +4,7 @@ CURD配置,完整示例
 'use strict';
 const cck = require('cck');
 const kc = require('../../lib/kc');
+const render = kc.render();
 // const Pinyin = kc.pinyin; //引入拼音首字母便于快速检索
 const vlog = require('vlog').instance(__filename);
 const curd = require('./_curd');
@@ -42,7 +43,7 @@ const prop = {
       'formatter': null, //返回到前端之前进行格式处理的方法, 注意这里主要是面向安全性的服务端的处理, 若只是调整格式请使用input从前端调整, 如:'formatter': (data) => { return ktool.sha1(data); }
       'search': 'string', //可作为查询条件,格式为string
     },
-    { 'col': 'fee', 'name': '资费(元)', 'type': 'int', 'validator': 'strInt', 'input': { 'type': 'rmb' }, 'search': 'int' },
+    { 'col': 'fee', 'name': '资费(元)', 'type': 'int', 'default': 0, 'validator': 'strInt', 'input': { 'type': 'rmb' }, 'search': 'int' },
     {
       'col': 'feeType',
       'name': '计费类型',
@@ -50,7 +51,7 @@ const prop = {
       'info': '(以元为单位)',
       'default': '包月',
       'input': { //input与前端配合可以约定不同的参数,将在list接口中作为titles参数传到前端
-        'type': 'radio', //显示为radio, //可以是date(日期显示),time(时间显示),datetime(时间显示),int(整数显示,input只能填整数),rmb(人民币显示),float(浮点数),textarea,radio等等
+        'type': 'select', //显示为radio, //可以是date(日期显示),time(时间显示),datetime(时间显示),int(整数显示,input只能填整数),rmb(人民币显示),float(浮点数),textarea,radio等等
         'pickNum': 1, //默认选中
         'options': [ //radio列表
           { 'key': '点播', 'val': '点播' },
@@ -110,7 +111,7 @@ const prop = {
       'validator': { 'optional': 'all', 'validator': 'strInt' }, //validator用optional表示可选状态的校验(可配置为all或add,update始终为可选)
       'input': { 'type': 'int' }
     },
-    { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
+    { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' }, 'search': 'datetime', },
     { 'col': 'expireTime', 'name': '有效期时间', 'type': 'string', 'hide': 'add|update', 'input': { 'type': 'datetime', 'format': 'yyyy-MM-dd' } }, //这里可通过format定义时间格式,完成string的填入
     { 'col': 'py', 'type': 'string', 'hide': 'all' }, //拼音首字母,检索用,所有界面均不显示
   ],
@@ -217,13 +218,19 @@ ci.on('addOK', function(reqBody, uId, uLevel, dbObj) {
   refreshCache('' + dbObj._id);
 });
 ci.on('updateOK', function(reqBody, uId, uLevel) { // eslint-disable-line
-  refreshCache(reqBody.req._id);
+  refreshCache(reqBody._id);
 });
 ci.on('hardDelOK', function(reqBody, uId, uLevel) { // eslint-disable-line
-  refreshCache(reqBody.req.id, true);
+  refreshCache(reqBody.id, true);
 });
 
 exports.router = function() {
+  ci.router.get('/:id', function(req, resp, next) { // eslint-disable-line
+    resp.send(render.detail({ 'rootPath': '../', 'tb': prop.tb, 'id': req.params.id, 'tbName': prop.tbName }));
+  });
+  ci.router.get('*', function(req, resp, next) { // eslint-disable-line
+    resp.send(render.list({ 'tb': prop.tb, 'tbName': prop.tbName }));
+  });
   return ci.router;
 };
 

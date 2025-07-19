@@ -35,7 +35,7 @@ const processProp = function(prop) {
     fieldsMap[item.col] = item;
     if (!item.hide || (item.hide.indexOf('all') < 0)) {
       listProjection[item.col] = 1;
-      const titleObj = { 'prop': item.col, 'label': item.name, 'info': item.info, 'default': item.default, 'input': item.input, 'hide': item.hide, 'search': item.search };
+      const titleObj = { 'prop': item.col, 'type': item.type, 'label': item.name, 'info': item.info, 'default': item.default, 'input': item.input, 'hide': item.hide, 'search': item.search };
       if (item.width) {
         titleObj.width = item.width;
       }
@@ -164,7 +164,7 @@ function instance(prop) {
   };
 
   //add时处理类型转换
-  me.setAdd = function (reqObj) {
+  me.setAdd = function(reqObj) {
     const checkObj = me.checkTypeMap;
     for (const i in checkObj) {
       if (i === me.col_id) {
@@ -291,6 +291,7 @@ function instance(prop) {
           'data': reData,
           showUpdate,
           showDel,
+          'tableTitles': me.tableTitles,
         };
         if (paras) {
           respObj['paras'] = paras;
@@ -386,11 +387,11 @@ function instance(prop) {
         showOne = false;
       }
     }
-    const draw = parseInt(req.body.draw);
-    if (isNaN(draw)) {
-      callback(null, (error.json('curdList')));
-      return;
-    }
+    // const draw = parseInt(req.body.draw);
+    // if (isNaN(draw)) {
+    //   callback(null, (error.json('curdList')));
+    //   return;
+    // }
     let query = (me.listAllState) ? {} : {
       'state': {
         '$gte': 0
@@ -410,7 +411,7 @@ function instance(prop) {
           return callback(vlog.ee(err, 'doList'));
         }
         const pageCount = (doListRe.list) ? doListRe.list.length : 0;
-        callback(null, reDataTables(showNew, showOne, draw, doListRe.allCount, pageCount, doListRe.list));
+        callback(null, reDataTables(showNew, showOne, 1, doListRe.allCount, pageCount, doListRe.list));
       });
     });
   };
@@ -422,12 +423,13 @@ function instance(prop) {
     //     return callback(null, (error.json('auth')));
     //   }
     // }
-    const reqDataArr = iApi.parseApiReq(req.body, me.apiKey);
-    if (reqDataArr[0] !== 0) {
-      return error.apiErr('iApi update', callback, '' + reqDataArr[0]);
-      // return callback(vlog.ee(new Error('iApi update'), 'kc iApi update error', reqDataArr), null, 200, reqDataArr[0]);
-    }
-    const reqData = reqDataArr[1];
+    // const reqDataArr = iApi.parseApiReq(req.body, me.apiKey);
+    // if (reqDataArr[0] !== 0) {
+    //   return error.apiErr('iApi update', callback, '' + reqDataArr[0]);
+    //   // return callback(vlog.ee(new Error('iApi update'), 'kc iApi update error', reqDataArr), null, 200, reqDataArr[0]);
+    // }
+    // const reqData = reqDataArr[1];
+    const reqData = req.body;
 
     me.onUpdate(req, reqData, (err) => {
       if (err) {
@@ -460,11 +462,12 @@ function instance(prop) {
     //     return callback(null, error.json('auth'));
     //   }
     // }
-    const reqDataArr = iApi.parseApiReq(req.body, me.apiKey);
-    if (reqDataArr[0] !== 0) {
-      return error.apiErr('iApi del', callback, '' + reqDataArr[0]);
-    }
-    const reqData = reqDataArr[1];
+    // const reqDataArr = iApi.parseApiReq(req.body, me.apiKey);
+    // if (reqDataArr[0] !== 0) {
+    //   return error.apiErr('iApi del', callback, '' + reqDataArr[0]);
+    // }
+    // const reqData = reqDataArr[1];
+    const reqData = req.body;
     // vlog.log('del reqData:%j',reqData);
     const query = mkQueryById(reqData.id);
     // vlog.log('curd del: %j',query);
@@ -486,11 +489,12 @@ function instance(prop) {
     //     return callback(null, error.json('auth'));
     //   }
     // }
-    const reqDataArr = iApi.parseApiReq(req.body, me.apiKey);
-    if (reqDataArr[0] !== 0) {
-      return error.apiErr('iApi add', callback, '' + reqDataArr[0]);
-    }
-    const reqData = me.setAdd(reqDataArr[1]);
+    // const reqDataArr = iApi.parseApiReq(req.body, me.apiKey);
+    // if (reqDataArr[0] !== 0) {
+    //   return error.apiErr('iApi add', callback, '' + reqDataArr[0]);
+    // }
+    // const reqData = me.setAdd(reqDataArr[1]);
+    const reqData = req.body;
     // vlog.log('curd add req body:%j',req.body);
 
     me.onAdd(req, reqData, function(err, dbObj) {
@@ -771,4 +775,3 @@ function instance(prop) {
   return me;
 }
 exports.instance = instance;
-

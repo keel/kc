@@ -5,10 +5,10 @@
   <!-- 搜索/过滤卡片 -->
   <div class="ui-card" style="margin-bottom: 24px;">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-      <h3 style="margin: 0;" id="tableTitle">{{=it.tbName}}列表</h3>
+      <h3 class="page-title" id="tableTitle">{{=it.tbName}}列表</h3>
       <div style="display: flex; gap: 10px;">
-        <button class="ui-button" id="search-btn">查询</button>
-        <a href="add.html" class="ui-button primary">新增</a>
+        <button class="ui-button primary" id="search-btn">查询</button>
+        <button class="ui-button primary" id="add-btn">新增</button>
       </div>
     </div>
     <hr class="ui-divider">
@@ -24,4 +24,4 @@
   </div>
 </div>
 <input type="hidden" name="tb" id="tb" value="{{=it.tb}}" />
-{{#def.footer:{rootPath:it.rootPath || '',scripts:'<script src="'+(it.rootPath || '')+'js/list.js"></script>'} }}
+{{#def.footer:{rootPath:it.rootPath || '',tb:it.tb,scripts:'<script src="'+(it.rootPath || '')+'js/list.js"></script>'} }}

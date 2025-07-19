@@ -2,24 +2,19 @@
 $(document).ready(function() {
   var originalUserData = null;
   var $form = $('#detail-form');
-  var schema = [];
+  var schema = [{'prop':'name','label':'用户名'},{'prop':'loginName','label':'登录名'},{'prop':'loginPwd','label':'密码'},{'prop':'level','label':'等级','type':'int'},{'prop':'state','label':'状态','type':'int'}];
 
-  var id = $('#tbid').val();
-  var tb = $('#tb').val();
-  console.log('id', id, 'tb', tb);
+  var tb = 'profile';
 
   function setMode(mode) {
     if (mode === 'edit') {
       $form.removeClass('view-mode').addClass('edit-mode');
       $('#btn-modify').hide();
-      $('#btn-back').hide();
-      $('#btn-del').hide();
       $('#btn-save').show();
       $('#btn-cancel').show();
     } else {
       $form.addClass('view-mode').removeClass('edit-mode');
       $('#btn-modify').show();
-      $('#btn-back').show();
       $('#btn-save').hide();
       $('#btn-cancel').hide();
       $('.is-invalid').removeClass('is-invalid');
@@ -59,7 +54,7 @@ $(document).ready(function() {
 
 
 
-  window.kc.jPost('../' + tb + '/one', { 'id': id }, function(err, re) {
+  window.kc.jPost('profile/show', {}, function(err, re) {
     if (err) {
       console.error(err);
       return;
@@ -68,13 +63,6 @@ $(document).ready(function() {
       AdminUI.toast('拉取数据错误', 'danger');
       return;
     }
-    schema = re.tableTitles;
-    if (re.showUpdate) {
-      $('#btn-modify').show();
-    }
-    if (re.showDel) {
-      $('#btn-del').show();
-    }
     originalUserData = re.data;
     AdminUI.form.render($('#detail-form .detail-form-grid'), schema, 'one', re.data, true);
     setMode('view');
@@ -82,7 +70,6 @@ $(document).ready(function() {
 
   // --- 事件绑定 ---
 
-  $('#btn-back').on('click', () => window.location.href = '../' + tb);
   $('#btn-modify').on('click', () => setMode('edit'));
 
   $('#btn-cancel').on('click', function() {
@@ -90,25 +77,7 @@ $(document).ready(function() {
     AdminUI.form.render($('#detail-form .detail-form-grid'), schema, 'one', originalUserData, true);
     setMode('view');
   });
-  $('#btn-del').on('click', function() {
-    AdminUI.popWin.confirm('确认要删除吗?', () => {
-      window.kc.jPost('../' + tb + '/del', { 'id': id }, function(err, re) {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        AdminUI.removeLoading('#btn-del');
-        if (!re || re.code !== 0) {
-          AdminUI.popWin.alert('删除数据失败.'+(re?re.data:''),'删除失败');
-          return;
-        }
-        setMode('view');
-        AdminUI.toast('删除成功', 'success');
-      });
-    }, '删除确认', ()=>{
-      AdminUI.removeLoading('#btn-del');
-    });
-  });
+
 
   $('#btn-save').on('click', function() {
     if (validateForm()) {

@@ -5,7 +5,7 @@
   "ts": 0,
   "s$_sessionKey": "zz78HRXyrNhK5VTf",
   "sessionExpire": 1800,
-  "sessionType": "mem",
+  "sessionType": "redis",
   "failLoginRedirect": "/login",
   "s$_apiKey": "Bj8zOPcAjV2o3qIs",
   "fail2ban": 3600,
@@ -14,16 +14,18 @@
     "isFirst":true,
     "loginName":"admin",
     "loginPwd":"helloFirst",
+    "name":"初始用户",
+    "state":0,
     "level":10,
     "_id":0
   },
   "redis": {
-    "init": false,
+    "init": true,
     "s$_redisIP": "127.0.0.1",
     "s$_redisPort": 6379
   },
   "mongo": {
-    "init": false,
+    "init": true,
     "s$_mongoDbName": "lysms",
     "s$_mongoUrl": "mongodb://user:pwd@127.0.0.1:27017/lysms"
   },

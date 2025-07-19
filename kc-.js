@@ -1,5 +1,17 @@
 'use strict';
 
+/**
+ * TODO:
+ *
+ * search实现
+ * multiSelect实现
+ * radio对齐
+ * select2方式，通过字母ajax查找选项
+ *
+ *
+ */
+
+
 const kc = require('./lib/kc');
 const kconfig = kc.kconfig;
 const vlog = require('vlog').instance(__filename);
@@ -22,7 +34,6 @@ app.on('dbsInitOK', function(err) {
     vlog.eo(err, 'init:dbsInit');
     return;
   }
-  /*
   const cacheTables = [
     'product#_id,name#{"state":{"$gte":0}}#{}',
     'cp#_id#{"state":{"$gte":0}}#{}',
@@ -37,7 +48,6 @@ app.on('dbsInitOK', function(err) {
     //打印所有权限
     // vlog.log('===> authMap:%j',kc.auth.getAuthMap());
   });
-  */
 });
 //增加非api和tpl的路由,如logout,此处为express的标准用法
 app.post('/logout', kc.sessionAuth.logout);

@@ -47,6 +47,7 @@
         icon: AdminUI.icons.management,
         children: [
           { id: 'proj_p', text: '项目管理', href: 'proj_p' },
+          { id: 'product', text: '产品管理', href: 'product', 'active': 1 },
           { id: 'user-list', text: '用户列表', href: 'list' },
           { id: 'role-list', text: '角色管理', href: '#' }
         ]
@@ -88,130 +89,6 @@
       { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
       { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
       { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
     ],
     // 详情/新增页角色选项
     roles: [
@@ -347,21 +224,27 @@
     _stack: [],
     _show: function(options) {
       var self = this;
-      var zIndex = 2000 + self._stack.length * 2;
+      var zIndex = 100 + self._stack.length * 2;
+
+      if (self._stack.length === 0) {
+        self._bodyOverflow = $('body').css('overflow');
+        $('body').css('overflow', 'hidden');
+      }
 
       var buttonsHtml = '';
       if (options.buttons && options.buttons.length > 0) {
         for (var i = 0; i < options.buttons.length; i++) {
           var btn = options.buttons[i];
-          buttonsHtml += '<button class="ui-button ' + (btn.className || '') + '">' + btn.text + '</button>';
+          var loading = btn['data-loading-text'] ? 'data-loading-text="' + btn['data-loading-text'] + '"' : '';
+          buttonsHtml += '<button class="ui-button ' + (btn.className || '') + '" ' + loading + '>' + btn.text + '</button>';
         }
       }
-
+      var id = options.id ? ' id="' + options.id + '"' : '';
       var $popWin = $(
-        '<div class="ui-popwin-backdrop" style="z-index: ' + zIndex + ';">' +
+        '<div ' + id + ' class="ui-popwin-backdrop" style="z-index: ' + zIndex + ';">' +
         '<div class="ui-popwin" style="z-index: ' + (zIndex + 1) + ';">' +
         (options.title ? '<div class="ui-popwin-header">' + options.title + '</div>' : '') +
-        '<div class="ui-popwin-content">' + options.content + '</div>' +
+        '<div class="ui-popwin-content">' + (options.content || '') + '</div>' +
         (buttonsHtml ? '<div class="ui-popwin-footer">' + buttonsHtml + '</div>' : '') +
         '</div>' +
         '</div>'
@@ -385,11 +268,36 @@
           });
         });
       }
+
+      // 点击背景关闭弹窗控制
+      if (options.closeOnBackdrop !== false) {
+        $popWin.on('click', function(e) {
+          if ($(e.target).hasClass('ui-popwin-backdrop')) {
+            self.close();
+          }
+        });
+      }
+
+      AdminUI.update();
+    },
+    // 新增自定义内容方法
+    custom: function(options) {
+      var defaults = {
+        title: '',
+        content: '',
+        buttons: [],
+        closeOnBackdrop: true
+      };
+      var settings = $.extend({}, defaults, options);
+      this._show(settings);
     },
     close: function() {
       var $popWin = this._stack.pop();
       if ($popWin) {
         $popWin.remove();
+      }
+      if (this._stack.length === 0) {
+        $('body').css('overflow', this._bodyOverflow);
       }
     },
     alert: function(content, title) {
@@ -397,18 +305,20 @@
       this._show({
         title: title,
         content: content,
-        buttons: [{ text: '确定' }]
+        buttons: [{ text: '确定' }],
+        closeOnBackdrop: true
       });
     },
-    confirm: function(content, onConfirm, title) {
+    confirm: function(content, onConfirm, title, onCancel) {
       title = title || '确认';
       this._show({
         title: title,
         content: content,
         buttons: [
-          { text: '取消', className: '' },
+          { text: '取消', className: '', onClick: onCancel },
           { text: '确定', className: 'primary', onClick: onConfirm }
-        ]
+        ],
+        closeOnBackdrop: true
       });
     },
     prompt: function(content, onConfirm, title, defaultValue) {
@@ -430,7 +340,8 @@
               }
             }
           }
-        ]
+        ],
+        closeOnBackdrop: true
       });
     }
   };
@@ -458,6 +369,47 @@
 
   // --- 模块: 左侧菜单 ---
   AdminUI.menu = {
+    _hasActiveChild: function(item) {
+      if (!item.subs) return false;
+
+      for (var i = 0; i < item.subs.length; i++) {
+        var child = item.subs[i];
+        if (child.active || AdminUI.menu._hasActiveChild(child)) {
+          return true;
+        }
+      }
+      return false;
+    },
+    build: function(items, isSubmenu) {
+      var menuHtml = isSubmenu ? '<ul class="submenu">' : '';
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var hasChildren = item.subs && item.subs.length > 0;
+        var activeClass = item.active ? 'active' : '';
+        var openClass = '';
+
+        // 检查子节点是否有active状态
+        if (hasChildren) {
+          var hasActiveChild = AdminUI.menu._hasActiveChild(item);
+          if (hasActiveChild) {
+            openClass = 'open';
+          }
+        }
+
+        menuHtml += '<li class="' + activeClass + ' ' + openClass + '">';
+        menuHtml += '<a href="' + (item.link || '#') + '">';
+        if (item.icon) menuHtml += '<i class="icon">' + (AdminUI.icons[item.icon] || '') + '</i>';
+        menuHtml += '<span class="menu-text">' + item.name + '</span>';
+        if (hasChildren) menuHtml += AdminUI.icons.arrow;
+        menuHtml += '</a>';
+        if (hasChildren) {
+          menuHtml += AdminUI.menu.build(item.subs, true);
+        }
+        menuHtml += '</li>';
+      }
+      menuHtml += isSubmenu ? '</ul>' : '';
+      return menuHtml;
+    },
     init: function() {
       // 菜单项点击
       $('#admin-sidebar .ui-menu').on('click', 'a', function(e) {
@@ -848,14 +800,20 @@
       // 左侧日历
       $picker.find('.left .prev-month').on('click', function() {
         self.leftMonth--;
-        if (self.leftMonth < 0) { self.leftMonth = 11;
-          self.leftYear--; } self._update();
+        if (self.leftMonth < 0) {
+          self.leftMonth = 11;
+          self.leftYear--;
+        }
+        self._update();
       });
       $picker.find('.left .next-month').on('click', function() {
         if ($(this).hasClass('disabled')) return;
         self.leftMonth++;
-        if (self.leftMonth > 11) { self.leftMonth = 0;
-          self.leftYear++; } self._update();
+        if (self.leftMonth > 11) {
+          self.leftMonth = 0;
+          self.leftYear++;
+        }
+        self._update();
       });
       $picker.find('.left .prev-year').on('click', function() {
         self.leftYear--;
@@ -871,13 +829,19 @@
       $picker.find('.right .prev-month').on('click', function() {
         if ($(this).hasClass('disabled')) return;
         self.rightMonth--;
-        if (self.rightMonth < 0) { self.rightMonth = 11;
-          self.rightYear--; } self._update();
+        if (self.rightMonth < 0) {
+          self.rightMonth = 11;
+          self.rightYear--;
+        }
+        self._update();
       });
       $picker.find('.right .next-month').on('click', function() {
         self.rightMonth++;
-        if (self.rightMonth > 11) { self.rightMonth = 0;
-          self.rightYear++; } self._update();
+        if (self.rightMonth > 11) {
+          self.rightMonth = 0;
+          self.rightYear++;
+        }
+        self._update();
       });
       $picker.find('.right .prev-year').on('click', function() {
         if ($(this).hasClass('disabled')) return;
@@ -1222,59 +1186,145 @@
       $menu.find('.ui-select-option[data-value="' + selectedValue + '"]').addClass('is-selected');
     }
   };
-  // --- 模块: Dynamic Form ---
+  // --- 模块: Dynamic Form,当container为空时返回html ---
   AdminUI.form = {
-    render: function(containerSelector, schema, data) {
-      var $container = $(containerSelector);
-      if (!$container.length) return;
-
+    render: function(container, fields, formType, data, withStatic) {
       var formHtml = '';
       data = data || {};
 
-      for (var fieldName in schema) {
-        var field = schema[fieldName];
-        var value = data[fieldName] || '';
-
-        formHtml += `<div class="ui-form-item" data-field-name="${fieldName}">`;
-        formHtml += `<label for="${fieldName}">${field.label}</label>`;
-
-        var staticValueText = value;
-        if (field.type === 'select' && field.options) {
-          var opts = typeof field.options === 'function' ? field.options() : field.options;
-          var selectedOpt = opts.find(o => o.value == value);
-          staticValueText = selectedOpt ? selectedOpt.text : value;
+      fields.forEach(function(field) {
+        if (formType && formType === 'search' && !field.search) {
+          return;
         }
-        formHtml += `<p id="static-${fieldName}" class="form-control-static">${staticValueText}</p>`;
+        if (field.hide && formType) {
+          if (field.hide.indexOf(formType) >= 0 || field.hide === 'all') {
+            return;
+          }
+        }
+        var prop = field.prop;
+        var value = data[prop] || field.default;
+        if (value === undefined || value === null) {
+          value = '';
+        }
+        var label = field.label || prop;
+        var inputConfig = field.input || { type: 'text' };
+        var info = field.info || '';
 
-        var readonlyAttr = field.readonlyOnEdit ? ' readonly' : '';
-        var editControl = '';
+        formHtml += `<div class="ui-form-item">`;
+        formHtml += `<label for="${prop}" class="form-label">${label} ${info}</label>`;
 
-        switch (field.inputType) {
+        // 静态显示值
+        if (withStatic) {
+          var staticValueText = value;
+          if (inputConfig.type === 'select' || inputConfig.type === 'radio') {
+            var selectedOpt = inputConfig.options.find(o => o.val == value);
+            staticValueText = selectedOpt ? selectedOpt.key : value;
+          }
+          formHtml += `<p id="static-${prop}" class="form-control-static">${staticValueText}</p>`;
+        }
+
+        // 编辑控件
+        formHtml += `<div class="form-control-edit">`;
+
+        switch (inputConfig.type) {
           case 'select':
-            var optionsHtml = '';
-            var opts = typeof field.options === 'function' ? field.options() : field.options;
-            opts.forEach(opt => {
-              var selectedAttr = opt.value == value ? ' selected' : '';
-              optionsHtml += `<option value="${opt.value}"${selectedAttr}>${opt.text}</option>`;
+            formHtml += `<select id="${prop}" data-ui-select>`;
+            inputConfig.options.forEach(opt => {
+              var selected = opt.val == value ? ' selected' : '';
+              formHtml += `<option value="${opt.val}"${selected}>${opt.key}</option>`;
             });
-            editControl = `<select id="${fieldName}" data-ui-select>${optionsHtml}</select>`;
+            formHtml += `</select>`;
             break;
-          case 'datepicker':
-            editControl = `<input type="text" id="${fieldName}" class="ui-input" data-ui-datepicker value="${value}"${readonlyAttr}>`;
-            break;
-          default:
-            var placeholder = field.placeholder ? ` placeholder="${field.placeholder}"` : '';
-            editControl = `<input type="${field.type}" id="${fieldName}" class="ui-input" value="${value}"${placeholder}${readonlyAttr}>`;
-            break;
-        }
-        formHtml += `<div class="form-control-edit">${editControl}</div>`;
-        formHtml += `</div>`;
-      }
-      $container.html(formHtml);
 
-      AdminUI.datePicker.init();
-      AdminUI.select.init();
+          case 'radio':
+            inputConfig.options.forEach(opt => {
+              var checked = opt.val == value ? ' checked' : '';
+              formHtml += `
+                              <label class="ui-radio">
+                                  <input type="radio" name="${prop}" value="${opt.val}"${checked}>
+                                  <span class="circle"></span>
+                                  ${opt.key}
+                              </label>
+                          `;
+            });
+            break;
+
+          case 'textarea':
+            formHtml += `<textarea id="${prop}" class="ui-textarea">${value}</textarea>`;
+            break;
+
+          case 'datetime':
+            var picker = (formType === 'search') ? 'data-ui-daterangepicker' : 'data-ui-datepicker';
+            formHtml += `<input type="text" id="${prop}" class="ui-input" ${picker} value="${value}">`;
+            break;
+
+          case 'rmb':
+            formHtml += `<input type="number" id="${prop}" class="ui-input" step="0.01" min="0" value="${value}">`;
+            break;
+
+          case 'int':
+            formHtml += `<input type="number" id="${prop}" class="ui-input"
+                          step="1" value="${value}">`;
+            break;
+
+          default: // text
+            formHtml += `<input type="text" id="${prop}" class="ui-input" value="${value}">`;
+        }
+
+        formHtml += `</div></div>`;
+      });
+
+      if (!container) {
+        return formHtml;
+      }
+
+      container.html(formHtml);
+
+      // 初始化UI组件
+      AdminUI.update();
     },
+    //获取form值,如果有schema则会进行类型转换
+    getValues: function(containerSelector, schema) {
+      var values = {};
+      $(containerSelector).find('.ui-form-item').each(function() {
+        var $item = $(this);
+        var $input = $item.find('input, select, textarea');
+        if (!$input) {
+          return;
+        }
+        var prop = $input.attr('id');
+        var v = $input.val();
+        if ($input.is('input[type="radio"]')) {
+          v = $item.find('input[type="radio"]:checked').val();
+        }
+        if (schema) {
+          for (let i = 0, len = schema.length; i < len; i++) {
+            var one = schema[i];
+            if (one.prop !== prop) {
+              continue;
+            }
+            if (one.type === 'int') {
+              if (!one.input || one.input.type !== 'datetime') {
+                v = parseInt(v);
+              }
+            } else if (one.type === 'float') {
+              v = parseFloat(v);
+            } else if (one.type === 'array' || one.type === 'json') {
+              if (!v) {
+                return;
+              }
+              try {
+                v = JSON.parse(v);
+              } catch (e) {
+                console.error(e);
+              }
+            }
+          }
+        }
+        values[prop] = v;
+      });
+      return values;
+    }
   };
   // --- 模块: PageNav 分页 ---
   AdminUI.pageNav = {
@@ -1415,36 +1465,164 @@
       });
     }
   };
+  AdminUI.multiSelect = {
+    init: function() {
+      var self = this;
+      $('select[data-ui-multiselect]').each(function() {
+        self.create(this);
+      });
 
+      $(document).on('click', function(e) {
+        if (!$(e.target).closest('.ui-multiselect').length) {
+          $('.ui-multiselect.is-open').removeClass('is-open').find('.ui-multiselect-menu').hide();
+        }
+      });
+    },
+
+    create: function(selectElement) {
+      var $originalSelect = $(selectElement);
+      if ($originalSelect.parent().hasClass('ui-multiselect')) return;
+
+      var customSelectHtml = `
+              <div class="ui-multiselect-toggle">
+                  <div class="ui-multiselect-tags"></div>
+                  ${AdminUI.icons.arrow}
+              </div>
+              <ul class="ui-multiselect-menu" style="display: none;"></ul>
+          `;
+
+      $originalSelect.wrap('<div class="ui-multiselect"></div>');
+      var $container = $originalSelect.parent();
+      $container.append(customSelectHtml);
+      $originalSelect.hide();
+
+      this.update(selectElement);
+      this._bindEvents($container);
+    },
+
+    update: function(selector) {
+      var self = this;
+      $(selector).each(function() {
+        var $originalSelect = $(this);
+        var $container = $originalSelect.closest('.ui-multiselect');
+        if (!$container.length) return;
+
+        var $menu = $container.find('.ui-multiselect-menu');
+        var $tagsContainer = $container.find('.ui-multiselect-tags');
+
+        // 清空并重建菜单
+        $menu.empty();
+        $tagsContainer.empty();
+
+        var selectedValues = $originalSelect.val() || [];
+        if (!Array.isArray(selectedValues)) {
+          selectedValues = selectedValues ? [selectedValues] : [];
+        }
+
+        $originalSelect.find('option').each(function() {
+          var $option = $(this);
+          var isSelected = selectedValues.includes($option.val());
+
+          var $menuItem = $('<li class="ui-multiselect-option' + (isSelected ? ' is-selected' : '') +
+            '" data-value="' + $option.val() + '">' +
+            '<span class="ui-multiselect-option-checkbox"></span><span>' +
+            $option.text() + '</span></li>');
+          $menu.append($menuItem);
+        });
+
+        // 更新标签显示
+        $originalSelect.find('option').each(function() {
+          var $option = $(this);
+          if (selectedValues.includes($option.val())) {
+            self._addTag($container, $option.val(), $option.text());
+          }
+        });
+      });
+    },
+
+    _bindEvents: function($container) {
+      var $originalSelect = $container.find('select');
+      var $toggle = $container.find('.ui-multiselect-toggle');
+      var $menu = $container.find('.ui-multiselect-menu');
+
+      $toggle.on('click', function(e) {
+        if ($(e.target).closest('.ui-multiselect-tag-remove').length) {
+          return;
+        }
+        e.stopPropagation();
+        $('.ui-multiselect.is-open').not($container).removeClass('is-open').find('.ui-multiselect-menu').hide();
+        $menu.toggle();
+        $container.toggleClass('is-open');
+      });
+
+      $menu.on('click', '.ui-multiselect-option', function(e) {
+        e.stopPropagation();
+        var $option = $(this);
+        var value = $option.data('value');
+        var text = $option.find('span').last().text();
+        var isSelected = $option.hasClass('is-selected');
+
+        if (isSelected) {
+          $option.removeClass('is-selected');
+          AdminUI.multiSelect._removeTag($container, value);
+        } else {
+          $option.addClass('is-selected');
+          AdminUI.multiSelect._addTag($container, value, text);
+        }
+
+        // 更新原始select的值
+        var selectedValues = [];
+        $menu.find('.is-selected').each(function() {
+          selectedValues.push($(this).data('value'));
+        });
+        $originalSelect.val(selectedValues).trigger('change');
+      });
+
+      // 标签删除按钮事件
+      $container.on('click', '.ui-multiselect-tag-remove', function(e) {
+        e.stopPropagation();
+        e.preventDefault(); // 阻止默认行为
+        var $tag = $(this).parent();
+        var value = $tag.data('value');
+
+        AdminUI.multiSelect._removeTag($container, value);
+        $menu.find('.ui-multiselect-option[data-value="' + value + '"]').removeClass('is-selected');
+
+        // 更新原始select的值
+        var selectedValues = [];
+        $menu.find('.is-selected').each(function() {
+          selectedValues.push($(this).data('value'));
+        });
+        $originalSelect.val(selectedValues).trigger('change');
+      });
+    },
+
+    _addTag: function($container, value, text) {
+      var $tagsContainer = $container.find('.ui-multiselect-tags');
+      if ($tagsContainer.find('[data-value="' + value + '"]').length) return;
+
+      var $tag = $('<div class="ui-multiselect-tag" data-value="' + value + '">' +
+        text +
+        '<span class="ui-multiselect-tag-remove">×</span></div>');
+      $tagsContainer.append($tag);
+    },
+
+    _removeTag: function($container, value) {
+      $container.find('.ui-multiselect-tag[data-value="' + value + '"]').remove();
+    }
+  };
   // --- UI库初始化总入口 ---
-  AdminUI.init = function() {
-    this.theme.init();
+  AdminUI.update = function() {
     this.dropdown.init();
-    this.menu.init();
     this.datePicker.init();
     this.select.init();
     this.dateRangePicker.init();
+    this.multiSelect.init();
   };
-  // --- 动态生成菜单 ---
-  AdminUI.buildMenu = function(items, isSubmenu) {
-    var menuHtml = isSubmenu ? '<ul class="submenu">' : '';
-    for (var i = 0; i < items.length; i++) {
-      var item = items[i];
-      var hasChildren = item.children && item.children.length > 0;
-      var activeClass = item.active ? 'active' : '';
-      menuHtml += '<li class="' + activeClass + '">';
-      menuHtml += '<a href="' + (item.href || '#') + '">';
-      if (item.icon) menuHtml += '<i class="icon">' + item.icon + '</i>';
-      menuHtml += '<span class="menu-text">' + item.text + '</span>';
-      if (hasChildren) menuHtml += AdminUI.icons.arrow;
-      menuHtml += '</a>';
-      if (hasChildren) {
-        menuHtml += AdminUI.buildMenu(item.children, true);
-      }
-      menuHtml += '</li>';
-    }
-    menuHtml += isSubmenu ? '</ul>' : '';
-    return menuHtml;
+  AdminUI.init = function() {
+    this.theme.init();
+    this.menu.init();
+    AdminUI.update();
   };
 
   // 将AdminUI对象暴露到全局

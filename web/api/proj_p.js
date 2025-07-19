@@ -61,12 +61,12 @@ const prop = {
 const ci = curd.instance(prop);
 
 exports.router = function() {
-  // ci.router.get('/list', function(req, resp, next) { // eslint-disable-line
-  //   resp.send(render.list({ 'rootPath':'../','tb': prop.tb, 'tbName': prop.tbName }));
-  // });
-  ci.router.get('/detail/:id', function(req, resp, next) { // eslint-disable-line
-    resp.send(render.detail({'rootPath':'../../', 'tb': prop.tb, 'id': req.params.id, 'tbName': prop.tbName }));
+  ci.router.get('/:id', function(req, resp, next) { // eslint-disable-line
+    resp.send(render.detail({ 'rootPath': '../', 'tb': prop.tb, 'id': req.params.id, 'tbName': prop.tbName }));
   });
+  // ci.router.get('/add', function(req, resp, next) { // eslint-disable-line
+  //   resp.send(render.detail({'rootPath':'../', 'tb': prop.tb, 'tbName': prop.tbName }));
+  // });
   ci.router.get('*', function(req, resp, next) { // eslint-disable-line
     resp.send(render.list({ 'tb': prop.tb, 'tbName': prop.tbName }));
   });

@@ -89,6 +89,6 @@ const iiConfig = {
 
 exports.router = function() {
   const router = iApi.getRouter(iiConfig);
-  router.get('*', (req, resp, next) => { resp.send(error.json('404')); });
+  // router.get('*', (req, resp, next) => { resp.send(error.json('404')); });
   return router;
 };

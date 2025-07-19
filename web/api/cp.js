@@ -221,10 +221,10 @@ ci.on('addOK', function(reqBody, uId, uLevel, dbObj) {
   refreshCache('' + dbObj._id);
 });
 ci.on('updateOK', function(reqBody, uId, uLevel) { // eslint-disable-line
-  refreshCache(reqBody.req._id);
+  refreshCache(reqBody._id);
 });
 ci.on('hardDelOK', function(reqBody, uId, uLevel) { // eslint-disable-line
-  refreshCache(reqBody.req.id, true);
+  refreshCache(reqBody.id, true);
 });
 
 db.checkIndex(prop.tb, {

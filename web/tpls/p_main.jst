@@ -10,8 +10,28 @@
     <div class="ui-card">
       <h3>测试</h3>
       <div>
-        <button id="bt1" class="ui-button danger">按钮</button>
+        <button id="bt1" class="ui-button danger">按钮1</button>
         <button class="ui-button primary">按钮2</button>
+      </div>
+      <p></p>
+      <div>
+        <br />
+        <br />
+        <select data-ui-multiselect multiple>
+            <option value="1">选项1</option>
+            <option value="2">选项2</option>
+            <option value="3">选项3</option>
+            <option value="4">选项4</option>
+        </select>
+        <p></p>
+        <br />
+        <br />
+        <select data-ui-select >
+            <option value="1">单选项1</option>
+            <option value="2">单选项2</option>
+            <option value="3">单选项3</option>
+            <option value="4">单选项4</option>
+        </select>
       </div>
     </div>
     <div class="ui-card">
@@ -44,5 +64,4 @@
     </div>
   </div>
 </div>
-
-{{#def.footer:{scripts:'<script src="'+(it.rootPath || '')+'js/main.js"></script>'} }}
+{{#def.footer:{rootPath:it.rootPath || '',link:'main',scripts:'<script src="'+(it.rootPath || '')+'js/main.js"></script>'} }}

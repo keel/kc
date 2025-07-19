@@ -62,6 +62,7 @@
     </main>
   </div>
   </div>
+  <input type="hidden" data-link="{{=para.tb || para.link || ''}}" id="rootPath" value="{{=para.rootPath}}" />
   <script src="{{=para.rootPath || ''}}js/app.js"></script>
   {{=para.scripts || ''}}
 </body>

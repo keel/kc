@@ -1,15 +1,13 @@
 {{#def.parts}}
-{{#def.header:{rootPath:it.rootPath || '',title:it.tbName+'详情'} }}
-{{#def.main:{rootPath:it.rootPath || '',title:"Console",userName:'admin'} }}
+{{#def.header:{rootPath:it.rootPath || '',title:'账户信息'} }}
+{{#def.main:{rootPath:it.rootPath || '',title:"Console",userName:it.userName || ''} }}
 <div class="ui-container">
   <div class="ui-card">
     <div class="page-header">
-      <h3 class="page-title">{{=it.tbName}}详情</h3>
+      <h3 class="page-title">账户信息</h3>
       <div class="page-actions">
-        <button class="ui-button" id="btn-back">返回列表</button>
         <button class="ui-button" id="btn-cancel" style="display: none;">取消</button>
         <button class="ui-button primary" id="btn-modify" style="display:none;">修改</button>
-        <button class="ui-button danger" id="btn-del" data-loading-text="删除中..." style="display:none;">删除</button>
         <button class="ui-button primary" id="btn-save" data-loading-text="更新中..." sstyle="display: none;">保存</button>
       </div>
     </div>
@@ -22,6 +20,4 @@
     </div>
   </div>
 </div>
-<input type="hidden" name="tb" id="tb" value="{{=it.tb}}" />
-<input type="hidden" name="tbid" id="tbid" value="{{=it.id}}" />
-{{#def.footer:{rootPath:it.rootPath || '',tb:it.tb,scripts:'<script src="'+(it.rootPath || '')+'js/detail.js"></script>'} }}
+{{#def.footer:{rootPath:it.rootPath || '',link:it.link,scripts:'<script src="'+(it.rootPath || '')+'js/profile.js"></script>'} }}
