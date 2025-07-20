@@ -2,6 +2,7 @@
   "test": "dir",
   "web/api": "dir",
   "web/tpls": "dir",
+  "web/public": "dir",
   "web/render/index.js": "file",
   "tpl_README.md": "tpl",
   "tpl_.gitignore": "tpl",
