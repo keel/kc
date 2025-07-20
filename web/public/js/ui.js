@@ -1273,7 +1273,8 @@
     init: function(selector, options) {
       var $container = $(selector);
       if (!$container.length || !options || !options.totalPages) return;
-
+      $container.off('click', 'a');
+      $container.off('click', '.js-page-jump');
       var defaults = {
         currentPage: 1,
         totalPages: 1,
