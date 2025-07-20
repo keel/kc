@@ -9,6 +9,7 @@
       <div style="display: flex; gap: 10px;">
         <button class="ui-button primary" id="search-btn">查询</button>
         <button class="ui-button primary" id="add-btn">新增</button>
+        {{=it.moreButton || ''}}
       </div>
     </div>
     <hr class="ui-divider">
@@ -24,4 +25,4 @@
   </div>
 </div>
 <input type="hidden" name="tb" id="tb" value="{{=it.tb}}" />
-{{#def.footer:{rootPath:it.rootPath || '',tb:it.tb,scripts:'<script src="'+(it.rootPath || '')+'js/list.js"></script>'} }}
+{{#def.footer:{rootPath:it.rootPath || '',tb:it.tb,scripts:'<script src="'+(it.rootPath || '')+'js/list.js"></script>'+(it.moreJS||'')} }}

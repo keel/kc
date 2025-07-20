@@ -6,6 +6,8 @@
     --color-danger: #e00;
     --color-danger-hover: #b30000;
     --color-success: #28a745;
+    --color-warn: #f29b1b;
+    --color-warn-hover:#a77730;
 
     /* 亮色主题 */
     --bg-color: #f7f7f7;
@@ -137,6 +139,16 @@ a:hover {
     background-color: var(--color-danger-hover);
     border-color: var(--color-danger-hover);
 }
+.ui-button.warn {
+    background-color: var(--color-warn);
+    border-color: var(--color-warn);
+    color: #fff;
+}
+
+.ui-button.warn:hover {
+    background-color: var(--color-warn-hover);
+    border-color: var(--color-warn-hover);
+}
 
 .ui-button.icon-button {
     padding: 8px;
@@ -223,6 +235,11 @@ a:hover {
 
 .ui-toast.success {
     background-color: var(--color-success);
+    color: #fff;
+    border: none;
+}
+.ui-toast.danger {
+    background-color: var(--color-danger);
     color: #fff;
     border: none;
 }
@@ -354,6 +371,7 @@ a:hover {
     align-items: center;
     cursor: pointer;
     margin-right: 15px;
+    vertical-align: middle;
 }
 
 .ui-checkbox input,
@@ -372,6 +390,8 @@ a:hover {
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    display: inline-flex;
+    vertical-align: middle;
 }
 
 .ui-radio .circle {
@@ -1456,4 +1476,52 @@ html[data-theme='dark'] .ui-datepicker-day.in-range {
     border: solid white;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
+}
+/* --- UI模块: Upload --- */
+.ui-upload-area {
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.ui-upload-area:hover {
+    border-color: var(--color-primary);
+}
+
+.ui-upload-area.dragover {
+    background-color: rgba(0, 112, 243, 0.1);
+    border-color: var(--color-primary);
+}
+
+.ui-upload-icon {
+    font-size: 48px;
+    color: var(--text-color-2);
+    margin-bottom: 16px;
+}
+
+.ui-upload-icon svg {
+    width: 48px;
+    height: 48px;
+}
+
+.ui-upload-text {
+    color: var(--text-color-2);
+    margin-bottom: 8px;
+}
+
+.ui-upload-input {
+    display: none;
+}
+
+.ui-upload-progress {
+    margin-top: 16px;
+    color: var(--color-primary);
+    font-size: 14px;
+}
+.ui-upload-text.error {
+    color: var(--color-danger);
 }

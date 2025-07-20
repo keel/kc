@@ -11,7 +11,8 @@ $(document).ready(function() {
     recordsFiltered: 0,
     col_id: 0,
     tableData: AdminUI.mockData.users, // 完整的模拟数据
-    tableSchema: []
+    tableSchema: [],
+    isSearch:false,
   };
 
   function renderSearch(tableSchema) {
@@ -88,7 +89,13 @@ $(document).ready(function() {
 
     // 模拟加载动画
     AdminUI.loading.show('#user-list-container');
-    window.kc.jPost(tb + '/list', { 'start': (state.currentPage - 1) * state.itemsPerPage, 'length': state.itemsPerPage }, function(err, re) {
+    var reqObj = { 'start': (state.currentPage - 1) * state.itemsPerPage, 'length': state.itemsPerPage };
+    if (state.isSearch) {
+      const paras = AdminUI.form.getValues('#tableSearch',state.tableSchema,true);
+      reqObj.search = paras;
+    }
+    // var searchVal =
+    window.kc.jPost(tb + '/list', reqObj, function(err, re) {
       AdminUI.loading.hide('#user-list-container');
       if (err) {
         console.error(err);
@@ -145,7 +152,10 @@ $(document).ready(function() {
     });
   }
 
-  $('#search-btn').on('click', showList);
+  $('#search-btn').on('click', ()=>{
+    state.isSearch = true;
+    showList();
+  });
   $('#add-btn').on('click', showAdd);
 
 });

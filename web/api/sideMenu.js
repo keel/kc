@@ -11,15 +11,20 @@ const error = require('../../lib/error');
 const adminLevel = 10;
 const isTest = true;
 
-const homeLink = { 'name': '首页', 'link': '/main', 'icon': 'dash' };
-const logoutLink = { 'name': '退出系统', 'link': '/logout', 'icon': 'arrow' };
-const menuArr = [
-  {
+const homeLink = { 'name': '首页', 'link': '/main', 'icon': 'home' };
+const logoutLink = { 'name': '退出系统', 'link': '/logout', 'icon': 'exit' };
+const menuArr = [{
     'name': '项目',
     'link': '/proj_p',
-    'icon': 'menu',
-    'subs': [
-      { 'name': '项目列表', 'link': '/proj_p' },
+    'icon': 'project',
+    'subs': [{
+        'name': '项目列表',
+        'link': '/proj_p',
+        'subs': [
+          { 'name': '项目列表1', 'link': '/proj_p' },
+          { 'name': '项目查询1', 'link': '/proj_p' },
+        ]
+      },
       { 'name': '项目查询', 'link': '/proj-search' },
       { 'name': '项目统计', 'link': '/proj-assis' },
     ]
@@ -27,7 +32,7 @@ const menuArr = [
   {
     'name': '产品',
     'link': '/product',
-    'icon': 'dash',
+    'icon': 'product',
   },
   {
     'name': '关于信息',

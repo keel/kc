@@ -4,9 +4,13 @@ CURD配置典型示例,账号管理
 'use strict';
 const ktool = require('ktool');
 const kc = require('../../lib/kc');
+const render = kc.render();
 const vlog = require('vlog').instance(__filename);
 // const Pinyin = kc.pinyin; //引入拼音首字母便于快速检索
 const curd = require('./_curd');
+const path = require('path');
+const fs = require('fs');
+const upload = require('./upload');
 
 
 const db = kc.mongo.init();
@@ -14,7 +18,18 @@ const db = kc.mongo.init();
 
 const adminLevel = 10; //可进行权限配置的level等级
 
+//文件上传示例,这里uploadImg为路径upload/uploadImg，同时也是upload.js中的act
+upload.addUploadAction('uploadImg', function(file, fields, resp) {
 
+  // vlog.log('uploadActions:datafilter: file:%j, fields:%j', file, fields);
+
+  vlog.log('上传图片成功:', file.filepath);
+  const newPath = path.join(path.dirname(file.filepath), file.originalFilename);
+  fs.renameSync(file.filepath, newPath);
+  vlog.log('重命名:', newPath);
+  resp.send('ok');
+
+});
 
 const mkPwd = function(pwdStr, createTime) {
   const newPwd = pwdStr.trim() + ',' + createTime;
@@ -33,7 +48,8 @@ const authMap = function(req, resp, callback) {
     return resp.send(JSON.stringify({ 'code': 0, 'data': authMap, showUpdate }));
   }
   if (cp.permission) {
-    const permission = JSON.parse(cp.permission);
+    // const permission = JSON.parse(cp.permission);
+    const permission = cp.permission;
     for (const i in permission) {
       if (!authMap[i]) {
         // authMap[i] = { 'name': i };
@@ -174,15 +190,20 @@ const prop = {
       },
     }
   },
-  //以下参数用于mkCurdVue使用
-  'listSlot': '',
-  'oneSlot': '<el-button v-if="oneParas.authMap" type="danger" @click="$router.push(\'/permission/\'+oneId)">权限配置</el-button>',
-  'addSlot': '',
 };
 
 const ci = curd.instance(prop);
 
 exports.router = function() {
+  ci.router.get('/:id', function(req, resp, next) { // eslint-disable-line
+    resp.send(render.detail({ 'rootPath': '../', 'tb': prop.tb, 'id': req.params.id, 'tbName': prop.tbName, 'moreButton': '<a href="permission/' + req.params.id + '" data-loading-text="处理中..." class="ui-button warn" id="bt_auth">权限配置</a>' }));
+  });
+  ci.router.get('/permission/:id', function(req, resp, next) { // eslint-disable-line
+    resp.send(render.permission({ 'rootPath': '../../', 'link': 'permission', 'id': req.params.id }));
+  });
+  ci.router.get('*', function(req, resp, next) { // eslint-disable-line
+    resp.send(render.list({ 'tb': prop.tb, 'tbName': prop.tbName }));
+  });
   return ci.router;
 };
 
@@ -235,6 +256,3 @@ db.checkIndex(prop.tb, {
   'state_-1': { 'state': -1 },
   'py_-1': { 'py': -1 },
 });
-
-// const mk = kc.mkCurdVue;
-// mk.make(prop, __dirname + '/../../vue/src');

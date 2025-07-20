@@ -2,10 +2,6 @@
 
 /**
  * TODO:
- *
- * search实现
- * multiSelect实现
- * radio对齐
  * select2方式，通过字母ajax查找选项
  *
  *

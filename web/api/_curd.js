@@ -18,6 +18,10 @@ const bigintToStr = function(strVal) {
   return pre + bigintToStr(strVal.substring(15));
 };
 
+const mkResp = function(state, data) {
+  return { 'code': state, data };
+};
+
 //prop加工处理
 const processProp = function(prop) {
   const listProjection = {};
@@ -446,7 +450,7 @@ function instance(prop) {
         if (err) {
           return error.apiErr(err, callback, 'curdUpdate');
         }
-        const respObj = iApi.makeApiResp(0, 'ok', me.apiKey);
+        const respObj = mkResp(0, 'ok');
         //返回
         callback(null, respObj);
         if (me.events['updateOK']) {
@@ -475,7 +479,7 @@ function instance(prop) {
       if (err) {
         return error.apiErr(err, callback, 'curdDel');
       }
-      const respObj = iApi.makeApiResp(0, 'ok', me.apiKey);
+      const respObj = mkResp(0, 'ok');
       callback(null, respObj);
       if (me.events['hardDelOK']) {
         me.events['hardDelOK'](req.body, req.userId, req.userLevel);
@@ -503,7 +507,7 @@ function instance(prop) {
       }
       if (!dbObj) {
         //无添加对象时，直接按添加成功结束处理
-        const respObj = iApi.makeApiResp(0, 'ok', me.apiKey);
+        const respObj = mkResp(0, 'ok');
         callback(null, respObj);
         if (me.events['addOK']) {
           me.events['addOK'](req.body, req.userId, req.userLevel, dbObj);
@@ -519,7 +523,7 @@ function instance(prop) {
           return error.apiErr(err, callback, 'curdAdd');
         }
         // vlog.log('curd add re:%s',re);
-        const respObj = iApi.makeApiResp(0, 'ok', me.apiKey);
+        const respObj = mkResp(0, 'ok');
         callback(null, respObj);
         if (me.events['addOK']) {
           me.events['addOK'](req.body, req.userId, req.userLevel, dbObj);
@@ -568,7 +572,7 @@ function instance(prop) {
           if (err) {
             return error.apiErr(err, callback, 'curdUpdateOne');
           }
-          const respObj = iApi.makeApiResp(0, { 'code': 'ok' }, me.apiKey);
+          const respObj = mkResp(0, 'ok');
 
           callback(null, respObj);
         });
@@ -576,7 +580,7 @@ function instance(prop) {
         //   if (err) {
         //     return error.apiErr(err, callback, 'onUpdateOne');
         //   }
-        //   const respObj = iApi.makeApiResp(0, { 'code': 'ok' }, me.apiKey);
+        //   const respObj = mkResp(0, { 'cod' }, me.apiKey);
         //   //返回
         //   callback(null, respObj);
         // });
@@ -596,7 +600,7 @@ function instance(prop) {
           result[changeIndexs[i]] = update['$set'][listKeys[changeIndexs[i]]];
         }
 
-        const respObj = iApi.makeApiResp(0, result, me.apiKey);
+        const respObj = mkResp(0, result);
         //返回
         callback(null, respObj);
         if (me.events['updateOK']) {

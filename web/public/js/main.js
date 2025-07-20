@@ -63,8 +63,27 @@ $(document).ready(function() {
 
   // 获取选中项按钮的点击事件
   $('#get-checked-btn').on('click', function() {
-    var checkedIds = AdminUI.tree.getCheckedValues('#permission-tree');
+    var checkedIds = AdminUI.tree.getChecked('#permission-tree');
     AdminUI.popWin.alert('选中的权限ID: ' + checkedIds.join(', '));
+  });
+
+
+  AdminUI.upload.init('#upload-area', {
+    url: '/upload/uploadImg',
+    showProgress: true,
+    accept: 'image/*',
+    maxSize: 5 * 1024 * 1024, // 5MB
+    onSuccess: function(response) {
+      console.log('上传成功', response);
+      AdminUI.toast('文件上传成功', 'success');
+    },
+    onError: function(error) {
+      console.error('上传失败', error);
+      AdminUI.toast(error.message || '上传失败', 'danger');
+    },
+    onProgress: function(percent) {
+      console.log('上传进度:', percent + '%');
+    }
   });
 
 

@@ -11,7 +11,7 @@
   "fail2ban": 3600,
   "fail2banTimes": 5,
   "firstUser":{
-    "isFirst":true,
+    "isFirst":false,
     "loginName":"admin",
     "loginPwd":"helloFirst",
     "name":"初始用户",
@@ -30,5 +30,6 @@
     "s$_mongoUrl": "mongodb://user:pwd@127.0.0.1:27017/lysms"
   },
   "isTest": true,
+  "uploadDir":"../../uploads/",
   "startPort": 15001
 }

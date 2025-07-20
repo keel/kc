@@ -17,6 +17,11 @@
     settings: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>',
     collapse: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>',
     arrow: '<svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>',
+    home: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>',
+    exit: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>',
+    product: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M9 9h6v6H9z"></path></svg>',
+    project: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>',
+    upload: '<svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>',
     create: function(iconName, target, isHide) {
       var icon = $(AdminUI.icons[iconName] || '');
       $(target).append(icon);
@@ -28,116 +33,7 @@
   };
   // --- 模拟数据 ---
   AdminUI.mockData = {
-    // 主页图表数据
-    charts: {
-      userGrowth: {
-        dates: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-        data: [120, 200, 150, 80, 70, 110, 130]
-      },
-      orderVolume: {
-        dates: ['1月', '2月', '3月', '4月', '5月', '6月'],
-        data: [500, 932, 901, 934, 1290, 1330]
-      }
-    },
-    menuData: [
-      { id: 'dashboard', text: '仪表盘', icon: AdminUI.icons.dash, href: 'main' },
-      {
-        id: 'management',
-        text: '系统管理',
-        icon: AdminUI.icons.management,
-        children: [
-          { id: 'proj_p', text: '项目管理', href: 'proj_p' },
-          { id: 'product', text: '产品管理', href: 'product', 'active': 1 },
-          { id: 'user-list', text: '用户列表', href: 'list' },
-          { id: 'role-list', text: '角色管理', href: '#' }
-        ]
-      },
-      {
-        id: 'content',
-        text: '内容管理',
-        icon: AdminUI.icons.content,
-        children: [
-          { id: 'article-list', text: '文章列表', href: '#' },
-          {
-            id: 'category-list',
-            text: '分类管理',
-            href: '#',
-            children: [
-              { id: 'cat-tech', text: '技术', href: '#' },
-              { id: 'cat-life', text: '生活', href: '#' }
-            ]
-          }
-        ]
-      },
-      { id: 'settings', text: '设置', icon: AdminUI.icons.settings, href: '#' },
-    ],
-    // 列表页数据
-    users: [
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-      { id: 2, username: 'jane.smith', email: 'jane.smith@example.com', role: 'Editor', status: 'Inactive', created_at: '2023-10-25' },
-      { id: 3, username: 'peter_jones', email: 'peter.jones@example.com', role: 'Viewer', status: 'Active', created_at: '2023-10-24' },
-      { id: 4, username: 'susan_williams', email: 'susan.williams@example.com', role: 'Editor', status: 'Active', created_at: '2023-10-23' },
-      { id: 5, username: 'mike_brown', email: 'mike.brown@example.com', role: 'Viewer', status: 'Banned', created_at: '2023-10-22' },
-      { id: 1, username: 'john.doe', email: 'john.doe@example.com', role: 'Admin', status: 'Active', created_at: '2023-10-26' },
-    ],
-    // 详情/新增页角色选项
-    roles: [
-      { id: 'Admin', name: '管理员' },
-      { id: 'Editor', name: '编辑' },
-      { id: 'Viewer', name: '查看者' }
-    ],
-    userSchema: {
-      username: {
-        label: '用户名',
-        type: 'text',
-        inputType: 'text',
-        required: true,
-        placeholder: '请输入用户名'
-      },
-      email: {
-        label: '邮箱',
-        type: 'email',
-        inputType: 'email',
-        required: true,
-        placeholder: '请输入邮箱地址'
-      },
-      role: {
-        label: '角色',
-        type: 'select',
-        inputType: 'select',
-        required: true,
-        // 直接引用已有的 roles 数据，实现复用
-        options: function() { return AdminUI.mockData.roles.map(r => ({ value: r.id, text: r.name })); }
-      },
-      status: {
-        label: '状态',
-        type: 'select',
-        inputType: 'select',
-        required: true,
-        options: [
-          { value: 'Active', text: 'Active' },
-          { value: 'Inactive', text: 'Inactive' },
-          { value: 'Banned', text: 'Banned' }
-        ]
-      },
-      created_at: {
-        label: '创建时间',
-        type: 'date',
-        inputType: 'datepicker',
-        required: true,
-        readonlyOnEdit: true // 在编辑模式下此字段为只读
-      }
-    },
+
   };
 
   // --- 模块: 主题切换 ---
@@ -1091,7 +987,32 @@
         values.push($(this).val());
       });
       return values;
-    }
+    },
+    getChecked: function(selector) {
+      var self = this;
+      var checkedItems = [];
+
+      $(selector).find('.ui-tree-checkbox:checked').each(function() {
+        var $checkbox = $(this);
+        var $item = $checkbox.closest('.ui-tree-item');
+        var path = self._getItemPath($item);
+        checkedItems.push(path);
+      });
+      return checkedItems;
+    },
+    _getItemPath: function($item) {
+      var path = [];
+      var $current = $item;
+      while ($current.length) {
+        var id = $current.data('id');
+        if (id) {
+          path.unshift(id);
+        }
+        $current = $current.parent('ul').closest('.ui-tree-item');
+      }
+
+      return path.join('/');
+    },
   };
 
   // --- 模块: Custom Select ---
@@ -1203,7 +1124,7 @@
         }
         var prop = field.prop;
         var value = data[prop] || field.default;
-        if (value === undefined || value === null) {
+        if (value === undefined || value === null || formType === 'search') {
           value = '';
         }
         var label = field.label || prop;
@@ -1284,7 +1205,7 @@
       AdminUI.update();
     },
     //获取form值,如果有schema则会进行类型转换
-    getValues: function(containerSelector, schema) {
+    getValues: function(containerSelector, schema, skipEmpty) {
       var values = {};
       $(containerSelector).find('.ui-form-item').each(function() {
         var $item = $(this);
@@ -1294,6 +1215,9 @@
         }
         var prop = $input.attr('id');
         var v = $input.val();
+        if (v === '' && skipEmpty) {
+          return;
+        }
         if ($input.is('input[type="radio"]')) {
           v = $item.find('input[type="radio"]:checked').val();
         }
@@ -1609,6 +1533,137 @@
 
     _removeTag: function($container, value) {
       $container.find('.ui-multiselect-tag[data-value="' + value + '"]').remove();
+    }
+  };
+
+  AdminUI.upload = {
+    init: function(selector, options) {
+      var self = this;
+      var $container = $(selector);
+      if (!$container.length) return;
+
+      options = $.extend({
+        url: '/upload', // 上传地址
+        showProgress: false, // 是否显示上传进度
+        accept: '*', // 接受的文件类型
+        maxSize: 10 * 1024 * 1024, // 最大文件大小(10MB)
+        onSuccess: function(response) {}, // 上传成功回调
+        onError: function(error) {}, // 上传失败回调
+        onProgress: function(percent) {} // 上传进度回调
+      }, options);
+
+      // 创建上传区域HTML
+      var html = `
+            <div class="ui-upload-area">
+                <div class="ui-upload-icon">${AdminUI.icons.upload}</div>
+                <div class="ui-upload-text">点击或拖拽文件到此处上传</div>
+                <input type="file" class="ui-upload-input" ${options.accept !== '*' ? 'accept="' + options.accept + '"' : ''}>
+            </div>
+        `;
+      $container.html(html);
+
+      var $input = $container.find('.ui-upload-input');
+      var $progress = $container.find('.ui-upload-text');
+      var $area = $container.find('.ui-upload-area');
+
+      // 点击触发文件选择
+      $area.on('click', function(e) {
+        if (!$(e.target).is('input')) {
+          $input.trigger('click');
+        }
+      });
+
+      // 文件选择处理
+      $input.on('change', function() {
+        var file = this.files[0];
+        if (file) {
+          self._validateAndUpload(file, options, $progress);
+        }
+      });
+
+      // 拖拽处理
+      $area.on('dragover', function(e) {
+        e.preventDefault();
+        $area.addClass('dragover');
+      });
+
+      $area.on('dragleave', function() {
+        $area.removeClass('dragover');
+      });
+
+      $area.on('drop', function(e) {
+        e.preventDefault();
+        $area.removeClass('dragover');
+
+        var file = e.originalEvent.dataTransfer.files[0];
+        if (file) {
+          self._validateAndUpload(file, options, $progress);
+        }
+      });
+    },
+
+    _validateAndUpload: function(file, options, $progress) {
+      // 验证文件大小
+      if (file.size > options.maxSize) {
+        AdminUI.toast('文件大小不能超过 ' + (options.maxSize / 1024 / 1024) + 'MB', 'error');
+        return;
+      }
+
+      // 验证文件类型
+      if (options.accept !== '*' && !file.type.match(new RegExp(options.accept.replace('*', '.*')))) {
+        AdminUI.toast('不支持的文件类型', 'error');
+        return;
+      }
+
+      this._uploadFile(file, options, $progress);
+    },
+
+    _uploadFile: function(file, options, $text) {
+      var formData = new FormData();
+      formData.append('file', file);
+
+      // 更新状态为上传中
+      $text.text('上传中: 0%').removeClass('error');
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', options.url, true);
+
+      xhr.upload.onprogress = function(e) {
+        if (e.lengthComputable) {
+          var percent = Math.round((e.loaded / e.total) * 100);
+          $text.text('上传中: ' + percent + '%');
+          if (options.onProgress) {
+            options.onProgress(percent);
+          }
+        }
+      };
+
+      xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          var response = xhr.responseText;
+          $text.text('上传完成');
+          if (options.onSuccess) {
+            options.onSuccess(response);
+          }
+          // 3秒后恢复默认文本
+          setTimeout(() => {
+            $text.text('点击或拖拽文件到此处上传');
+          }, 3000);
+        } else {
+          $text.text('上传失败').addClass('error');
+          if (options.onError) {
+            options.onError(xhr.responseText);
+          }
+        }
+      };
+
+      xhr.onerror = function() {
+        $text.text('上传失败').addClass('error');
+        if (options.onError) {
+          options.onError({ message: '网络错误' });
+        }
+      };
+
+      xhr.send(formData);
     }
   };
   // --- UI库初始化总入口 ---

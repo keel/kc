@@ -30,6 +30,7 @@ let tempDir = path.join(__dirname, kconfig.get('uploadDir') || '../../uploads/')
 const fileExts = {
   '.txt': true,
   '.jpg': true,
+  '.jpeg': true,
   '.png': true,
   '.gif': true,
   '.zip': true,
@@ -79,16 +80,20 @@ const addUploadAction = function(actName, actFunc) {
   uploadActions[actName] = actFunc;
 };
 
-const onUploadFinished = function(act, file, fields, resp) {
+const onUploadFinished = function(act, files, fields, resp) {
+  const file = files[0];
   // vlog.log('file:', file);
   const fileExt = file.originalFilename.substring(file.originalFilename.lastIndexOf('.'));
+  // vlog.log('fileExt:', fileExt);
   if (!fileExts[fileExt]) {
     vlog.error('文件类型错误,不进行处理:', fileExt);
+    resp.send('{"code":-10}');
     return false;
   }
   file.path = file.filepath;
   if (!uploadActions[act]) {
-    vlog.error('文件参数错误,不进行处理:', file.filepath, fields);
+    vlog.error('文件上传未配置,不进行处理:', file.filepath, fields);
+    resp.send('{"code":-11}');
     return false;
   }
   uploadActions[act](file, fields, resp);
