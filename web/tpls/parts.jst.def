@@ -20,7 +20,7 @@
 <div id="admin-layout">
   <aside id="admin-sidebar">
   <div class="logo">
-    <a href="{{=para.rootPath || ''}}main"><span>{{=para.title}}</span></a>
+    <a href="{{=para.rootPath || ''}}main"><span>Console</span></a>
   </div>
   <div class="sidebar-menu-container">
     <ul class="ui-menu" id="main-menu">
@@ -42,12 +42,12 @@
         <a href="#" class="ui-dropdown-toggle user-info">
           <div class="avatar" id="avatar">
           </div>
-          <span id="userName">{{=para.userName}}</span>
+          <span id="top_userName"></span>
         </a>
         <div class="ui-dropdown-menu">
-          <a href="#">个人信息</a>
+          <a href="{{=para.rootPath || ''}}profile">个人信息</a>
           <div class="ui-dropdown-divider"></div>
-          <a href="login">退出登录</a>
+          <a href="{{=para.rootPath || ''}}logout">退出登录</a>
         </div>
       </div>
     </div>

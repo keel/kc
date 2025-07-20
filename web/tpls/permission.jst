@@ -1,12 +1,12 @@
 {{#def.parts}}
 {{#def.header:{rootPath:it.rootPath || '',title:'账户信息'} }}
-{{#def.main:{rootPath:it.rootPath || '',title:"Console",userName:it.userName || ''} }}
+{{#def.main:{rootPath:it.rootPath || ''} }}
 <div class="ui-container">
   <div class="ui-card">
     <div class="page-header">
       <h3 class="page-title">权限配置</h3>
       <div class="page-actions">
-        <button class="ui-button" id="btn-back" style="display: none;">返回</button>
+        <a href="../{{=it.id}}" class="ui-button" id="btn-back" >返回</a>
         <button class="ui-button primary" id="btn-save" data-loading-text="更新中...">保存配置</button>
       </div>
     </div>

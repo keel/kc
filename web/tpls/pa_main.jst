@@ -1,109 +1,94 @@
 {{#def.parts}}
-{{#def.header:{title:"用户管理"} }}
-<div class="app app-header-fixed  ">
-<!-- content -->
-<div id="content" class="app-content" role="main">
-  <div class="app-content-body ">
-    <div class="bg-light lter b-b wrapper-md">
-      <h1 class="m-n font-thin h3">首页-用户管理</h1>
-      <p>欢迎{{=it.kc_userId}} <a href="/logout">退出登录</a></p>
-
+{{#def.header:{title:"主页"} }}
+{{#def.main:{rootPath:it.rootPath || ''} }}
+<div class="ui-container">
+  <div class="ui-card" style="margin-bottom: 24px;">
+    <h3>公告</h3>
+    <p style="margin-top: 10px; color: var(--text-color-2);">欢迎使用管理系统</p>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+    <div class="ui-card">
+      <h3>测试</h3>
+      <div>
+        <button id="bt1" class="ui-button danger">按钮1</button>
+        <button class="ui-button primary">按钮2</button>
+      </div>
+      <p></p>
+      <div>
+        <br />
+        <br />
+        <select data-ui-multiselect multiple>
+          <option value="1">选项1</option>
+          <option value="2">选项2</option>
+          <option value="3">选项3</option>
+          <option value="4">选项4</option>
+        </select>
+        <p></p>
+        <br />
+        <br />
+        <select data-ui-select>
+          <option value="1">单选项1</option>
+          <option value="2">单选项2</option>
+          <option value="3">单选项3</option>
+          <option value="4">单选项4</option>
+        </select>
+        <br />
+        <br />
+        <br />
+        <div class="form-control-edit">
+          <div class="ui-form-item">
+            <label>性别选择</label>
+            <div>
+              <label class="ui-radio">
+                <input type="radio" name="gender" value="male" checked>
+                <span class="circle"></span>
+                <span>男</span>
+              </label>
+              <label class="ui-radio">
+                <input type="radio" name="gender" value="female">
+                <span class="circle"></span>
+                <span>女</span>
+              </label>
+              <label class="ui-radio">
+                <input type="radio" name="gender" value="other">
+                <span class="circle"></span>
+                <span>其他</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div id="upload-area"></div>
+      </div>
     </div>
-    <div class="wrapper-md">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          用户查询:
+    <div class="ui-card">
+      <h3>测试</h3>
+      <div>
+        <!-- DatePicker 示例 -->
+        <div class="ui-form-item">
+          <label for="event-date">活动日期</label>
+          <!-- 只需添加 data-ui-datepicker 属性即可自动初始化 -->
+          <input type="text" id="event-date" class="ui-input" data-ui-datepicker placeholder="请选择日期">
         </div>
-        <div class="panel-body">
-          <p>
-            <input type="text" class="form-control" name="userName" id="userNameInput" />
-            <button type="button" class="btn btn-primary btn-block" id="findUserBt">查询用户</button>
-          </p>
-          <p id="f_userRe"></p>
+        <hr class="ui-divider-text"><span>Tree 控件示例</span></hr>
+        <!-- Tree 示例 -->
+        <div class="ui-form-item">
+          <label>分配权限 (带复选框)</label>
+          <!-- 这是树形控件的容器 -->
+          <div id="permission-tree" class="ui-card" style="padding: 10px; max-height: 250px; overflow-y: auto;">
+            <!-- Tree 将被JS渲染到这里 -->
+          </div>
+          <button id="get-checked-btn" class="ui-button primary" style="margin-top: 15px;">获取选中项</button>
         </div>
-        <div>{{=JSON.stringify(it.kc_mid.groupA)}}</div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          新用户添加
-        </div>
-        <div class="panel-body">
-          <form id="a_userForm" name="form" class="form-validation">
-            <p>
-              <div>
-                <input type="text" class="form-control" name="a_userName" id="a_userNameInput" />
-                <label for="a_userNameInput">用户名</label>
-              </div>
-              <div>
-                <input type="text" class="form-control" name="a_loginName" id="a_loginNameInput" />
-                <label for="a_loginNameInput">登录名</label>
-              </div>
-              <div>
-                <input type="text" class="form-control" name="a_loginPwd" id="a_loginPwdInput" />
-                <label for="a_loginPwdInput">密码</label>
-              </div>
-              <div>
-                <input type="text" class="form-control" name="a_level" id="a_levelInput" value="0" />
-                <label for="a_levelInput">等级</label>
-              </div>
-              <div>
-                <input type="text" class="form-control" name="a_state" id="a_stateInput" value="0" />
-                <label for="a_stateInput">状态</label>
-              </div>
-            </p>
-            <p>
-              <button type="submit" class="btn btn-primary btn-block" id="a_userBt">新增用户</button>
-            </p>
-          </form>
-          <p id="a_userRe"></p>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          用户信息修改
-        </div>
-        <div class="panel-body">
-          <p>
-            <input type="text" class="form-control" name="uf_userName" id="uf_userNameInput" />
-            <button type="button" class="btn btn-primary btn-block" id="uf_userBt">搜索用户名</button>
-          </p>
-          <form id="u_userForm" method="post" name="form" class="form-validation">
-            <p>
-              <div>
-                ID:<span id="u_idShow"></span>
-                <input type="hidden" class="form-control" name="u_id" id="u_idInput" />
-              </div>
-              <div>
-                <input type="text" class="form-control" name="u_userName" id="u_userNameInput" />
-                <label for="u_userNameInput">用户名</label>
-              </div>
-              <div>
-                <input type="text" class="form-control" name="u_loginName" id="u_loginNameInput" />
-                <label for="u_loginNameInput">登录名</label>
-              </div>
-              <div>
-                <input type="text" class="form-control" name="u_loginPwd" id="u_loginPwdInput" />
-                <label for="u_loginPwdInput">密码</label>
-              </div>
-              <div>
-                <input type="text" class="form-control" name="u_level" id="u_levelInput" />
-                <label for="u_levelInput">等级</label>
-              </div>
-              <div>
-                <input type="text" class="form-control" name="u_state" id="u_stateInput" />
-                <label for="u_stateInput">状态</label>
-              </div>
-            </p>
-            <p>
-              <button type="submit" class="btn btn-primary btn-block" id="u_userBt">修改用户</button>
-            </p>
-          </form>
-          <p id="u_userRe"></p>
+        <div class="ui-form-item">
+          <label>文件目录 (仅展示)</label>
+          <!-- 另一个树形控件容器 -->
+          <div id="file-tree" class="ui-card" style="padding: 10px; ">
+            <!-- Tree 将被JS渲染到这里 -->
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<!-- / content -->
-</div>
-{{#def.footer:{'scripts':'<script src="js/lyUser.src.js"></script>'} }}
+{{#def.footer:{rootPath:it.rootPath || '',link:'main',scripts:'<script src="'+(it.rootPath || '')+'js/main.js"></script>'} }}

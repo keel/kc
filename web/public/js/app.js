@@ -33,6 +33,7 @@ $(document).ready(function() {
       return;
     }
     findMenuName($('#rootPath').attr('data-link'), re.data);
+    $('#top_userName').text(re.userName);
     $('#main-menu').html(AdminUI.menu.build(re.data, false));
   });
 

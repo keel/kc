@@ -225,6 +225,7 @@ exports.router = function() {
     resp.send(render.detail({ 'rootPath': '../', 'tb': prop.tb, 'id': req.params.id, 'tbName': prop.tbName }));
   });
   ci.router.get('*', function(req, resp, next) { // eslint-disable-line
+    // console.log('userName====>',req.sessionValue.userName);
     resp.send(render.list({ 'tb': prop.tb, 'tbName': prop.tbName }));
   });
   return ci.router;

@@ -12,6 +12,8 @@ v4版本说明:
 * ui支持明暗风格切换;
 * 通过配置rootPath，支持整个项目发布在子路径下;
 * 正常页面的curd移除了原iApi的签名机制，改为正常请求(只有向第3方开放的API才需要签名机制);
+* curd无需再生成不同的文件,利用list.js和detail.js;
+* 用户表名在入口js和web/api/login.js中自定义(web/api/cp.js要改为对应表名);
 
 
 

@@ -244,7 +244,12 @@
 
   // --- 模块: Dropdown ---
   AdminUI.dropdown = {
+    isInited:false,
     init: function() {
+      if (this.isInited) {
+        return;
+      }
+      this.isInited = true;
       $(document).on('click', '.ui-dropdown-toggle', function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -1668,7 +1673,6 @@
   };
   // --- UI库初始化总入口 ---
   AdminUI.update = function() {
-    this.dropdown.init();
     this.datePicker.init();
     this.select.init();
     this.dateRangePicker.init();
@@ -1677,6 +1681,7 @@
   AdminUI.init = function() {
     this.theme.init();
     this.menu.init();
+    this.dropdown.init();
     AdminUI.update();
   };
 

@@ -8,7 +8,9 @@ const iApi = kc.iApi;
 const error = require('../../lib/error');
 // const vlog = require('vlog').instance(__filename);
 
-const adminLevel = 10;
+const { userTable } = require('./login');
+
+// const adminLevel = 10;
 const isTest = true;
 
 
@@ -46,7 +48,7 @@ const menuArr = [ //
   },
   {
     'name': '账号管理',
-    'link': '/cp',
+    'link': '/' + userTable,
     'icon': 'management',
   },
 
@@ -95,7 +97,7 @@ const showMenu = function(req, resp, callback) {
   // console.log('req.sessionValue',req.sessionValue);
   addByPermission(menu, menuArr, permission);
   menu.push(logoutLink);
-  callback(null, { 'code': 0, 'data': menu });
+  callback(null, { 'code': 0, 'data': menu, 'userName': req.sessionValue.userName });
 };
 
 

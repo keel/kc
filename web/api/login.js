@@ -14,6 +14,9 @@ const sessionAuth = kc.sessionAuth;
 const vlog = require('vlog').instance(__filename);
 const apiKey = kc.kconfig.get('s$_apiKey');
 const showLevel = 0;
+/**
+ * 用户表会被其他相关引用，修改用户表时可直接修改此变量，以及主入口的userTable
+ */
 const userTable = 'cp';
 
 
@@ -148,3 +151,4 @@ exports.router = function() {
 
   return router;
 };
+exports.userTable = userTable;

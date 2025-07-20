@@ -12,9 +12,12 @@ const path = require('path');
 const fs = require('fs');
 const upload = require('./upload');
 
+const { userTable } = require('./login');
 
 const db = kc.mongo.init();
 
+/** 用户表,需要与login.js的和主入口的userTable保持一致 */
+const tb = userTable;
 
 const adminLevel = 10; //可进行权限配置的level等级
 
@@ -42,8 +45,8 @@ const authMap = function(req, resp, callback) {
     return resp.send('{"code":0}');
   }
   const authMap = kc.auth.getAuthMap();
-  const cp = kc.iCache.getSync('cp:_id:' + req.body.uid);
-  const showUpdate = (kc.auth.auth(req, 'cp/authSave')) ? 1 : 0;
+  const cp = kc.iCache.getSync(tb + ':_id:' + req.body.uid);
+  const showUpdate = (kc.auth.auth(req, tb + '/authSave')) ? 1 : 0;
   if (!cp || !cp.permission) {
     return resp.send(JSON.stringify({ 'code': 0, 'data': authMap, showUpdate }));
   }
@@ -68,7 +71,7 @@ const authSave = function(req, resp, callback) {
     return resp.send('{}');
   }
   const re = { 'code': 0, 'data': '权限保存成功!' };
-  const cp = kc.iCache.getSync('cp:_id:' + req.body.uid);
+  const cp = kc.iCache.getSync(tb + ':_id:' + req.body.uid);
   if (!cp) {
     re.code = 1;
     re.data = '用户不存在';
@@ -93,7 +96,7 @@ const authSave = function(req, resp, callback) {
 
 // ======>注: 除tb,fields字段必填, 其余均为选填
 const prop = {
-  'tb': 'cp', //表名, 必填
+  'tb': tb, //表名, 必填
   'tbName': '账号管理', //表名显示, 不填则为tb
   // 'db': db, //在使用不同数据库时与dbConf共同指定, 一般使用默认mongo即可省略此项配置
   // 'dbConf': dbConfName, //配合db参数使用
@@ -141,7 +144,7 @@ const prop = {
   'onOne': function(req, oneData, callback) {
     oneData.loginPwd = ''; //置空密码不返回
     let paras = null;
-    if (kc.auth.auth(req, 'cp/authMap')) {
+    if (kc.auth.auth(req, tb + '/authMap')) {
       paras = { 'authMap': 1 }; //这里用paras加入参数控制权限配置是否显示
     }
     callback(null, oneData, paras);
@@ -151,7 +154,7 @@ const prop = {
       delete reqData.loginPwd;
       return callback(null, reqData);
     }
-    const oldOne = kc.iCache.getSync('cp:_id:' + reqData._id);
+    const oldOne = kc.iCache.getSync(tb + ':_id:' + reqData._id);
     if (oldOne) {
       //重新根据缓存计算密码
       reqData.loginPwd = mkPwd(reqData.loginPwd, oldOne.createTime);
@@ -174,7 +177,7 @@ const prop = {
     }
   },
 
-  'authPath': 'cp', //权限路径,如不配置则仅按level判定权限(仍然要登录), 若配置则需要登录且登录账号具备此路径权限才可返回数据
+  'authPath': tb, //权限路径,如不配置则仅按level判定权限(仍然要登录), 若配置则需要登录且登录账号具备此路径权限才可返回数据
   //补充的api
   'iiConf': {
     'act': {

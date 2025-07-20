@@ -13,6 +13,9 @@ const kconfig = kc.kconfig;
 const vlog = require('vlog').instance(__filename);
 // const path = require('path');
 
+/** 用户表,需要与web/api/login.js的userTable一致 */
+const userTable = 'cp';
+
 //为方便本地测试, 这里使用测试配置文件替代原default.json
 //[#{comm]
 // kconfig.setDefaultConf('test2.json');
@@ -33,7 +36,7 @@ app.on('dbsInitOK', function(err) {
   }
   const cacheTables = [
     'product#_id,name#{"state":{"$gte":0}}#{}',
-    'cp#_id#{"state":{"$gte":0}}#{}',
+    userTable + '#_id#{"state":{"$gte":0}}#{}',
   ];
   kc.iCache.cacheMake('mem', 'mongo', cacheTables, function(err) {
     // kc.iCache.cacheMakeWithConf('mem', 'mongo', cacheTables, dbConfName, function(err) { //这里使用了非默认mongo配置test2,一般使用cacheMake即可
