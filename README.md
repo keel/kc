@@ -1,6 +1,21 @@
 # KC web系统快速构建工具
 web项目骨架, 集成ktool,vlog工具库,集成express,集成dot模板引擎, 集成对redis、mongodb、mysql的直接使用
 
+TODO:
+* 输入字母走ajax查选项的select2组件待实现;
+* redis和mongodb的新驱动均已改为await方式，暂时支持redis的legacy的client模式, mongodb暂只支持驱动3.x版本;
+* mysql的curd暂未兼容;
+
+v4版本说明:
+* ui彻底纯化, 去除了所有vue,element-ui,以及以前老版本的Bootstrap等ui库,改为纯自主实现的 **jquery+原生js+原生css** 的ui框架;
+* ui同时支持移动端和桌面端自适配;
+* ui支持明暗风格切换;
+* 通过配置rootPath，支持整个项目发布在子路径下;
+* 正常页面的curd移除了原iApi的签名机制，改为正常请求(只有向第3方开放的API才需要签名机制);
+
+
+
+
 v3版本说明:
 为更方便使用, 引入vue2(vue2.6,暂不使用v3版本)和element-ui组合形成基础的单页前端以实现一个基础的管理后台, 使之开箱可用.原dot模板生成页面的逻辑转为可选.
 可能缺失了原来的灵活性(绑定了vue和element-ui), 但使用上更为便捷, 也可以在初始化时控制参数去掉引入前端组件(只使用核心lib部分).
