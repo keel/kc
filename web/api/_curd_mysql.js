@@ -1,5 +1,5 @@
 /*
-curd(mysql版本),默认与vue前端配合,示例见最下方注释
+curd(mysql版本),默认与vue前端配合,示例见最下方注释 ----此版本暂未兼容
 暂未实现dbConf支持多个mysql源
  */
 'use strict';

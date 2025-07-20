@@ -1,5 +1,5 @@
 /*
-curd,默认与vue前端配合,示例见最下方注释
+curd
  */
 'use strict';
 const kc = require('../../lib/kc');

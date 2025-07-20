@@ -1,5 +1,5 @@
 /*
-vue前端使用的sideMenu, 除level在adminLevel及以上的管理员, 其他按permission配置显示菜单, 除"首页"外的菜单项目通过menuArr定义
+前端使用的sideMenu, 除level在adminLevel及以上的管理员, 其他按permission配置显示菜单, 除"首页"外的菜单项目通过menuArr定义
  */
 'use strict';
 const kc = require('../../lib/kc');

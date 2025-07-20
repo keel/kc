@@ -1,6 +1,5 @@
 {
   "test": "dir",
-  "vue": "dir",
   "web/api": "dir",
   "web/tpls": "dir",
   "web/render/index.js": "file",
