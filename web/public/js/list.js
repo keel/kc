@@ -135,11 +135,12 @@ $(document).ready(function() {
       });
     }
 
+
     // 显示弹窗
     AdminUI.popWin.custom({
       id:'addWin',
       title: '新增',
-      content: AdminUI.form.render(null, state.tableSchema, 'add'),
+      content: '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">' + AdminUI.form.render(null, state.tableSchema, 'add') + '</div>',
       buttons: [
         { text: '取消', className: '' ,onClick:function(){
           AdminUI.popWin.close();

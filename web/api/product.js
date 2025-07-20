@@ -170,10 +170,6 @@ const prop = {
   'curdLevel': [0, 0, 0, 0, 9], //level级别的权限, 默认均为0, 数组依次为:c,u,r,d,m(审批权限,暂无用)
   // 'listAllState':false, //是否在list中显示所有state，默认为false, 只显示state>=0的对象
 
-  //以下参数用于mkCurdVue使用
-  'listSlot': '',
-  'oneSlot': '',
-  'addSlot': '',
   'downCsv': true, //是否支持CSV导出
   'inputTime': true, //是否支持createTime查询
 };

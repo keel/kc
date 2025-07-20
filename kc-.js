@@ -19,6 +19,7 @@ const vlog = require('vlog').instance(__filename);
 // kconfig.reInit(true);
 //[#}comm]
 
+
 //生成项目express主进程
 const app = kc.createApp(__dirname);
 // const app = kc.createApp(__dirname, pageMiddleWare);
@@ -35,7 +36,7 @@ app.on('dbsInitOK', function(err) {
     'cp#_id#{"state":{"$gte":0}}#{}',
   ];
   kc.iCache.cacheMake('mem', 'mongo', cacheTables, function(err) {
-  // kc.iCache.cacheMakeWithConf('mem', 'mongo', cacheTables, dbConfName, function(err) { //这里使用了非默认mongo配置test2,一般使用cacheMake即可
+    // kc.iCache.cacheMakeWithConf('mem', 'mongo', cacheTables, dbConfName, function(err) { //这里使用了非默认mongo配置test2,一般使用cacheMake即可
     if (err) {
       vlog.eo(err, 'cacheMake', cacheTables);
       return;

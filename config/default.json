@@ -14,8 +14,6 @@
     "isFirst":false,
     "loginName":"admin",
     "loginPwd":"helloFirst",
-    "name":"初始用户",
-    "state":0,
     "level":10,
     "_id":0
   },
@@ -30,6 +28,7 @@
     "s$_mongoUrl": "mongodb://user:pwd@127.0.0.1:27017/lysms"
   },
   "isTest": true,
+  "rootPath": "",
   "uploadDir":"../../uploads/",
   "startPort": 15001
 }

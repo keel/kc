@@ -28,6 +28,7 @@
     "s$_mongoDbName": "[#projectName]",
     "s$_mongoUrl": "mongodb://user:pwd@127.0.0.1:27017/[#projectName]"
   },
+  "rootPath": "",
   "uploadDir":"../../uploads/",
   "startPort": [#port]
 }

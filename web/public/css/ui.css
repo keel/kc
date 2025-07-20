@@ -338,10 +338,6 @@ a:hover {
     overflow-y: auto;
 }
 
-.ui-popwin-content .ui-input {
-    margin-top: 10px;
-}
-
 .ui-popwin-footer {
     padding: 12px 20px;
     text-align: right;

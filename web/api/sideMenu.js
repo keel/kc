@@ -11,13 +11,18 @@ const error = require('../../lib/error');
 const adminLevel = 10;
 const isTest = true;
 
+
+const rootPath = kc.kconfig.get('rootPath') || '';
+
 const homeLink = { 'name': '首页', 'link': '/main', 'icon': 'home' };
 const logoutLink = { 'name': '退出系统', 'link': '/logout', 'icon': 'exit' };
-const menuArr = [{
+const menuArr = [ //
+  {
     'name': '项目',
     'link': '/proj_p',
     'icon': 'project',
-    'subs': [{
+    'subs': [ //
+      {
         'name': '项目列表',
         'link': '/proj_p',
         'subs': [
@@ -53,7 +58,12 @@ const addByPermission = function(navArr, subs, permission) {
     const one = subs[i];
     const path = one.link.substring(1);
     if (permission[path + '/list'] || permission[path]) {
-      navArr.push(one);
+      if (rootPath) { //rootPath加入link再返回
+        const rootOne = { 'name': one.name, 'icon': one.icon, 'link': rootPath + one.link };
+        navArr.push(rootOne);
+      } else {
+        navArr.push(one);
+      }
       if (one.subs) {
         const tmpArr = [];
         addByPermission(tmpArr, one.subs, permission);
@@ -64,11 +74,16 @@ const addByPermission = function(navArr, subs, permission) {
 };
 
 
+if (rootPath) {
+  homeLink.link = rootPath + homeLink.link;
+  logoutLink.link = rootPath + logoutLink.link;
+}
 
 const showMenu = function(req, resp, callback) {
 
   const userLv = (req.userLevel === undefined) ? -1 : req.userLevel;
   const menu = [];
+
   if (userLv >= 0 || isTest) {
     menu.push(homeLink);
   }
