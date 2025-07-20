@@ -52,7 +52,6 @@
 
       // 初始化按钮点击事件，监听带 data-loading-text 属性的按钮
       $(document).on('click', '.ui-button[data-loading-text]', function() {
-        console.log('====');
         var $button = $(this);
         if (!$button.hasClass('loading')) {
           // 保存原始文本
@@ -244,7 +243,7 @@
 
   // --- 模块: Dropdown ---
   AdminUI.dropdown = {
-    isInited:false,
+    isInited: false,
     init: function() {
       if (this.isInited) {
         return;
@@ -1128,9 +1127,15 @@
           }
         }
         var prop = field.prop;
-        var value = data[prop] || field.default;
-        if (value === undefined || value === null || formType === 'search') {
-          value = '';
+        var value = data[prop];
+        if (value === undefined || value === null) {
+          if (formType === 'search') {
+            value = '';
+          } else if (field.default !== undefined) {
+            value = field.default;
+          } else {
+            value = '';
+          }
         }
         var label = field.label || prop;
         var inputConfig = field.input || { type: 'text' };
@@ -1145,6 +1150,8 @@
           if (inputConfig.type === 'select' || inputConfig.type === 'radio') {
             var selectedOpt = inputConfig.options.find(o => o.val == value);
             staticValueText = selectedOpt ? selectedOpt.key : value;
+          } else if (inputConfig.type === 'pwd') {
+            staticValueText = '******';
           }
           formHtml += `<p id="static-${prop}" class="form-control-static">${staticValueText}</p>`;
         }
@@ -1186,6 +1193,10 @@
 
           case 'rmb':
             formHtml += `<input type="number" id="${prop}" class="ui-input" step="0.01" min="0" value="${value}">`;
+            break;
+
+          case 'pwd':
+            formHtml += `<input type="password" id="${prop}" class="ui-input" value="${value}">`;
             break;
 
           case 'int':
@@ -1250,7 +1261,9 @@
             }
           }
         }
-        values[prop] = v;
+        if (v !== undefined && !Number.isNaN(v)) {
+          values[prop] = v;
+        }
       });
       return values;
     }

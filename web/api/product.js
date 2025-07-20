@@ -8,7 +8,7 @@ const render = kc.render();
 // const Pinyin = kc.pinyin; //引入拼音首字母便于快速检索
 const vlog = require('vlog').instance(__filename);
 const curd = require('./_curd');
-
+const { userTable } = require('./login');
 const db = kc.mongo.init();
 
 
@@ -154,7 +154,7 @@ const prop = {
   'onOne': function(req, oneData, callback) {
     oneData.loginPwd = ''; //置空密码不返回
     const paras = {};
-    if (kc.auth.auth(req, 'cp/authMap')) {
+    if (kc.auth.auth(req, userTable + '/authMap')) {
       paras.authMap = 1; //这里可用paras加入参数控制某个权限是否显示
     }
     paras.area = [{ 'name': '江苏', 'val': 'js' }, { 'name': '广东', 'val': 'gd' }, { 'name': '上海', 'val': 'sh' }]; // 这里实现area多选列表项目
@@ -225,7 +225,7 @@ exports.router = function() {
     resp.send(render.detail({ 'rootPath': '../', 'tb': prop.tb, 'id': req.params.id, 'tbName': prop.tbName }));
   });
   ci.router.get('*', function(req, resp, next) { // eslint-disable-line
-    // console.log('userName====>',req.sessionValue.userName);
+    // console.log('userName====>',req);
     resp.send(render.list({ 'tb': prop.tb, 'tbName': prop.tbName }));
   });
   return ci.router;

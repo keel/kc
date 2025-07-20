@@ -78,6 +78,9 @@ $(document).ready(function() {
       AdminUI.toast('拉取数据错误', 'danger');
       return;
     }
+    if (re.showUpdate) {
+      $('#btn-save').show();
+    }
     const treeData = convertAuthMapToTree(re.data);
     AdminUI.tree.init('#permission-tree', treeData, {
       checkable: true,

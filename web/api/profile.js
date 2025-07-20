@@ -27,7 +27,7 @@ const update = function(req, resp, callback) {
     delete updateSet['$set']['level']; //level不可修改
     delete updateSet['$set']['state']; //state不可修改
     //密码使用sha1保存
-    const loginPwd = req.body.loginPwd.trim();
+    const loginPwd = (req.body.loginPwd) ? req.body.loginPwd.trim() : null;
     if (loginPwd) {
       const newLoginPwd = ktool.sha1(loginPwd + ',' + re.createTime);
       updateSet['$set']['loginPwd'] = newLoginPwd;
@@ -38,7 +38,7 @@ const update = function(req, resp, callback) {
       if (err) {
         return callback(vlog.ee(err, 'updateProfile'));
       }
-      callback(null, { 're': '0' });
+      callback(null, { 'code': 0 });
     });
   });
 };

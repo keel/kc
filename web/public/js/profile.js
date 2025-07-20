@@ -2,7 +2,7 @@
 $(document).ready(function() {
   var originalUserData = null;
   var $form = $('#detail-form');
-  var schema = [{'prop':'name','label':'用户名'},{'prop':'loginName','label':'登录名'},{'prop':'loginPwd','label':'密码'},{'prop':'level','label':'等级','type':'int'},{'prop':'state','label':'状态','type':'int'}];
+  var schema = [{'prop':'name','label':'用户名'},{'prop':'loginName','label':'登录名'},{'prop':'loginPwd','label':'密码','input':{'type':'pwd'}},{'prop':'level','label':'等级','input':{'type':'int'}},{'prop':'state','label':'状态','input':{'type':'int'}}];
 
   var tb = 'profile';
 
@@ -82,7 +82,6 @@ $(document).ready(function() {
   $('#btn-save').on('click', function() {
     if (validateForm()) {
       var updatedData = AdminUI.form.getValues('#detail-form', schema);
-      updatedData._id = id;
       // 更新 '原始' 数据以备下次取消
       originalUserData = updatedData;
 

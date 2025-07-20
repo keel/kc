@@ -1,5 +1,8 @@
 /*
 CURD配置典型示例,账号管理
+
+注意用户权限保存依赖于redis对用户表的全缓存,所以需要开启redis和mongodb的自动启动为true，并将cp表启动时载入cacheTables!!!
+
  */
 'use strict';
 const ktool = require('ktool');
@@ -71,12 +74,12 @@ const authSave = function(req, resp, callback) {
     return resp.send('{}');
   }
   const re = { 'code': 0, 'data': '权限保存成功!' };
-  const cp = kc.iCache.getSync(tb + ':_id:' + req.body.uid);
-  if (!cp) {
-    re.code = 1;
-    re.data = '用户不存在';
-    return resp.send(re);
-  }
+  // const cp = kc.iCache.getSync(tb + ':_id:' + req.body.uid);
+  // if (!cp) {
+  //   re.code = 1;
+  //   re.data = '用户不存在';
+  //   return resp.send(re);
+  // }
   const data = req.body.data;
   const permission = {};
   for (let i = 0, len = data.length; i < len; i++) {

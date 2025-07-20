@@ -20,4 +20,5 @@
     </div>
   </div>
 </div>
-{{#def.footer:{rootPath:it.rootPath || '',link:it.link,scripts:'<script src="'+(it.rootPath || '')+'js/profile.js"></script>'} }}
+<input type="hidden" id="tbid" value="{{=it.kc_userId}}" />
+{{#def.footer:{rootPath:it.rootPath || '',link:'profile',scripts:'<script src="'+(it.rootPath || '')+'js/profile.js"></script>'} }}
