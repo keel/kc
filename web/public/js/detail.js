@@ -6,7 +6,7 @@ $(document).ready(function() {
 
   var id = $('#tbid').val();
   var tb = $('#tb').val();
-  console.log('id', id, 'tb', tb);
+  var rootPath = $('#rootPath').val() || '';
 
   function setMode(mode) {
     if (mode === 'edit') {
@@ -59,7 +59,7 @@ $(document).ready(function() {
 
 
 
-  window.kc.jPost('../' + tb + '/one', { 'id': id }, function(err, re) {
+  window.kc.jPost(rootPath + tb + '/one', { 'id': id }, function(err, re) {
     if (err) {
       console.error(err);
       return;
@@ -81,8 +81,7 @@ $(document).ready(function() {
   });
 
   // --- 事件绑定 ---
-
-  $('#btn-back').on('click', () => window.location.href = '../' + tb);
+  $('#btn-back').on('click', () => window.location.href = rootPath + tb);
   $('#btn-modify').on('click', () => setMode('edit'));
 
   $('#btn-cancel').on('click', function() {
@@ -92,7 +91,7 @@ $(document).ready(function() {
   });
   $('#btn-del').on('click', function() {
     AdminUI.popWin.confirm('确认要删除吗?', () => {
-      window.kc.jPost('../' + tb + '/del', { 'id': id }, function(err, re) {
+      window.kc.jPost(rootPath + tb + '/del', { 'id': id }, function(err, re) {
         if (err) {
           console.error(err);
           return;
@@ -117,7 +116,7 @@ $(document).ready(function() {
       // 更新 '原始' 数据以备下次取消
       originalUserData = updatedData;
 
-      window.kc.jPost('../' + tb + '/update', updatedData, function(err, re) {
+      window.kc.jPost(rootPath + tb + '/update', updatedData, function(err, re) {
         if (err) {
           console.error(err);
           return;

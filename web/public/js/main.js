@@ -74,8 +74,15 @@ $(document).ready(function() {
     accept: 'image/*',
     maxSize: 5 * 1024 * 1024, // 5MB
     onSuccess: function(response) {
+      if (response.indexOf('{"code":-') >= 0) {
+        console.error('上传失败', response);
+        AdminUI.toast('上传失败', 'danger');
+        return;
+      }
+      imgUrl = response;
       console.log('上传成功', response);
       AdminUI.toast('文件上传成功', 'success');
+      $('#upload-area').html('<div><img src="' + imgUrl + '" style="height:180px;" /></div>');
     },
     onError: function(error) {
       console.error('上传失败', error);

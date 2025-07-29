@@ -1,5 +1,5 @@
 // 使用IIFE（立即调用函数表达式）来创建私有作用域
-(function($) {
+(function ($) {
   // 严格模式
   'use strict';
 
@@ -22,7 +22,11 @@
     product: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M9 9h6v6H9z"></path></svg>',
     project: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>',
     upload: '<svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>',
-    create: function(iconName, target, isHide) {
+    shop: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2"></path><path d="M2 6l3-3h14l3 3v12"></path><path d="M7 18h10"></path></svg>',
+    tag: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><path d="M7 7h.01"></path></svg>',
+    image: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>',
+    video: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-9 5 9 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>',
+    create: function (iconName, target, isHide) {
       var icon = $(AdminUI.icons[iconName] || '');
       $(target).append(icon);
       if (isHide) {
@@ -39,19 +43,19 @@
   // --- 模块: 主题切换 ---
   AdminUI.theme = {
     theme: 'light',
-    init: function() {
+    init: function () {
       var self = this;
       var theme = localStorage.getItem('admin-theme') || 'light';
       self.set(theme);
 
-      $(document).on('click', '#theme-toggle', function() {
+      $(document).on('click', '#theme-toggle', function () {
         var currentTheme = $('html').attr('data-theme');
         var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         self.set(newTheme);
       });
 
       // 初始化按钮点击事件，监听带 data-loading-text 属性的按钮
-      $(document).on('click', '.ui-button[data-loading-text]', function() {
+      $(document).on('click', '.ui-button[data-loading-text]', function () {
         var $button = $(this);
         if (!$button.hasClass('loading')) {
           // 保存原始文本
@@ -75,7 +79,7 @@
         $('#theme-toggle .icon-moon').show();
       }
     },
-    set: function(theme) {
+    set: function (theme) {
       $('html').attr('data-theme', theme);
       localStorage.setItem('admin-theme', theme);
       this.theme = theme;
@@ -84,7 +88,7 @@
   };
 
   // --- 模块: Toast ---
-  AdminUI.toast = function(message, type, duration) {
+  AdminUI.toast = function (message, type, duration) {
     if (!$('#ui-toast-container').length) {
       $('body').append('<div id="ui-toast-container"></div>');
     }
@@ -94,8 +98,8 @@
 
     $('#ui-toast-container').append($toast);
 
-    setTimeout(function() {
-      $toast.fadeOut(500, function() {
+    setTimeout(function () {
+      $toast.fadeOut(500, function () {
         $(this).remove();
       });
     }, duration);
@@ -103,7 +107,7 @@
 
 
   // 添加一个方法用于移除 loading 状态
-  AdminUI.removeLoading = function(buttonSelector) {
+  AdminUI.removeLoading = function (buttonSelector) {
     var $button = $(buttonSelector);
     if ($button.hasClass('loading')) {
       // 恢复原始文本
@@ -117,7 +121,7 @@
   // --- 模块: PopWin ---
   AdminUI.popWin = {
     _stack: [],
-    _show: function(options) {
+    _show: function (options) {
       var self = this;
       var zIndex = 100 + self._stack.length * 2;
 
@@ -150,8 +154,8 @@
 
       // 绑定按钮事件
       if (options.buttons && options.buttons.length > 0) {
-        $popWin.find('.ui-popwin-footer .ui-button').each(function(index) {
-          $(this).on('click', function() {
+        $popWin.find('.ui-popwin-footer .ui-button').each(function (index) {
+          $(this).on('click', function () {
             if (options.buttons[index].onClick) {
               var close = options.buttons[index].onClick.call($popWin, $popWin);
               if (close !== false) {
@@ -166,7 +170,7 @@
 
       // 点击背景关闭弹窗控制
       if (options.closeOnBackdrop !== false) {
-        $popWin.on('click', function(e) {
+        $popWin.on('click', function (e) {
           if ($(e.target).hasClass('ui-popwin-backdrop')) {
             self.close();
           }
@@ -176,7 +180,7 @@
       AdminUI.update();
     },
     // 新增自定义内容方法
-    custom: function(options) {
+    custom: function (options) {
       var defaults = {
         title: '',
         content: '',
@@ -186,7 +190,7 @@
       var settings = $.extend({}, defaults, options);
       this._show(settings);
     },
-    close: function() {
+    close: function () {
       var $popWin = this._stack.pop();
       if ($popWin) {
         $popWin.remove();
@@ -195,7 +199,7 @@
         $('body').css('overflow', this._bodyOverflow);
       }
     },
-    alert: function(content, title) {
+    alert: function (content, title) {
       title = title || '提示';
       this._show({
         title: title,
@@ -204,7 +208,7 @@
         closeOnBackdrop: true
       });
     },
-    confirm: function(content, onConfirm, title, onCancel) {
+    confirm: function (content, onConfirm, title, onCancel) {
       title = title || '确认';
       this._show({
         title: title,
@@ -216,7 +220,7 @@
         closeOnBackdrop: true
       });
     },
-    prompt: function(content, onConfirm, title, defaultValue) {
+    prompt: function (content, onConfirm, title, defaultValue) {
       title = title || '请输入';
       defaultValue = defaultValue || '';
       var promptContent = content + '<input type="text" class="ui-input" value="' + defaultValue + '">';
@@ -228,7 +232,7 @@
           {
             text: '确定',
             className: 'primary',
-            onClick: function($win) {
+            onClick: function ($win) {
               var value = $win.find('.ui-input').val();
               if (onConfirm) {
                 onConfirm(value);
@@ -244,12 +248,12 @@
   // --- 模块: Dropdown ---
   AdminUI.dropdown = {
     isInited: false,
-    init: function() {
+    init: function () {
       if (this.isInited) {
         return;
       }
       this.isInited = true;
-      $(document).on('click', '.ui-dropdown-toggle', function(e) {
+      $(document).on('click', '.ui-dropdown-toggle', function (e) {
         e.preventDefault();
         e.stopPropagation();
         var $dropdown = $(this).closest('.ui-dropdown');
@@ -257,11 +261,11 @@
         $dropdown.find('.ui-dropdown-menu').toggle();
       });
 
-      $(document).on('click', function() {
+      $(document).on('click', function () {
         $('.ui-dropdown-menu').hide();
       });
 
-      $(document).on('click', '.ui-dropdown-menu', function(e) {
+      $(document).on('click', '.ui-dropdown-menu', function (e) {
         e.stopPropagation();
       });
     }
@@ -269,7 +273,7 @@
 
   // --- 模块: 左侧菜单 ---
   AdminUI.menu = {
-    _hasActiveChild: function(item) {
+    _hasActiveChild: function (item) {
       if (!item.subs) return false;
 
       for (var i = 0; i < item.subs.length; i++) {
@@ -280,7 +284,7 @@
       }
       return false;
     },
-    build: function(items, isSubmenu) {
+    build: function (items, isSubmenu) {
       var menuHtml = isSubmenu ? '<ul class="submenu">' : '';
       for (var i = 0; i < items.length; i++) {
         var item = items[i];
@@ -310,9 +314,9 @@
       menuHtml += isSubmenu ? '</ul>' : '';
       return menuHtml;
     },
-    init: function() {
+    init: function () {
       // 菜单项点击
-      $('#admin-sidebar .ui-menu').on('click', 'a', function(e) {
+      $('#admin-sidebar .ui-menu').on('click', 'a', function (e) {
         var $li = $(this).parent('li');
         if ($li.children('.submenu').length) {
           e.preventDefault();
@@ -325,7 +329,7 @@
           // 使用 stop() 确保动画队列被清除
           $li.children('.submenu').stop(true, true).slideToggle(
             200,
-            function() {
+            function () {
               // 确保动画完成后才切换类
               $li.toggleClass('open', $(this).is(':visible'));
             }
@@ -334,7 +338,7 @@
       });
 
       // 菜单伸缩
-      $('#menu-toggle').on('click', function() {
+      $('#menu-toggle').on('click', function () {
         if ($(window).width() > 768) { // PC端
           $('#admin-layout').toggleClass('menu-icon-only');
         } else { // 移动端
@@ -343,7 +347,7 @@
       });
 
       // 点击遮罩层关闭移动端菜单
-      $(document).on('click', function(e) {
+      $(document).on('click', function (e) {
         if ($(window).width() <= 768 && $('#admin-layout').hasClass('menu-mobile-show')) {
           if (!$(e.target).closest('#admin-sidebar').length && !$(e.target).closest('#menu-toggle').length) {
             $('#admin-layout').removeClass('menu-mobile-show');
@@ -355,7 +359,7 @@
 
   // --- 模块: 加载状态 ---
   AdminUI.loading = {
-    show: function(selector) {
+    show: function (selector) {
       var $container = $(selector);
       if (!$container.length) return;
       $container.addClass('ui-loading-container');
@@ -367,7 +371,7 @@
         );
       }
     },
-    hide: function(selector) {
+    hide: function (selector) {
       $(selector).find('.ui-loading-overlay').remove();
       $(selector).removeClass('ui-loading-container');
     }
@@ -377,10 +381,10 @@
   AdminUI.datePicker = {
     _currentPicker: null, // 用于跟踪当前打开的日历
     $input: null,
-    init: function() {
+    init: function () {
       var self = this;
       // 自动为带有 data-ui-datepicker 的输入框添加功能
-      $('input[data-ui-datepicker]').each(function() {
+      $('input[data-ui-datepicker]').each(function () {
         var $input = $(this);
         // 包装输入框以放置图标
         if (!$input.parent().hasClass('ui-datepicker-input-container')) {
@@ -388,7 +392,7 @@
           $input.after('<i class="icon">' + AdminUI.icons.calendar + '</i>');
         }
 
-        $input.on('click', function(e) {
+        $input.on('click', function (e) {
           e.stopPropagation();
           self.show(this);
         });
@@ -396,13 +400,13 @@
       });
 
       // 点击页面其他地方关闭日历
-      $(document).on('click', function() {
+      $(document).on('click', function () {
         if (self._currentPicker) {
           self.hide();
         }
       });
     },
-    show: function(input) {
+    show: function (input) {
       var self = this;
       self.hide(); // 先关闭其他可能打开的
 
@@ -428,34 +432,34 @@
 
       self.$input = $input;
 
-      $picker.on('click', function(e) { e.stopPropagation(); }); // 防止点击日历自身时关闭
+      $picker.on('click', function (e) { e.stopPropagation(); }); // 防止点击日历自身时关闭
 
       // 绑定事件
       self._bindEvents($picker, year, month);
 
       $picker.show();
     },
-    hide: function() {
+    hide: function () {
       if (this._currentPicker) {
         this._currentPicker.remove();
         this._currentPicker = null;
       }
     },
-    _bindEvents: function($picker, year, month) {
+    _bindEvents: function ($picker, year, month) {
       var self = this;
 
       // --- 年份导航 ---
-      $picker.find('.prev-year').on('click', function() {
+      $picker.find('.prev-year').on('click', function () {
         year--;
         self._update($picker, year, month);
       });
-      $picker.find('.next-year').on('click', function() {
+      $picker.find('.next-year').on('click', function () {
         year++;
         self._update($picker, year, month);
       });
 
       // --- 月份导航 ---
-      $picker.find('.prev-month').on('click', function() {
+      $picker.find('.prev-month').on('click', function () {
         month--;
         if (month < 0) {
           month = 11;
@@ -463,7 +467,7 @@
         }
         self._update($picker, year, month);
       });
-      $picker.find('.next-month').on('click', function() {
+      $picker.find('.next-month').on('click', function () {
         month++;
         if (month > 11) {
           month = 0;
@@ -473,7 +477,7 @@
       });
 
       // --- 日期选择 ---
-      $picker.find('.ui-datepicker-day:not(.other-month, .disabled)').on('click', function() {
+      $picker.find('.ui-datepicker-day:not(.other-month, .disabled)').on('click', function () {
         var day = $(this).text();
         var selectedDate = new Date(year, month, day);
         var yyyy = selectedDate.getFullYear();
@@ -483,14 +487,14 @@
         self.hide();
       });
     },
-    _update: function($picker, year, month) {
+    _update: function ($picker, year, month) {
       var self = this;
       var newContent = $(self._createHTML(year, month)).html();
       $picker.html(newContent);
       // 需要重新绑定事件
       self._bindEvents($picker, year, month);
     },
-    _createHTML: function(year, month) {
+    _createHTML: function (year, month) {
       var today = new Date();
       var firstDay = new Date(year, month, 1);
       var lastDay = new Date(year, month + 1, 0);
@@ -544,29 +548,29 @@
     rightYear: null,
     rightMonth: null,
 
-    init: function() {
+    init: function () {
       var self = this;
       // 自动为带有 data-ui-daterangepicker 的输入框添加功能
-      $('input[data-ui-daterangepicker]').each(function() {
+      $('input[data-ui-daterangepicker]').each(function () {
         var $input = $(this);
         if (!$input.parent().hasClass('ui-datepicker-input-container')) {
           $input.wrap('<div class="ui-datepicker-input-container"></div>');
           $input.after('<i class="icon">' + AdminUI.icons.calendar + '</i>');
         }
-        $input.on('click', function(e) {
+        $input.on('click', function (e) {
           e.stopPropagation();
           self.show(this);
         });
       });
 
-      $(document).on('click', function() {
+      $(document).on('click', function () {
         if (self._currentPicker) {
           self.hide();
         }
       });
     },
 
-    show: function(input) {
+    show: function (input) {
       var self = this;
       self.hide();
 
@@ -617,21 +621,21 @@
         left: left
       }).show();
 
-      $picker.on('click', function(e) { e.stopPropagation(); });
+      $picker.on('click', function (e) { e.stopPropagation(); });
 
       self._bindEvents();
       self._applyDateClasses();
       self._updateNavButtons(); // 初始时更新按钮状态
     },
 
-    hide: function() {
+    hide: function () {
       if (this._currentPicker) {
         this._currentPicker.remove();
         this._currentPicker = null;
       }
     },
 
-    _update: function() {
+    _update: function () {
       var newContent = $(this._createHTML()).html();
       this._currentPicker.html(newContent);
       this._bindEvents();
@@ -639,12 +643,12 @@
       this._updateNavButtons(); // 每次更新后都要检查导航按钮状态
     },
 
-    _createCalendarHTML: function(year, month) {
+    _createCalendarHTML: function (year, month) {
       // 复用单日历的HTML生成逻辑，但不包含外层容器
       return $(AdminUI.datePicker._createHTML(year, month)).html();
     },
 
-    _createHTML: function() {
+    _createHTML: function () {
       // 直接使用左右日历的状态，不再动态计算右侧
       return `
             <div class="ui-daterangepicker-container">
@@ -663,7 +667,7 @@
             </div>`;
     },
 
-    _updateNavButtons: function() {
+    _updateNavButtons: function () {
       var self = this;
       var $picker = self._currentPicker;
 
@@ -692,13 +696,13 @@
       }
     },
 
-    _bindEvents: function() {
+    _bindEvents: function () {
       var self = this;
       var $picker = self._currentPicker;
 
       // --- 独立导航事件 ---
       // 左侧日历
-      $picker.find('.left .prev-month').on('click', function() {
+      $picker.find('.left .prev-month').on('click', function () {
         self.leftMonth--;
         if (self.leftMonth < 0) {
           self.leftMonth = 11;
@@ -706,7 +710,7 @@
         }
         self._update();
       });
-      $picker.find('.left .next-month').on('click', function() {
+      $picker.find('.left .next-month').on('click', function () {
         if ($(this).hasClass('disabled')) return;
         self.leftMonth++;
         if (self.leftMonth > 11) {
@@ -715,18 +719,18 @@
         }
         self._update();
       });
-      $picker.find('.left .prev-year').on('click', function() {
+      $picker.find('.left .prev-year').on('click', function () {
         self.leftYear--;
         self._update();
       });
-      $picker.find('.left .next-year').on('click', function() {
+      $picker.find('.left .next-year').on('click', function () {
         if ($(this).hasClass('disabled')) return;
         self.leftYear++;
         self._update();
       });
 
       // 右侧日历
-      $picker.find('.right .prev-month').on('click', function() {
+      $picker.find('.right .prev-month').on('click', function () {
         if ($(this).hasClass('disabled')) return;
         self.rightMonth--;
         if (self.rightMonth < 0) {
@@ -735,7 +739,7 @@
         }
         self._update();
       });
-      $picker.find('.right .next-month').on('click', function() {
+      $picker.find('.right .next-month').on('click', function () {
         self.rightMonth++;
         if (self.rightMonth > 11) {
           self.rightMonth = 0;
@@ -743,18 +747,18 @@
         }
         self._update();
       });
-      $picker.find('.right .prev-year').on('click', function() {
+      $picker.find('.right .prev-year').on('click', function () {
         if ($(this).hasClass('disabled')) return;
         self.rightYear--;
         self._update();
       });
-      $picker.find('.right .next-year').on('click', function() {
+      $picker.find('.right .next-year').on('click', function () {
         self.rightYear++;
         self._update();
       });
 
       // --- 日期点击事件 (逻辑不变) ---
-      $picker.find('.ui-datepicker-day:not(.other-month, .disabled)').on('click', function() {
+      $picker.find('.ui-datepicker-day:not(.other-month, .disabled)').on('click', function () {
         var $day = $(this);
         var year = $day.closest('.ui-datepicker-container').find('.month-year').text().match(/(\d{4})年/)[1];
         var month = $day.closest('.ui-datepicker-container').find('.month-year').text().match(/(\d{1,2})月/)[1] - 1;
@@ -773,7 +777,7 @@
       });
 
       // --- 悬停事件 (逻辑不变) ---
-      $picker.find('.ui-datepicker-day:not(.other-month, .disabled)').on('mouseenter', function() {
+      $picker.find('.ui-datepicker-day:not(.other-month, .disabled)').on('mouseenter', function () {
         if (!self.startDate || self.endDate) return;
         $picker.find('.in-hover-range').removeClass('in-hover-range');
 
@@ -785,20 +789,20 @@
 
         if (hoverDate < self.startDate) return;
 
-        $picker.find('.ui-datepicker-day:not(.other-month, .disabled)').each(function() {
+        $picker.find('.ui-datepicker-day:not(.other-month, .disabled)').each(function () {
           var d = new Date($(this).data('date'));
           if (d > self.startDate && d < hoverDate) {
             $(this).addClass('in-hover-range');
           }
         });
       });
-      $picker.find('.ui-daterangepicker-calendars').on('mouseleave', function() {
+      $picker.find('.ui-daterangepicker-calendars').on('mouseleave', function () {
         $picker.find('.in-hover-range').removeClass('in-hover-range');
       });
 
 
       // --- 底部按钮事件 (逻辑不变) ---
-      $picker.find('.confirm-btn').on('click', function() {
+      $picker.find('.confirm-btn').on('click', function () {
         if (self.startDate && self.endDate) {
           var yyyy1 = self.startDate.getFullYear();
           var mm1 = ('0' + (self.startDate.getMonth() + 1)).slice(-2);
@@ -814,12 +818,12 @@
           AdminUI.toast('请选择一个完整的日期范围');
         }
       });
-      $picker.find('.cancel-btn').on('click', function() {
+      $picker.find('.cancel-btn').on('click', function () {
         self.hide();
       });
     },
 
-    _applyDateClasses: function() {
+    _applyDateClasses: function () {
       var self = this;
       self._currentPicker.find('.range-start, .range-end, .in-range').removeClass('range-start range-end in-range');
 
@@ -828,7 +832,7 @@
       var startMs = self.startDate.setHours(0, 0, 0, 0);
       var endMs = self.endDate ? self.endDate.setHours(0, 0, 0, 0) : null;
 
-      self._currentPicker.find('.ui-datepicker-day:not(.other-month)').each(function() {
+      self._currentPicker.find('.ui-datepicker-day:not(.other-month)').each(function () {
         var $day = $(this);
         var year = $day.closest('.ui-datepicker-container').find('.month-year').text().match(/(\d{4})年/)[1];
         var month = $day.closest('.ui-datepicker-container').find('.month-year').text().match(/(\d{1,2})月/)[1] - 1;
@@ -854,7 +858,7 @@
   };
   // --- 模块: Tree ---
   AdminUI.tree = {
-    init: function(selector, data, options) {
+    init: function (selector, data, options) {
       var $container = $(selector);
       if (!$container.length) return;
 
@@ -873,7 +877,7 @@
       this._bindEvents($container, options);
     },
 
-    _buildHTML: function(nodes, options) {
+    _buildHTML: function (nodes, options) {
       var html = '';
       var self = this;
 
@@ -903,9 +907,9 @@
       return html;
     },
 
-    _setInitialState: function($container) {
+    _setInitialState: function ($container) {
       var self = this;
-      $container.find('ul').get().reverse().forEach(function(ul) {
+      $container.find('ul').get().reverse().forEach(function (ul) {
         var $parentLi = $(ul).closest('.ui-tree-item');
         if ($parentLi.length) {
           self._updateParentState($parentLi);
@@ -913,7 +917,7 @@
       });
     },
 
-    _updateParentState: function($parentLi) {
+    _updateParentState: function ($parentLi) {
       if (!$parentLi || !$parentLi.length) return;
 
       var $parentCheckbox = $parentLi.find('> .ui-tree-content .ui-tree-checkbox');
@@ -926,7 +930,7 @@
       var checkedCount = 0;
       var indeterminateCount = 0;
 
-      $childrenCheckboxes.each(function() {
+      $childrenCheckboxes.each(function () {
         if ($(this).prop('checked')) {
           checkedCount++;
         } else if ($(this).closest('.ui-checkbox').hasClass('indeterminate')) {
@@ -946,23 +950,23 @@
       }
     },
 
-    _bindEvents: function($container, options) {
+    _bindEvents: function ($container, options) {
       var self = this;
 
-      $container.on('click', '.ui-tree-toggler', function(e) {
+      $container.on('click', '.ui-tree-toggler', function (e) {
         e.stopPropagation();
         var $li = $(this).closest('.ui-tree-item');
-        $li.children('ul').stop(true, true).slideToggle(10, function() {
+        $li.children('ul').stop(true, true).slideToggle(10, function () {
           $li.toggleClass('collapsed');
         });
       });
 
-      $container.on('click', '.ui-tree-label', function(e) {
+      $container.on('click', '.ui-tree-label', function (e) {
         $(this).siblings('.ui-tree-toggler').trigger('click');
       });
 
       if (options.checkable && options.cascadeCheck) {
-        $container.on('change', '.ui-tree-checkbox', function() {
+        $container.on('change', '.ui-tree-checkbox', function () {
           var $this = $(this);
           var $label = $this.closest('.ui-checkbox');
           var isChecked = $this.prop('checked');
@@ -978,25 +982,25 @@
           $childrenCheckboxes.prop('checked', isChecked);
           $childrenCheckboxes.closest('.ui-checkbox').removeClass('indeterminate');
 
-          $currentItem.parents('.ui-tree-item').each(function() {
+          $currentItem.parents('.ui-tree-item').each(function () {
             self._updateParentState($(this));
           });
         });
       }
     },
 
-    getCheckedValues: function(selector) {
+    getCheckedValues: function (selector) {
       var values = [];
-      $(selector).find('.ui-tree-checkbox:checked').each(function() {
+      $(selector).find('.ui-tree-checkbox:checked').each(function () {
         values.push($(this).val());
       });
       return values;
     },
-    getChecked: function(selector) {
+    getChecked: function (selector) {
       var self = this;
       var checkedItems = [];
 
-      $(selector).find('.ui-tree-checkbox:checked').each(function() {
+      $(selector).find('.ui-tree-checkbox:checked').each(function () {
         var $checkbox = $(this);
         var $item = $checkbox.closest('.ui-tree-item');
         var path = self._getItemPath($item);
@@ -1004,7 +1008,7 @@
       });
       return checkedItems;
     },
-    _getItemPath: function($item) {
+    _getItemPath: function ($item) {
       var path = [];
       var $current = $item;
       while ($current.length) {
@@ -1021,20 +1025,20 @@
 
   // --- 模块: Custom Select ---
   AdminUI.select = {
-    init: function() {
+    init: function () {
       var self = this;
-      $('select[data-ui-select]').each(function() {
+      $('select[data-ui-select]').each(function () {
         self.create(this);
       });
 
-      $(document).on('click', function(e) {
+      $(document).on('click', function (e) {
         if (!$(e.target).closest('.ui-select').length) {
           $('.ui-select.is-open').removeClass('is-open').find('.ui-select-menu').hide();
         }
       });
     },
 
-    create: function(selectElement) {
+    create: function (selectElement) {
       var $originalSelect = $(selectElement);
       if ($originalSelect.parent().hasClass('ui-select')) return;
 
@@ -1055,9 +1059,9 @@
       this._bindEvents($container);
     },
 
-    update: function(selector) {
+    update: function (selector) {
       var self = this;
-      $(selector).each(function() {
+      $(selector).each(function () {
         var $originalSelect = $(this);
         var $container = $originalSelect.closest('.ui-select');
         if (!$container.length) return;
@@ -1066,7 +1070,7 @@
         var $toggleText = $container.find('.ui-select-toggle span');
 
         var optionsHtml = '';
-        $originalSelect.find('option').each(function() {
+        $originalSelect.find('option').each(function () {
           var $option = $(this);
           optionsHtml += '<li class="ui-select-option" data-value="' + $option.val() + '">' + $option.text() + '</li>';
         });
@@ -1079,19 +1083,19 @@
       });
     },
 
-    _bindEvents: function($container) {
+    _bindEvents: function ($container) {
       var $originalSelect = $container.find('select');
       var $toggle = $container.find('.ui-select-toggle');
       var $menu = $container.find('.ui-select-menu');
 
-      $toggle.on('click', function(e) {
+      $toggle.on('click', function (e) {
         e.stopPropagation();
         $('.ui-select.is-open').not($container).removeClass('is-open').find('.ui-select-menu').hide();
         $menu.toggle();
         $container.toggleClass('is-open');
       });
 
-      $menu.on('click', '.ui-select-option', function() {
+      $menu.on('click', '.ui-select-option', function () {
         var $option = $(this);
         var value = $option.data('value');
         var text = $option.text();
@@ -1104,7 +1108,7 @@
       });
     },
 
-    _updateSelectedOptionClass: function($container) {
+    _updateSelectedOptionClass: function ($container) {
       var selectedValue = $container.find('select').val();
       var $menu = $container.find('.ui-select-menu');
       $menu.find('.is-selected').removeClass('is-selected');
@@ -1113,11 +1117,11 @@
   };
   // --- 模块: Dynamic Form,当container为空时返回html ---
   AdminUI.form = {
-    render: function(container, fields, formType, data, withStatic) {
+    render: function (container, fields, formType, data, withStatic) {
       var formHtml = '';
       data = data || {};
 
-      fields.forEach(function(field) {
+      fields.forEach(function (field) {
         if (formType && formType === 'search' && !field.search) {
           return;
         }
@@ -1138,11 +1142,11 @@
           }
         }
         var label = field.label || prop;
-        var inputConfig = field.input || { type: 'text' };
+        var inputConfig = field.input || { type: 'string' };
         var info = field.info || '';
 
         formHtml += `<div class="ui-form-item">`;
-        formHtml += `<label for="${prop}" class="form-label">${label} ${info}</label>`;
+        formHtml += `<label for="${formType + '-' + prop}" class="form-label">${label} ${info}</label>`;
 
         // 静态显示值
         if (withStatic) {
@@ -1152,21 +1156,97 @@
             staticValueText = selectedOpt ? selectedOpt.key : value;
           } else if (inputConfig.type === 'pwd') {
             staticValueText = '******';
+          } else if (inputConfig.type === 'datetime' && window.kc) {
+            staticValueText = window.kc.timeFormat(value);
           }
           formHtml += `<p id="static-${prop}" class="form-control-static">${staticValueText}</p>`;
         }
-
+        if (field.hide) {
+          if (field.hide.indexOf('update') >= 0 && formType === 'one') {
+            formHtml += '</div>';
+            return;
+          }
+        }
         // 编辑控件
         formHtml += `<div class="form-control-edit">`;
-
-        switch (inputConfig.type) {
+        var type = inputConfig.type;
+        if (formType === 'search' && field.search) {
+          type = field.search;
+        }
+        switch (type) {
           case 'select':
-            formHtml += `<select id="${prop}" data-ui-select>`;
-            inputConfig.options.forEach(opt => {
-              var selected = opt.val == value ? ' selected' : '';
-              formHtml += `<option value="${opt.val}"${selected}>${opt.key}</option>`;
-            });
+            formHtml += `<select id="${formType + '-' + prop}" data-ui-select>`;
+            if (formType === 'search') {
+              //添加一个空白选项
+              formHtml += `<option value="" ></option>`;
+            }
+            if (inputConfig.options) {
+              inputConfig.options.forEach(opt => {
+                var selected = opt.val == value ? ' selected' : '';
+                formHtml += `<option value="${opt.val}"${selected}>${opt.key}</option>`;
+              });
+            }
             formHtml += `</select>`;
+            if (inputConfig.url) {
+              window.kc.jPost(inputConfig.url, {
+                prop, value,
+              }, (err, res) => {
+                if (err) {
+                  console.error(err);
+                  return;
+                }
+                if (res.code === 0) {
+                  var dataArr = res.data;
+                  var optionsHtml = '';
+                  for (var i = 0; i < dataArr.length; i++) {
+                    const one = dataArr[i];
+                    var selected = value.indexOf(one.val) >= 0 ? ' selected="selected"' : '';
+                    optionsHtml += `<option value="${one.val}"${selected}>${one.key}</option>`;
+                  }
+                  if (optionsHtml) {
+                    $('#' + formType + '-' + prop).html(optionsHtml);
+                    AdminUI.select.update('#' + formType + '-' + prop);
+                  }
+                }
+              });
+            }
+            break;
+          case 'multiSelect':
+            formHtml += `<select id="${formType + '-' + prop}" data-ui-multiselect multiple>`;
+            if (formType === 'search') {
+              //添加一个空白选项
+              formHtml += `<option value="" ></option>`;
+            }
+            if (inputConfig.options) {
+              inputConfig.options.forEach(opt => {
+                var selected = opt.val == value ? ' selected' : '';
+                formHtml += `<option value="${opt.val}"${selected}>${opt.key}</option>`;
+              });
+            }
+            formHtml += `</select>`;
+            if (inputConfig.url) {
+              window.kc.jPost(inputConfig.url, {
+                prop, value,
+              }, (err, res) => {
+                if (err) {
+                  console.error(err);
+                  return;
+                }
+                if (res.code === 0) {
+                  var dataArr = res.data;
+                  var optionsHtml = '';
+                  for (let i = 0; i < dataArr.length; i++) {
+                    const one = dataArr[i];
+                    var selected = value.indexOf(one.val) >= 0 ? ' selected="selected"' : '';
+                    optionsHtml += `<option value="${one.val}"${selected}>${one.key}</option>`;
+                  }
+                  if (optionsHtml) {
+                    $('#' + formType + '-' + prop).html(optionsHtml);
+                    AdminUI.multiSelect.update('#' + formType + '-' + prop);
+                  }
+                }
+              });
+            }
             break;
 
           case 'radio':
@@ -1174,7 +1254,7 @@
               var checked = opt.val == value ? ' checked' : '';
               formHtml += `
                               <label class="ui-radio">
-                                  <input type="radio" name="${prop}" value="${opt.val}"${checked}>
+                                  <input type="radio" name="${formType + '-' + prop}" value="${opt.val}"${checked}>
                                   <span class="circle"></span>
                                   ${opt.key}
                               </label>
@@ -1183,29 +1263,29 @@
             break;
 
           case 'textarea':
-            formHtml += `<textarea id="${prop}" class="ui-textarea">${value}</textarea>`;
+            formHtml += `<textarea id="${formType + '-' + prop}" class="ui-textarea">${value}</textarea>`;
             break;
 
           case 'datetime':
             var picker = (formType === 'search') ? 'data-ui-daterangepicker' : 'data-ui-datepicker';
-            formHtml += `<input type="text" id="${prop}" class="ui-input" ${picker} value="${value}">`;
+            formHtml += `<input type="text" id="${formType + '-' + prop}" class="ui-input" ${picker} value="${value}">`;
             break;
 
           case 'rmb':
-            formHtml += `<input type="number" id="${prop}" class="ui-input" step="0.01" min="0" value="${value}">`;
+            formHtml += `<input type="number" id="${formType + '-' + prop}" class="ui-input" step="0.01" min="0" value="${value}">`;
             break;
 
           case 'pwd':
-            formHtml += `<input type="password" id="${prop}" class="ui-input" value="${value}">`;
+            formHtml += `<input type="password" id="${formType + '-' + prop}" class="ui-input" value="${value}">`;
             break;
 
           case 'int':
-            formHtml += `<input type="number" id="${prop}" class="ui-input"
+            formHtml += `<input type="number" id="${formType + '-' + prop}" class="ui-input"
                           step="1" value="${value}">`;
             break;
 
-          default: // text
-            formHtml += `<input type="text" id="${prop}" class="ui-input" value="${value}">`;
+          default: // string
+            formHtml += `<input type="text" id="${formType + '-' + prop}" class="ui-input" value="${value}">`;
         }
 
         formHtml += `</div></div>`;
@@ -1221,15 +1301,16 @@
       AdminUI.update();
     },
     //获取form值,如果有schema则会进行类型转换
-    getValues: function(containerSelector, schema, skipEmpty) {
+    getValues: function (containerSelector, schema, skipEmpty) {
       var values = {};
-      $(containerSelector).find('.ui-form-item').each(function() {
+      $(containerSelector).find('.ui-form-item').each(function () {
         var $item = $(this);
         var $input = $item.find('input, select, textarea');
-        if (!$input) {
+        if (!$input || $input.length === 0) {
           return;
         }
         var prop = $input.attr('id');
+        prop = prop.substring(prop.indexOf('-') + 1);
         var v = $input.val();
         if (v === '' && skipEmpty) {
           return;
@@ -1250,7 +1331,7 @@
             } else if (one.type === 'float') {
               v = parseFloat(v);
             } else if (one.type === 'array' || one.type === 'json') {
-              if (!v) {
+              if (!v || typeof v !== 'string') {
                 return;
               }
               try {
@@ -1270,16 +1351,17 @@
   };
   // --- 模块: PageNav 分页 ---
   AdminUI.pageNav = {
-    init: function(selector, options) {
+    init: function (selector, options) {
       var $container = $(selector);
       if (!$container.length || !options || !options.totalPages) return;
+      // 先解绑已有的事件
       $container.off('click', 'a');
       $container.off('click', '.js-page-jump');
       var defaults = {
         currentPage: 1,
         totalPages: 1,
         visiblePages: 7,
-        onPageChange: function() {}
+        onPageChange: function () { }
       };
       var settings = $.extend({}, defaults, options);
 
@@ -1292,7 +1374,7 @@
       $container.html(html);
       this._bindEvents($container, settings);
     },
-    _buildMobileHTML: function(currentPage, totalPages, settings) {
+    _buildMobileHTML: function (currentPage, totalPages, settings) {
       var html = '<ul class="ui-pagination-nav">';
       html += '<li><a href="#" class="prev-page' + (currentPage === 1 ? ' disabled' : '') + '" data-page="' + (currentPage - 1) + '">上一页</a></li>';
       html += '<li><span class="active">' + currentPage + '/' + totalPages + '</span></li>';
@@ -1307,7 +1389,7 @@
 
       return html;
     },
-    _buildHTML: function(settings) {
+    _buildHTML: function (settings) {
       var cp = settings.currentPage;
       var total = settings.totalPages;
       var vp = settings.visiblePages;
@@ -1344,7 +1426,7 @@
       return fullHtml;
     },
 
-    _calculatePages: function(currentPage, totalPages, visiblePages) {
+    _calculatePages: function (currentPage, totalPages, visiblePages) {
       if (totalPages <= visiblePages) {
         var pages = [];
         for (var i = 1; i <= totalPages; i++) { pages.push(i); }
@@ -1386,8 +1468,8 @@
       return pagesToShow;
     },
 
-    _bindEvents: function($container, settings) {
-      $container.on('click', 'a', function(e) {
+    _bindEvents: function ($container, settings) {
+      $container.on('click', 'a', function (e) {
         e.preventDefault();
         var $this = $(this);
         if ($this.hasClass('disabled') || $this.parent().hasClass('active')) {
@@ -1399,7 +1481,7 @@
         }
       });
 
-      $container.on('click', '.js-page-jump', function() {
+      $container.on('click', '.js-page-jump', function () {
         var $input = $(this).prev('.ui-input');
         var newPage = parseInt($input.val(), 10);
         if (!isNaN(newPage) && newPage >= 1 && newPage <= settings.totalPages) {
@@ -1409,20 +1491,20 @@
     }
   };
   AdminUI.multiSelect = {
-    init: function() {
+    init: function () {
       var self = this;
-      $('select[data-ui-multiselect]').each(function() {
+      $('select[data-ui-multiselect]').each(function () {
         self.create(this);
       });
 
-      $(document).on('click', function(e) {
+      $(document).on('click', function (e) {
         if (!$(e.target).closest('.ui-multiselect').length) {
           $('.ui-multiselect.is-open').removeClass('is-open').find('.ui-multiselect-menu').hide();
         }
       });
     },
 
-    create: function(selectElement) {
+    create: function (selectElement) {
       var $originalSelect = $(selectElement);
       if ($originalSelect.parent().hasClass('ui-multiselect')) return;
 
@@ -1443,9 +1525,9 @@
       this._bindEvents($container);
     },
 
-    update: function(selector) {
+    update: function (selector) {
       var self = this;
-      $(selector).each(function() {
+      $(selector).each(function () {
         var $originalSelect = $(this);
         var $container = $originalSelect.closest('.ui-multiselect');
         if (!$container.length) return;
@@ -1462,7 +1544,7 @@
           selectedValues = selectedValues ? [selectedValues] : [];
         }
 
-        $originalSelect.find('option').each(function() {
+        $originalSelect.find('option').each(function () {
           var $option = $(this);
           var isSelected = selectedValues.includes($option.val());
 
@@ -1474,7 +1556,7 @@
         });
 
         // 更新标签显示
-        $originalSelect.find('option').each(function() {
+        $originalSelect.find('option').each(function () {
           var $option = $(this);
           if (selectedValues.includes($option.val())) {
             self._addTag($container, $option.val(), $option.text());
@@ -1483,12 +1565,12 @@
       });
     },
 
-    _bindEvents: function($container) {
+    _bindEvents: function ($container) {
       var $originalSelect = $container.find('select');
       var $toggle = $container.find('.ui-multiselect-toggle');
       var $menu = $container.find('.ui-multiselect-menu');
 
-      $toggle.on('click', function(e) {
+      $toggle.on('click', function (e) {
         if ($(e.target).closest('.ui-multiselect-tag-remove').length) {
           return;
         }
@@ -1498,7 +1580,7 @@
         $container.toggleClass('is-open');
       });
 
-      $menu.on('click', '.ui-multiselect-option', function(e) {
+      $menu.on('click', '.ui-multiselect-option', function (e) {
         e.stopPropagation();
         var $option = $(this);
         var value = $option.data('value');
@@ -1515,14 +1597,14 @@
 
         // 更新原始select的值
         var selectedValues = [];
-        $menu.find('.is-selected').each(function() {
+        $menu.find('.is-selected').each(function () {
           selectedValues.push($(this).data('value'));
         });
         $originalSelect.val(selectedValues).trigger('change');
       });
 
       // 标签删除按钮事件
-      $container.on('click', '.ui-multiselect-tag-remove', function(e) {
+      $container.on('click', '.ui-multiselect-tag-remove', function (e) {
         e.stopPropagation();
         e.preventDefault(); // 阻止默认行为
         var $tag = $(this).parent();
@@ -1533,14 +1615,14 @@
 
         // 更新原始select的值
         var selectedValues = [];
-        $menu.find('.is-selected').each(function() {
+        $menu.find('.is-selected').each(function () {
           selectedValues.push($(this).data('value'));
         });
         $originalSelect.val(selectedValues).trigger('change');
       });
     },
 
-    _addTag: function($container, value, text) {
+    _addTag: function ($container, value, text) {
       var $tagsContainer = $container.find('.ui-multiselect-tags');
       if ($tagsContainer.find('[data-value="' + value + '"]').length) return;
 
@@ -1550,13 +1632,13 @@
       $tagsContainer.append($tag);
     },
 
-    _removeTag: function($container, value) {
+    _removeTag: function ($container, value) {
       $container.find('.ui-multiselect-tag[data-value="' + value + '"]').remove();
     }
   };
 
   AdminUI.upload = {
-    init: function(selector, options) {
+    init: function (selector, options) {
       var self = this;
       var $container = $(selector);
       if (!$container.length) return;
@@ -1566,9 +1648,9 @@
         showProgress: false, // 是否显示上传进度
         accept: '*', // 接受的文件类型
         maxSize: 10 * 1024 * 1024, // 最大文件大小(10MB)
-        onSuccess: function(response) {}, // 上传成功回调
-        onError: function(error) {}, // 上传失败回调
-        onProgress: function(percent) {} // 上传进度回调
+        onSuccess: function (response) { }, // 上传成功回调
+        onError: function (error) { }, // 上传失败回调
+        onProgress: function (percent) { } // 上传进度回调
       }, options);
 
       // 创建上传区域HTML
@@ -1586,14 +1668,14 @@
       var $area = $container.find('.ui-upload-area');
 
       // 点击触发文件选择
-      $area.on('click', function(e) {
+      $area.on('click', function (e) {
         if (!$(e.target).is('input')) {
           $input.trigger('click');
         }
       });
 
       // 文件选择处理
-      $input.on('change', function() {
+      $input.on('change', function () {
         var file = this.files[0];
         if (file) {
           self._validateAndUpload(file, options, $progress);
@@ -1601,16 +1683,16 @@
       });
 
       // 拖拽处理
-      $area.on('dragover', function(e) {
+      $area.on('dragover', function (e) {
         e.preventDefault();
         $area.addClass('dragover');
       });
 
-      $area.on('dragleave', function() {
+      $area.on('dragleave', function () {
         $area.removeClass('dragover');
       });
 
-      $area.on('drop', function(e) {
+      $area.on('drop', function (e) {
         e.preventDefault();
         $area.removeClass('dragover');
 
@@ -1621,7 +1703,7 @@
       });
     },
 
-    _validateAndUpload: function(file, options, $progress) {
+    _validateAndUpload: function (file, options, $progress) {
       // 验证文件大小
       if (file.size > options.maxSize) {
         AdminUI.toast('文件大小不能超过 ' + (options.maxSize / 1024 / 1024) + 'MB', 'error');
@@ -1637,7 +1719,7 @@
       this._uploadFile(file, options, $progress);
     },
 
-    _uploadFile: function(file, options, $text) {
+    _uploadFile: function (file, options, $text) {
       var formData = new FormData();
       formData.append('file', file);
 
@@ -1646,7 +1728,7 @@
       var xhr = new XMLHttpRequest();
       xhr.open('POST', options.url, true);
 
-      xhr.upload.onprogress = function(e) {
+      xhr.upload.onprogress = function (e) {
         if (e.lengthComputable) {
           var percent = Math.round((e.loaded / e.total) * 100);
           $text.text('上传中: ' + percent + '%');
@@ -1656,7 +1738,7 @@
         }
       };
 
-      xhr.onload = function() {
+      xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
           var response = xhr.responseText;
           $text.text('上传完成');
@@ -1675,7 +1757,7 @@
         }
       };
 
-      xhr.onerror = function() {
+      xhr.onerror = function () {
         $text.text('上传失败').addClass('error');
         if (options.onError) {
           options.onError({ message: '网络错误' });
@@ -1685,14 +1767,288 @@
       xhr.send(formData);
     }
   };
+  // --- 模块: Tag 标签组 ---
+  AdminUI.tag = {
+    init: function (selector, data, options) {
+      var self = this;
+      var $container = $(selector);
+      if (!$container.length) return;
+
+      options = $.extend({
+        selectedValues: [], // 初始选中的值
+        selectedKeys: [], // 初始选中的key
+        onSelect: null,     // 选中回调
+        onDeselect: null    // 取消选中回调
+      }, options);
+
+      // 清空容器并添加标签
+      $container.empty();
+      data.forEach(function (item) {
+        var isSelected = !!item.selected;
+        if (options.selectedKeys) {
+          isSelected = options.selectedKeys.includes(item.key);
+        } else if (options.selectedValues) {
+          isSelected = options.selectedValues.includes(item.val);
+        }
+        var $tag = $('<div class="ui-tag" data-value="' + item.val + '">' +
+          item.key + '</div>');
+
+        if (isSelected) {
+          $tag.addClass('is-selected');
+        }
+
+        $tag.on('click', function () {
+          self._toggleTag($(this), options);
+        });
+
+        $container.append($tag);
+      });
+    },
+
+    _toggleTag: function ($tag, options) {
+      $tag.toggleClass('is-selected');
+
+      if ($tag.hasClass('is-selected')) {
+        if (typeof options.onSelect === 'function') {
+          options.onSelect($tag.data('value'), $tag.text());
+        }
+      } else {
+        if (typeof options.onDeselect === 'function') {
+          options.onDeselect($tag.data('value'), $tag.text());
+        }
+      }
+    },
+
+    getSelectedValues: function (selector) {
+      var values = [];
+      $(selector).find('.ui-tag.is-selected').each(function () {
+        values.push($(this).data('value'));
+      });
+      return values;
+    },
+    getSelectedKeys: function (selector) {
+      var values = [];
+      $(selector).find('.ui-tag.is-selected').each(function () {
+        values.push($(this).text());
+      });
+      return values;
+    },
+
+    getSelectedData: function (selector) {
+      var data = [];
+      $(selector).find('.ui-tag.is-selected').each(function () {
+        data.push({
+          val: $(this).data('value'),
+          key: $(this).text()
+        });
+      });
+      return data;
+    }
+  };
+  // --- 模块: 图片展示 ---
+  AdminUI.img = {
+    curIndex: -1,
+    lightbox: null,
+    init: function (selector, images, options) {
+      var self = this;
+      options = $.extend({
+        picWidth: 120, // 默认缩略图宽度
+        showName: true // 是否显示图片名称
+      }, options);
+
+      var $container = $(selector);
+      $container.empty();
+
+      // 创建图片网格
+      var gridHtml = '<div class="ui-img-grid">';
+      images.forEach(function (img, index) {
+        gridHtml += `
+                <div class="ui-img-item" data-index="${index}" style="width: ${options.picWidth}px">
+                    <div class="ui-img-thumb" style="background-image: url('${img.preview || img.url}')"></div>
+                    ${options.showName ? `<div class="ui-img-name">${img.name}</div>` : ''}
+                </div>
+            `;
+      });
+      gridHtml += '</div>';
+      $container.html(gridHtml);
+
+      // 点击缩略图显示大图
+      $container.on('click', '.ui-img-item', function () {
+        var index = parseInt($(this).data('index'));
+        self.showLightbox(images, index, options);
+      });
+    },
+
+    showLightbox: function (images, currentIndex, options) {
+      var self = this;
+      self.curIndex = currentIndex;
+      var $lightbox = $('<div class="ui-img-lightbox"></div>');
+      var $imgContainer = $('<div class="ui-img-container"></div>');
+      var $img = $('<img src="' + images[currentIndex].url + '" draggable="false">');
+      var moreButtons = options.moreButtons || '';
+      var $controls = $(`
+        <div class="ui-img-controls">
+            <button class="ui-button prev-btn">上一张</button>
+            <button class="ui-button next-btn">下一张</button>
+            <button class="ui-button rotate-btn">旋转</button>
+            <button class="ui-button zoom-in-btn">放大</button>
+            <button class="ui-button zoom-out-btn">缩小</button>
+            <button class="ui-button download-btn">下载</button>
+            ${moreButtons}
+            <button class="ui-button close-btn primary">[关闭]</button>
+        </div>
+    `);
+      var $info = $('<div class="ui-img-info">' + (currentIndex + 1) + '/' + images.length + ' - ' + images[currentIndex].name + '</div>');
+
+      // 设置容器为全屏
+      $lightbox.css({
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden'
+      });
+
+      // 设置图片容器样式
+      $imgContainer.css({
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        overflow: 'visible',
+        cursor: 'grab'
+      });
+
+      // 设置图片初始样式
+      $img.css({
+        position: 'absolute',
+        maxWidth: 'none',
+        maxHeight: 'none',
+        userSelect: 'none',
+        transformOrigin: 'center center'
+      });
+
+      // 添加拖拽功能
+      var isDragging = false;
+      var startX, startY, startLeft, startTop;
+      var currentLeft = 0, currentTop = 0;
+      var currentScale = 1;
+
+      $imgContainer.on('mousedown', function (e) {
+        if (e.target.tagName === 'IMG') {
+          isDragging = true;
+          startX = e.clientX;
+          startY = e.clientY;
+          startLeft = currentLeft;
+          startTop = currentTop;
+          $imgContainer.css('cursor', 'grabbing');
+          e.preventDefault();
+        }
+      });
+
+      $(document).on('mousemove', function (e) {
+        if (!isDragging) return;
+        currentLeft = startLeft + (e.clientX - startX);
+        currentTop = startTop + (e.clientY - startY);
+        $img.css({
+          left: currentLeft + 'px',
+          top: currentTop + 'px'
+        });
+      });
+
+      $(document).on('mouseup', function () {
+        isDragging = false;
+        $imgContainer.css('cursor', 'grab');
+      });
+
+      // 控制按钮事件
+      $controls.on('click', '.prev-btn', function () {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        self.curIndex = currentIndex;
+        self.updateLightbox(images, currentIndex, $img, $info);
+      });
+
+      $controls.on('click', '.next-btn', function () {
+        currentIndex = (currentIndex + 1) % images.length;
+        self.curIndex = currentIndex;
+        self.updateLightbox(images, currentIndex, $img, $info);
+      });
+
+      $controls.on('click', '.rotate-btn', function () {
+        var rotate = ($img.data('rotate') || 0) + 90;
+        $img.css('transform', 'rotate(' + rotate + 'deg) scale(' + currentScale + ')');
+        $img.data('rotate', rotate);
+      });
+
+      $controls.on('click', '.zoom-in-btn', function () {
+        currentScale *= 1.2;
+        $img.css('transform', 'rotate(' + ($img.data('rotate') || 0) + 'deg) scale(' + currentScale + ')');
+      });
+
+      $controls.on('click', '.zoom-out-btn', function () {
+        currentScale = Math.max(0.1, currentScale / 1.2);
+        $img.css('transform', 'rotate(' + ($img.data('rotate') || 0) + 'deg) scale(' + currentScale + ')');
+      });
+
+      $controls.on('click', '.download-btn', function () {
+        var a = document.createElement('a');
+        a.href = images[currentIndex].url;
+        a.download = images[currentIndex].name || 'image';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+
+      $controls.on('click', '.close-btn', function () {
+        $lightbox.remove();
+      });
+
+      $imgContainer.append($img);
+      $lightbox.append($imgContainer, $controls, $info);
+      $('body').append($lightbox);
+
+      // 键盘导航
+      $(document).on('keydown.img', function (e) {
+        if ($lightbox.length) {
+          switch (e.keyCode) {
+            case 27: // ESC
+              $lightbox.remove();
+              break;
+            case 37: // Left
+              $controls.find('.prev-btn').click();
+              break;
+            case 39: // Right
+              $controls.find('.next-btn').click();
+              break;
+          }
+        }
+      });
+
+      // 点击背景关闭 --因为支持了拖动，所以不能点外部关闭
+      // $lightbox.on('click', function (e) {
+      //   if ($(e.target).parent().hasClass('ui-img-lightbox')) {
+      //     $lightbox.remove();
+      //   }
+      // });
+
+      self.lightbox = $lightbox;
+    },
+
+    updateLightbox: function (images, index, $img, $info) {
+      $img.attr('src', images[index].url)
+        .css('transform', '')
+        .removeData('rotate scale');
+      $info.text((index + 1) + '/' + images.length + ' - ' + images[index].name);
+    }
+  };
   // --- UI库初始化总入口 ---
-  AdminUI.update = function() {
+  AdminUI.update = function () {
     this.datePicker.init();
     this.select.init();
     this.dateRangePicker.init();
     this.multiSelect.init();
   };
-  AdminUI.init = function() {
+  AdminUI.init = function () {
     this.theme.init();
     this.menu.init();
     this.dropdown.init();
@@ -1703,7 +2059,7 @@
   window.AdminUI = AdminUI;
 
   // 文档加载完成后执行初始化
-  $(document).ready(function() {
+  $(document).ready(function () {
     AdminUI.init();
   });
 

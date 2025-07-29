@@ -11,7 +11,8 @@
 const kc = require('./lib/kc');
 const kconfig = kc.kconfig;
 const vlog = require('vlog').instance(__filename);
-// const path = require('path');
+const express = require('express');
+const path = require('path');
 
 /** 用户表,需要与web/api/login.js的userTable一致 */
 const userTable = 'cp';
@@ -49,6 +50,10 @@ app.on('dbsInitOK', function(err) {
     // vlog.log('===> authMap:%j',kc.auth.getAuthMap());
   });
 });
+
+
+app.use('/uploads', express.static(path.join(__dirname, 'a/a', kconfig.get('uploadDir'))));
+
 //增加非api和tpl的路由,如logout,此处为express的标准用法
 app.post('/logout', kc.sessionAuth.logout);
 app.get('/logout', kc.sessionAuth.logout);

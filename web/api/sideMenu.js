@@ -27,19 +27,34 @@ const menuArr = [ //
       {
         'name': '项目列表',
         'link': '/proj_p',
-        'subs': [
-          { 'name': '项目列表1', 'link': '/proj_p' },
-          { 'name': '项目查询1', 'link': '/proj_p' },
+        'subs': [ //
+          {
+            'name': '项目列表',
+            'link': '/proj_p',
+          },
+          {
+            'name': '标签',
+            'link': '/tag',
+          },
         ]
       },
-      { 'name': '项目查询', 'link': '/proj-search' },
-      { 'name': '项目统计', 'link': '/proj-assis' },
+
     ]
   },
   {
     'name': '产品',
     'link': '/product',
     'icon': 'product',
+  },
+  {
+    'name': '图片',
+    'link': '/pic',
+    'icon': 'image',
+  },
+  {
+    'name': '视频',
+    'link': '/video',
+    'icon': 'video',
   },
   {
     'name': '关于信息',

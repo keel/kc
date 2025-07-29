@@ -95,6 +95,9 @@ const processProp = function(prop) {
   if (!prop.listAllState) {
     prop.listAllState = false;
   }
+  if (!prop.listAllLevel) {
+    prop.listAllLevel = 10;
+  }
   if (!prop.db || !prop.dbConf) {
     prop.db = kc.mongo.init();
     prop.dbConf = 'default';
@@ -141,6 +144,7 @@ const processProp = function(prop) {
 
 const updateSetMap = {
   'int': (data) => { return parseInt(data); },
+  'datetime': (data) => { return parseInt(data); },
   'bigint': (data) => { return bigintToStr(data); },
   'string': (data) => { return '' + data; },
   'float': (data) => { return parseFloat(data); },
@@ -320,6 +324,21 @@ function instance(prop) {
       if (keyType) {
         if (keyType === 'int' || keyType === 'inc') {
           query[key] = parseInt(val);
+        } else if (keyType === 'datetime') {
+          //时间区域特殊处理
+          if (typeof val === 'string') {
+            const arr = val.split(' - ');
+            if (arr.length === 2) {
+              //时间段处理
+              const startTime = new Date(arr[0]).setHours(0, 0, 0, 0);
+              const endTime = new Date(arr[1]).setHours(23, 59, 59, 99);
+              query[key] = { '$gte': startTime, '$lte': endTime };
+            } else if (arr.length === 1) {
+              query[key] = new Date(arr[0]).setHours(0, 0, 0, 0);
+            }
+          } else if (typeof val === 'number') {
+            query[key] = parseInt(val);
+          }
         } else if (keyType === 'array') {
           query[key] = { '$all': ktool.strToArr(val) };
         } else {
@@ -335,6 +354,7 @@ function instance(prop) {
   me.doList = function(req, resp, query, callback) {
     mkListQueryFromSearch(req, query);
     // vlog.log('req.body:%j',req.body);
+    // console.log('query',query);
 
     const start = parseInt(req.body.start);
     const length = parseInt(req.body.length);
@@ -742,7 +762,7 @@ function instance(prop) {
         'resp': showId,
         'authName': '-详情页',
       },
-      'plusApi': {
+      'plusApi/:act': {
         'skipAuth': true, //跳过auth
         'resp': plusApi,
       },

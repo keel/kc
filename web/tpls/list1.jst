@@ -18,7 +18,7 @@
     </div>
     {{ if (!it.hideSearch){ }}
     <hr class="ui-divider">
-    <div id="tableSearch" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px;">
+    <div id="tableSearch" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 5px;">
     </div>
     {{ } }}
   </div>
@@ -31,4 +31,6 @@
   </div>
 </div>
 <input type="hidden" name="tb" id="tb" value="{{=it.tb}}" />
+<input type="hidden" name="isImgs" id="isImgs" value="{{=it.isImgs || ''}}" />
+<input type="hidden" name="isVideos" id="isVideos" value="{{=it.isVideos || ''}}" />
 {{#def.footer:{rootPath:it.rootPath || '',tb:it.tb,scripts:'<script src="'+(it.rootPath || '')+'js/list.js"></script>'+(it.moreJS||'')} }}

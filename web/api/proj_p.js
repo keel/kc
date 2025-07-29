@@ -8,10 +8,12 @@ const render = kc.render();
 const curd = require('./_curd');
 
 
+const tb = 'proj_p';
+const tbName = '项目';
 // ======>注: 除tb,fields字段必填, 其余均为选填
 const prop = {
-  'tb': 'proj_p', //表名, 必填
-  'tbName': '项目', //表名显示, 不填则为tb
+  'tb': tb, //表名, 必填
+  'tbName': tbName, //表名显示, 不填则为tb
   // 'db': db, //在使用不同数据库时与dbConf共同指定, 一般使用默认mongo即可省略此项配置
   // 'dbConf': dbConfName, //配合db参数使用
   'fields': [ //必填
@@ -37,7 +39,7 @@ const prop = {
 
     //以下字段建议所有表都保留
     { 'col': 'state', 'name': '状态', 'type': 'int', 'hide': 'add', 'validator': { 'optional': 'all', 'validator': 'strInt' }, 'input': { 'type': 'int' } },
-    { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
+    { 'col': 'createTime', 'name': '创建时间', 'type': 'datetime', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
     { 'col': 'creatorId', 'type': 'string', 'hide': 'all' },
   ],
 
@@ -53,7 +55,7 @@ const prop = {
     callback(null, reqData);
   },
 
-  'authPath': 'proj_p', //权限路径,如不配置则仅按level判定权限(仍然要登录), 若配置则需要登录且登录账号具备此路径权限才可返回数据
+  'authPath': tb, //权限路径,如不配置则仅按level判定权限(仍然要登录), 若配置则需要登录且登录账号具备此路径权限才可返回数据
 };
 
 
@@ -61,14 +63,26 @@ const prop = {
 const ci = curd.instance(prop);
 
 exports.router = function() {
-  ci.router.get('/:id', function(req, resp, next) { // eslint-disable-line
-    resp.send(render.detail({ 'rootPath': '../', 'tb': prop.tb, 'id': req.params.id, 'tbName': prop.tbName }));
-  });
   // ci.router.get('/add', function(req, resp, next) { // eslint-disable-line
   //   resp.send(render.detail({'rootPath':'../', 'tb': prop.tb, 'tbName': prop.tbName }));
   // });
+
+  ci.router.get('/:id', function(req, resp, next) { // eslint-disable-line
+    const userPermission = req.sessionValue.userPermission;
+    if (!userPermission[prop.tb + '/one']) {
+      resp.send('无权限');
+      return;
+    }
+    resp.send(render.detail({ 'rootPath': '../', 'tb': prop.tb, 'id': req.params.id, 'tbName': prop.tbName, 'showUpdate': !!userPermission[prop.tb + '/update'], 'showDel': !!userPermission[prop.tb + '/del'] }));
+  });
   ci.router.get('*', function(req, resp, next) { // eslint-disable-line
-    resp.send(render.list({ 'tb': prop.tb, 'tbName': prop.tbName }));
+    // console.log('userInfo====>', req.sessionValue, req.userId, req.userLevel, req.userIp);
+    const userPermission = req.sessionValue.userPermission;
+    if (!userPermission[prop.tb + '/list']) {
+      resp.send('无权限');
+      return;
+    }
+    resp.send(render.list({ 'tb': prop.tb, 'tbName': prop.tbName, 'hideNew': !userPermission[prop.tb + '/add'] }));
   });
   return ci.router;
 };

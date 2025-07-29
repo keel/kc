@@ -25,7 +25,7 @@ const tb = userTable;
 const adminLevel = 10; //可进行权限配置的level等级
 
 //文件上传示例,这里uploadImg为路径upload/uploadImg，同时也是upload.js中的act
-upload.addUploadAction('uploadImg', function(file, fields, resp) {
+upload.addUploadAction('uploadImgTest', function(file, fields, resp) {
 
   // vlog.log('uploadActions:datafilter: file:%j, fields:%j', file, fields);
 
@@ -33,7 +33,7 @@ upload.addUploadAction('uploadImg', function(file, fields, resp) {
   const newPath = path.join(path.dirname(file.filepath), file.originalFilename);
   fs.renameSync(file.filepath, newPath);
   vlog.log('重命名:', newPath);
-  resp.send('ok');
+  resp.send('' + newPath.substring(newPath.indexOf('uploads')));
 
 });
 
@@ -128,7 +128,7 @@ const prop = {
 
     //以下字段建议所有表都保留
     { 'col': 'state', 'name': '状态', 'type': 'int', 'hide': 'add', 'validator': { 'optional': 'all', 'validator': 'strInt' }, 'input': { 'type': 'int' } },
-    { 'col': 'createTime', 'name': '创建时间', 'type': 'int', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
+    { 'col': 'createTime', 'name': '创建时间', 'type': 'datetime', 'hide': 'add|update', 'input': { 'type': 'datetime' } },
     { 'col': 'creatorId', 'type': 'string', 'hide': 'all' },
   ],
 
@@ -202,17 +202,26 @@ const ci = curd.instance(prop);
 
 exports.router = function() {
   ci.router.get('/:id', function(req, resp, next) { // eslint-disable-line
-    resp.send(render.detail({ 'rootPath': '../', 'tb': prop.tb, 'id': req.params.id, 'tbName': prop.tbName, 'moreButton': '<a href="permission/' + req.params.id + '" data-loading-text="处理中..." class="ui-button warn" id="bt_auth">权限配置</a>' }));
+    const userPermission = req.sessionValue.userPermission;
+    if (!userPermission[prop.tb + '/one']) {
+      resp.send('无权限');
+      return;
+    }
+    resp.send(render.detail({ 'rootPath': '../', 'tb': prop.tb, 'id': req.params.id, 'tbName': prop.tbName, 'showUpdate': !!userPermission[prop.tb + '/update'], 'showDel': !!userPermission[prop.tb + '/del'], 'moreButton': '<a href="permission/' + req.params.id + '" data-loading-text="处理中..." class="ui-button warn" id="bt_auth">权限配置</a>' }));
   });
   ci.router.get('/permission/:id', function(req, resp, next) { // eslint-disable-line
     resp.send(render.permission({ 'rootPath': '../../', 'link': 'permission', 'id': req.params.id }));
   });
   ci.router.get('*', function(req, resp, next) { // eslint-disable-line
-    resp.send(render.list({ 'tb': prop.tb, 'tbName': prop.tbName }));
+    const userPermission = req.sessionValue.userPermission;
+    if (!userPermission[prop.tb + '/list']) {
+      resp.send('无权限');
+      return;
+    }
+    resp.send(render.list({ 'tb': prop.tb, 'tbName': prop.tbName, 'hideNew': !userPermission[prop.tb + '/add'] }));
   });
   return ci.router;
 };
-
 
 //如果引入全表缓存,则在数据变动时更新缓存数据
 const refreshCache = function(pid, isDel) {

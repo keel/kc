@@ -1,4 +1,4 @@
-// 页面特定JS
+// 同时适配图片列表和视频列表
 $(document).ready(function() {
 
   var tb = $('#tb').val();
@@ -6,34 +6,28 @@ $(document).ready(function() {
   var state = {
     init: false,
     currentPage: 1,
-    itemsPerPage: 3, // 为了演示效果，每页显示3条
+    itemsPerPage: 20,
     recordsTotal: 0,
     recordsFiltered: 0,
     col_id: 0,
-    tableData: AdminUI.mockData.users, // 完整的模拟数据
+    tableData: [],
     tableSchema: [],
-    isSearch:false,
+    isSearch: false,
   };
 
+
   function renderSearch(tableSchema) {
-    AdminUI.form.render($('#tableSearch'), tableSchema,'search');
+    AdminUI.form.render($('#tableSearch'), tableSchema, 'search');
   }
 
   function renderTableAndPagination() {
-    // state.currentPage = page || 1;
-
-
     var pageData = state.tableData;
     var tableSchema = state.tableSchema;
     if (!state.init) {
       state.init = true;
-      // $('#tableTitle').text(tableSchema.name);
       renderSearch(tableSchema);
     }
 
-    // var start = (state.currentPage - 1) * state.itemsPerPage;
-    // var end = start + state.itemsPerPage;
-    // var pageData = tableData.slice(start, end);
     var tableHead = '<table class="ui-table" id="list-table"> <thead> <tr> ';
     for (let i = 0, len = tableSchema.length; i < len; i++) {
       var one = tableSchema[i];
@@ -63,7 +57,11 @@ $(document).ready(function() {
             tableBody += '<td><a href="' + tb + '/' + pData[state.col_id] + '">' + pData[sOne.prop] + '</a></td>';
             continue;
           }
-          tableBody += '<td>' + pData[sOne.prop] + '</td>';
+          var val = pData[sOne.prop];
+          if (sOne.input && sOne.input.type === 'datetime' && typeof val === 'number') {
+            val = window.kc.timeFormat(val);
+          }
+          tableBody += '<td>' + val + '</td>';
         }
         tableBody += '</tr>';
       }
@@ -91,7 +89,7 @@ $(document).ready(function() {
     AdminUI.loading.show('#user-list-container');
     var reqObj = { 'start': (state.currentPage - 1) * state.itemsPerPage, 'length': state.itemsPerPage };
     if (state.isSearch) {
-      const paras = AdminUI.form.getValues('#tableSearch',state.tableSchema,true);
+      const paras = AdminUI.form.getValues('#tableSearch', state.tableSchema, true);
       reqObj.search = paras;
     }
     // var searchVal =
@@ -126,34 +124,46 @@ $(document).ready(function() {
           return;
         }
         if (!re || re.code !== 0) {
-          AdminUI.popWin.alert('新增数据错误，请检查输入.'+(re?re.data:''),'新增失败');
+          AdminUI.popWin.alert('新增数据错误，请检查输入.' + (re ? re.data : ''), '新增失败');
+          setTimeout(function() {
+            AdminUI.removeLoading('.popOK');
+          }, 100);
           return;
         }
         AdminUI.toast('新增成功！', 'success');
         AdminUI.popWin.close();
         showList();
       });
+
+      return false;
     }
 
 
     // 显示弹窗
+    var schema = state.tableSchema;
     AdminUI.popWin.custom({
-      id:'addWin',
+      id: 'addWin',
       title: '新增',
-      content: '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">' + AdminUI.form.render(null, state.tableSchema, 'add') + '</div>',
-      buttons: [
-        { text: '取消', className: '' ,onClick:function(){
-          AdminUI.popWin.close();
-        }},
-        { text: '确定', className: 'primary','data-loading-text':'处理中...', onClick: function () {
-          formSubmit();
-        }}
+      content: '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">' + AdminUI.form.render(null, schema, 'add') + '</div>',
+      buttons: [{
+          text: '取消',
+          className: '',
+          onClick: function() {
+            AdminUI.popWin.close();
+          }
+        },
+        {
+          text: '确定',
+          className: 'primary popOK',
+          'data-loading-text': '处理中...',
+          onClick: formSubmit,
+        }
       ],
       closeOnBackdrop: false // 点击背景不关闭弹窗
     });
   }
 
-  $('#search-btn').on('click', ()=>{
+  $('#search-btn').on('click', () => {
     state.isSearch = true;
     showList();
   });
