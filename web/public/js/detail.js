@@ -92,19 +92,19 @@ $(document).ready(function() {
   $('#btn-del').on('click', function() {
     AdminUI.popWin.confirm('确认要删除吗?', () => {
       window.kc.jPost(rootPath + tb + '/del', { 'id': id }, function(err, re) {
+        AdminUI.removeLoading('#btn-del');
         if (err) {
           console.error(err);
           return;
         }
-        AdminUI.removeLoading('#btn-del');
         if (!re || re.code !== 0) {
-          AdminUI.popWin.alert('删除数据失败.'+(re?re.data:''),'删除失败');
+          AdminUI.popWin.alert('删除数据失败.' + (re ? re.data : ''), '删除失败');
           return;
         }
         setMode('view');
         AdminUI.toast('删除成功', 'success');
       });
-    }, '删除确认', ()=>{
+    }, '删除确认', () => {
       AdminUI.removeLoading('#btn-del');
     });
   });
@@ -117,13 +117,13 @@ $(document).ready(function() {
       originalUserData = updatedData;
 
       window.kc.jPost(rootPath + tb + '/update', updatedData, function(err, re) {
+        AdminUI.removeLoading('#btn-save');
         if (err) {
           console.error(err);
           return;
         }
-        AdminUI.removeLoading('#btn-save');
         if (!re || re.code !== 0) {
-          AdminUI.popWin.alert('更新数据失败.'+(re?re.data:''),'更新失败');
+          AdminUI.popWin.alert('更新数据失败.' + (re ? re.data : ''), '更新失败');
           return;
         }
         // 更新并重新渲染
@@ -133,6 +133,7 @@ $(document).ready(function() {
       });
     } else {
       AdminUI.toast('请检查表单输入', 'danger');
+      AdminUI.removeLoading('#btn-save');
     }
   });
 

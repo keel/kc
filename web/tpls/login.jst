@@ -31,13 +31,12 @@ $(document).ready(function() {
       return;
     }
     kc.jPost('login', { 'u': kc.base64(loginName), 'p': kc.base64(loginPwd) }, function(err, re) {
+      AdminUI.removeLoading('#bt_submit');
       if (re.code !== 0) {
-        AdminUI.removeLoading('#bt_submit');
         AdminUI.popWin.alert('登录失败.' + re.data);
         return;
       }
       AdminUI.toast('登录成功, 正在跳转...', 'success');
-      AdminUI.removeLoading('#bt_submit');
       window.location.href = 'main';
     });
   });
