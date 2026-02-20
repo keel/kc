@@ -17,22 +17,6 @@ v4版本说明:
 
 
 
-
-v3版本说明:
-为更方便使用, 引入vue2(vue2.6,暂不使用v3版本)和element-ui组合形成基础的单页前端以实现一个基础的管理后台, 使之开箱可用.原dot模板生成页面的逻辑转为可选.
-可能缺失了原来的灵活性(绑定了vue和element-ui), 但使用上更为便捷, 也可以在初始化时控制参数去掉引入前端组件(只使用核心lib部分).
-vue的部分加入了自定义的插件, 以实现类jquery和ajax相关的功能, 非管理后台的web项目也可以使用.
-受限于vue2.6和element-ui, npm安装时会产生一些vulnerabilities, 暂时只能忽略.
-
-前端vue开发:
-1. 进入vue目录, npm i 安装所需要的库, 在此目录下执行npm run serve进行调试(可先启动主进程至15001端口作为后端服务), 访问http://localhost:8080/即可;
-2. 使用npm run build编译到web/public中;
-3. 默认会自动生成web/api/product.js(完整示例), cp, proj_p典型的curd表管理样例, 可根据情况修改或使用;
-
-## UPDATE:
-* v3.0.2 加入vue和element-ui结合的前端实现
-
-
 ## 特性:
 * 与jenkins,pm2配合，集成开发，生产等各种环境的加密配置发布, 可集成自动化部署新版，快速回退到任何版本
 * 快速json api生成(/web/api直接写api,注:_开头的文件会忽略)
@@ -124,14 +108,13 @@ mysql.c().query('select * from tt1 limit 3', (e, re) => {console.log('re:%j', re
   ```
 
 4. config/default.json修改本地配置(配置可参考config/test.json),正式参数可放入product.json(命名随意);
-5. kc config指令:生成远端加密配置文件
+5. kc config指令:生成远端加密配置文件,如
 
   ```
   kc config product.json
   ```
   product.json放置在config目录下,为标准JSON格式,生成的配置文件密文为config/项目名.js,通过jenkins发布到指定服务端,git上不保存product.json等非default.json文件
 
-6. 前端vue开发, 进入vue目录, npm i 安装所需要的库, 在此目录下执行npm run serve进行调试(可先启动主进程至15001端口,将作为后端服务), 使用npm run build编译到web/public中.
 7. process.json配置进程
 
 8. 启动项目,如使用deploy的方式启动,需要pm2新版本
@@ -148,7 +131,7 @@ mysql.c().query('select * from tt1 limit 3', (e, re) => {console.log('re:%j', re
 
   可自动生成新api的框架代码在web/api/apiName.js中
 
-10. 增加页面 && tpls目录(暂缺说明)
+10. 增加页面 && tpls目录(参考源码，暂无说明)
 
 ## api说明(见IAPI.md)
 
