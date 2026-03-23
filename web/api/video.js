@@ -36,6 +36,7 @@ const prop = {
       'input': {
         'type': 'multiSelect',
         'url': '../tag/plusApi/tags',  //详情页要有../，列表页无../
+        //'options': [{ 'key': 'H5', 'val': 'H5' },{ 'key': 'APK', 'val': 'APK' }], //使用url或options,2选1
       },
       'search': 'string',
     },

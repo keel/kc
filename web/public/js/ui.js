@@ -1217,9 +1217,15 @@
               //添加一个空白选项
               formHtml += `<option value="" ></option>`;
             }
-            if (inputConfig.options) {
+            if (inputConfig.options && Array.isArray(value)) {
               inputConfig.options.forEach(opt => {
-                var selected = opt.val == value ? ' selected' : '';
+                var selected = '';
+                for (let i = 0; i < value.length; i++) {
+                  if (value[i] === opt.val) {
+                    selected = ' selected="selected"';
+                    break;
+                  }
+                }
                 formHtml += `<option value="${opt.val}"${selected}>${opt.key}</option>`;
               });
             }
